@@ -52,7 +52,7 @@
     <header class="bg-white/95 backdrop-blur-md border-b border-stone-100 sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3 shrink-0">
-                <img src="1.png" alt="לוגו שכירות בקליק" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
+                <img src="1.png" alt="לוגו" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
                 <div>
                     <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">שכירות בקליק</h1>
                     <p class="text-[9px] sm:text-[10px] text-[#c39e5c] font-bold tracking-widest">לוח דירות יוקרה</p>
@@ -110,7 +110,7 @@
 
     <main class="flex-grow">
         
-        <section class="relative h-[500px] sm:h-[540px] flex items-center justify-center overflow-hidden">
+        <section id="hero-section" class="relative h-[500px] sm:h-[540px] flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1600&q=80');"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-[#1e3e30]/75 via-[#1e3e30]/65 to-[#faf9f6]"></div>
             
@@ -620,10 +620,29 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        let firebaseConfig = {};
+        try {
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+                apiKey: "",
+                authDomain: "",
+                projectId: "",
+                storageBucket: "",
+                messagingSenderId: "",
+                appId: ""
+            };
+        } catch (e) {
+            console.error(e);
+        }
+
+        let app, auth, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        } catch (e) {
+            console.error(e);
+        }
+
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         let currentUser = null;
@@ -697,61 +716,77 @@
         let uploadedImagesBase64 = [];
 
         const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
+            if (!auth) return;
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (e) {
+                console.error(e);
             }
         };
 
         initAuth();
 
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) {
-                fetchListings();
-                if (!user.isAnonymous) {
-                    isGoogleUser = true;
-                    loginBtn.classList.add("hidden");
-                    authStatus.classList.remove("hidden");
-                    authStatus.classList.add("flex");
-                    userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
-                    userName.textContent = user.displayName || 'משתמש גוגל';
-                    unauthModalState.classList.add("hidden");
-                    publishForm.classList.remove("hidden");
-                    document.getElementById("formSellerName").value = user.displayName || "";
-                    document.getElementById("formEmail").value = user.email || "";
-                } else {
-                    isGoogleUser = false;
-                    loginBtn.classList.remove("hidden");
-                    authStatus.classList.add("hidden");
-                    authStatus.classList.remove("flex");
-                    unauthModalState.classList.remove("hidden");
-                    publishForm.classList.add("hidden");
+        if (auth) {
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if (user) {
+                    fetchListings();
+                    if (!user.isAnonymous) {
+                        isGoogleUser = true;
+                        if (loginBtn) loginBtn.classList.add("hidden");
+                        if (authStatus) {
+                            authStatus.classList.remove("hidden");
+                            authStatus.classList.add("flex");
+                        }
+                        if (userAvatar) userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
+                        if (userName) userName.textContent = user.displayName || 'משתמש גוגל';
+                        if (unauthModalState) unauthModalState.classList.add("hidden");
+                        if (publishForm) publishForm.classList.remove("hidden");
+                        
+                        const fsName = document.getElementById("formSellerName");
+                        const fsEmail = document.getElementById("formEmail");
+                        if (fsName) fsName.value = user.displayName || "";
+                        if (fsEmail) fsEmail.value = user.email || "";
+                    } else {
+                        isGoogleUser = false;
+                        if (loginBtn) loginBtn.classList.remove("hidden");
+                        if (authStatus) {
+                            authStatus.classList.add("hidden");
+                            authStatus.classList.remove("flex");
+                        }
+                        if (unauthModalState) unauthModalState.classList.remove("hidden");
+                        if (publishForm) publishForm.classList.add("hidden");
+                    }
                 }
-            }
-        });
+            });
+        }
 
         const showToast = (message, type = "info") => {
-            const toast = document.getElementById("toast");
-            const toastIcon = document.getElementById("toastIcon");
-            const toastText = document.getElementById("toastText");
+            const tNode = document.getElementById("toast");
+            const tIcon = document.getElementById("toastIcon");
+            const tText = document.getElementById("toastText");
 
-            if (!toast || !toastText) {
+            if (!tNode || !tText) {
                 return;
             }
 
-            toastText.textContent = message;
-            if (type === "success") {
-                toastIcon.innerHTML = `<i class="fas fa-check-circle text-emerald-400 text-base"></i>`;
-            } else if (type === "error") {
-                toastIcon.innerHTML = `<i class="fas fa-exclamation-circle text-rose-400 text-base"></i>`;
-            } else {
-                toastIcon.innerHTML = `<i class="fas fa-info-circle text-blue-400 text-base"></i>`;
+            tText.textContent = message;
+            if (tIcon) {
+                if (type === "success") {
+                    tIcon.innerHTML = `<i class="fas fa-check-circle text-emerald-400 text-base"></i>`;
+                } else if (type === "error") {
+                    tIcon.innerHTML = `<i class="fas fa-exclamation-circle text-rose-400 text-base"></i>`;
+                } else {
+                    tIcon.innerHTML = `<i class="fas fa-info-circle text-blue-400 text-base"></i>`;
+                }
             }
-            toast.classList.remove("translate-y-20", "opacity-0");
+            tNode.classList.remove("translate-y-20", "opacity-0");
             setTimeout(() => {
-                toast.classList.add("translate-y-20", "opacity-0");
+                tNode.classList.add("translate-y-20", "opacity-0");
             }, 3500);
         };
 
@@ -788,6 +823,10 @@
         if (closeSetupGuideBottomBtn) closeSetupGuideBottomBtn.addEventListener("click", closeSetupGuide);
 
         const handleGoogleLogin = async () => {
+            if (!auth) {
+                showToast("מערכת האימות לא אותחלה כראוי", "error");
+                return;
+            }
             showToast("מתחבר לגוגל...", "info");
             try {
                 const provider = new GoogleAuthProvider();
@@ -803,35 +842,50 @@
             }
         };
 
-        loginBtn.addEventListener("click", handleGoogleLogin);
-        modalLoginBtn.addEventListener("click", handleGoogleLogin);
+        if (loginBtn) loginBtn.addEventListener("click", handleGoogleLogin);
+        if (modalLoginBtn) modalLoginBtn.addEventListener("click", handleGoogleLogin);
         
-        logoutBtn.addEventListener("click", async () => {
-            await signOut(auth);
-            await signInAnonymously(auth);
-            showToast("התנתקת מהמערכת", "info");
-        });
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", async () => {
+                if (!auth) return;
+                await signOut(auth);
+                await signInAnonymously(auth);
+                showToast("התנתקת מהמערכת", "info");
+            });
+        }
 
-        mobileMenuToggle.addEventListener("click", () => {
-            mobileMenu.classList.remove("hidden");
-            setTimeout(() => {
-                mobileMenu.classList.remove("opacity-0");
-                mobileMenu.firstElementChild.classList.remove("translate-x-full");
-            }, 10);
-        });
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener("click", () => {
+                if (mobileMenu) {
+                    mobileMenu.classList.remove("hidden");
+                    setTimeout(() => {
+                        mobileMenu.classList.remove("opacity-0");
+                        if (mobileMenu.firstElementChild) {
+                            mobileMenu.firstElementChild.classList.remove("translate-x-full");
+                        }
+                    }, 10);
+                }
+            });
+        }
 
         const closeMobileMenuFn = () => {
-            mobileMenu.firstElementChild.classList.add("translate-x-full");
-            mobileMenu.classList.add("opacity-0");
-            setTimeout(() => {
-                mobileMenu.classList.add("hidden");
-            }, 300);
+            if (mobileMenu) {
+                if (mobileMenu.firstElementChild) {
+                    mobileMenu.firstElementChild.classList.add("translate-x-full");
+                }
+                mobileMenu.classList.add("opacity-0");
+                setTimeout(() => {
+                    mobileMenu.classList.add("hidden");
+                }, 300);
+            }
         };
 
-        closeMobileMenu.addEventListener("click", closeMobileMenuFn);
-        mobileMenu.addEventListener("click", (e) => {
-            if (e.target === mobileMenu) closeMobileMenuFn();
-        });
+        if (closeMobileMenu) closeMobileMenu.addEventListener("click", closeMobileMenuFn);
+        if (mobileMenu) {
+            mobileMenu.addEventListener("click", (e) => {
+                if (e.target === mobileMenu) closeMobileMenuFn();
+            });
+        }
 
         document.querySelectorAll(".mobile-nav-item").forEach(item => {
             item.addEventListener("click", () => {
@@ -840,47 +894,59 @@
         });
 
         const openPublish = () => {
-            publishModal.classList.remove("hidden");
-            publishModal.classList.add("flex");
-            document.body.style.overflow = "hidden";
-            setTimeout(() => {
-                publishModal.classList.remove("opacity-0");
-                publishModal.firstElementChild.classList.remove("scale-95");
-            }, 10);
+            if (publishModal) {
+                publishModal.classList.remove("hidden");
+                publishModal.classList.add("flex");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => {
+                    publishModal.classList.remove("opacity-0");
+                    if (publishModal.firstElementChild) {
+                        publishModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
+            }
             if (isGoogleUser) {
-                unauthModalState.classList.add("hidden");
-                publishForm.classList.remove("hidden");
+                if (unauthModalState) unauthModalState.classList.add("hidden");
+                if (publishForm) publishForm.classList.remove("hidden");
             } else {
-                unauthModalState.classList.remove("hidden");
-                publishForm.classList.add("hidden");
+                if (unauthModalState) unauthModalState.classList.remove("hidden");
+                if (publishForm) publishForm.classList.add("hidden");
             }
         };
 
-        openPublishModalBtn.addEventListener("click", openPublish);
-        heroPublishBtn.addEventListener("click", openPublish);
-        footerPublishBtn.addEventListener("click", openPublish);
+        if (openPublishModalBtn) openPublishModalBtn.addEventListener("click", openPublish);
+        if (heroPublishBtn) heroPublishBtn.addEventListener("click", openPublish);
+        if (footerPublishBtn) footerPublishBtn.addEventListener("click", openPublish);
 
         const closePublishModal = () => {
-            publishModal.classList.add("opacity-0");
-            publishModal.firstElementChild.classList.add("scale-95");
-            setTimeout(() => {
-                publishModal.classList.add("hidden");
-                publishModal.classList.remove("flex");
-                document.body.style.overflow = "auto";
-                publishForm.reset();
-                imagePreviewsContainer.innerHTML = "";
-                imagePreviewsContainer.classList.add("hidden");
-                uploadedImagesBase64 = [];
-            }, 300);
+            if (publishModal) {
+                publishModal.classList.add("opacity-0");
+                if (publishModal.firstElementChild) {
+                    publishModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    publishModal.classList.add("hidden");
+                    publishModal.classList.remove("flex");
+                    document.body.style.overflow = "auto";
+                    if (publishForm) publishForm.reset();
+                    if (imagePreviewsContainer) {
+                        imagePreviewsContainer.innerHTML = "";
+                        imagePreviewsContainer.classList.add("hidden");
+                    }
+                    uploadedImagesBase64 = [];
+                }, 300);
+            }
         };
 
-        closePublishModalBtn.addEventListener("click", closePublishModal);
-        cancelModalBtn.addEventListener("click", closePublishModal);
-        cancelPublishFormBtn.addEventListener("click", closePublishModal);
+        if (closePublishModalBtn) closePublishModalBtn.addEventListener("click", closePublishModal);
+        if (cancelModalBtn) cancelModalBtn.addEventListener("click", closePublishModal);
+        if (cancelPublishFormBtn) cancelPublishFormBtn.addEventListener("click", closePublishModal);
 
-        advancedFilterToggle.addEventListener("click", () => {
-            advancedFilterPanel.classList.toggle("hidden");
-        });
+        if (advancedFilterToggle) {
+            advancedFilterToggle.addEventListener("click", () => {
+                if (advancedFilterPanel) advancedFilterPanel.classList.toggle("hidden");
+            });
+        }
 
         const compressImage = (file) => {
             return new Promise((resolve) => {
@@ -916,91 +982,101 @@
             });
         };
 
-        formImagesInput.addEventListener("change", async (e) => {
-            const files = Array.from(e.target.files);
-            if (files.length === 0) return;
+        if (formImagesInput) {
+            formImagesInput.addEventListener("change", async (e) => {
+                const files = Array.from(e.target.files);
+                if (files.length === 0) return;
 
-            imagePreviewsContainer.innerHTML = "";
-            imagePreviewsContainer.classList.remove("hidden");
-            uploadedImagesBase64 = [];
+                if (imagePreviewsContainer) {
+                    imagePreviewsContainer.innerHTML = "";
+                    imagePreviewsContainer.classList.remove("hidden");
+                }
+                uploadedImagesBase64 = [];
 
-            const loaders = files.map(async (file) => {
-                const previewDiv = document.createElement("div");
-                previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
-                previewDiv.innerHTML = `<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-spinner fa-spin text-stone-400"></i></div>`;
-                imagePreviewsContainer.appendChild(previewDiv);
+                const loaders = files.map(async (file) => {
+                    const previewDiv = document.createElement("div");
+                    previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
+                    previewDiv.innerHTML = `<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-spinner fa-spin text-stone-400"></i></div>`;
+                    if (imagePreviewsContainer) imagePreviewsContainer.appendChild(previewDiv);
 
-                const base64 = await compressImage(file);
-                uploadedImagesBase64.push(base64);
+                    const base64 = await compressImage(file);
+                    uploadedImagesBase64.push(base64);
 
-                previewDiv.innerHTML = `
-                    <img class="w-full h-full object-cover" src="${base64}">
-                    <div class="absolute inset-0 bg-stone-950/20"></div>
-                `;
-            });
-
-            await Promise.all(loaders);
-        });
-
-        publishForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            if (!currentUser || currentUser.isAnonymous) {
-                showToast("עליך להתחבר עם גוגל תחילה", "error");
-                return;
-            }
-
-            if (uploadedImagesBase64.length < 2) {
-                showToast("חובה להעלות לפחות 2 תמונות שונות של הנכס", "error");
-                return;
-            }
-
-            const category = document.getElementById("formCategory").value;
-            const title = document.getElementById("formTitle").value.trim();
-            const locationVal = document.getElementById("formLocation").value.trim();
-            const price = parseFloat(document.getElementById("formPrice").value);
-            const rooms = parseFloat(document.getElementById("formRooms").value);
-            const sqm = parseFloat(document.getElementById("formSqM").value);
-            const sellerName = document.getElementById("formSellerName").value.trim();
-            const phone = document.getElementById("formPhone").value.trim();
-            const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
-            const email = document.getElementById("formEmail").value.trim();
-            const description = document.getElementById("formDescription").value.trim();
-
-            const submitBtn = document.getElementById("submitPublishFormBtn");
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
-
-            try {
-                const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
-                await addDoc(listingsCollection, {
-                    category,
-                    title,
-                    location: locationVal,
-                    price,
-                    rooms,
-                    sqm,
-                    sellerName,
-                    phone,
-                    phoneAlt,
-                    email,
-                    description,
-                    images: uploadedImagesBase64,
-                    createdAt: Date.now(),
-                    userId: currentUser.uid
+                    previewDiv.innerHTML = `
+                        <img class="w-full h-full object-cover" src="${base64}">
+                        <div class="absolute inset-0 bg-stone-950/20"></div>
+                    `;
                 });
 
-                showToast("המודעה שלך פורסמה בהצלחה בלוח!", "success");
-                closePublishModal();
-            } catch (error) {
-                showToast("ארעה שגיאה בפרסום המודעה. נסה שנית", "error");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<span class="whitespace-nowrap">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
-            }
-        });
+                await Promise.all(loaders);
+            });
+        }
+
+        if (publishForm) {
+            publishForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                if (!currentUser || currentUser.isAnonymous) {
+                    showToast("עליך להתחבר עם גוגל תחילה", "error");
+                    return;
+                }
+
+                if (uploadedImagesBase64.length < 2) {
+                    showToast("חובה להעלות לפחות 2 תמונות שונות של הנכס", "error");
+                    return;
+                }
+
+                const category = document.getElementById("formCategory").value;
+                const title = document.getElementById("formTitle").value.trim();
+                const locationVal = document.getElementById("formLocation").value.trim();
+                const price = parseFloat(document.getElementById("formPrice").value);
+                const rooms = parseFloat(document.getElementById("formRooms").value);
+                const sqm = parseFloat(document.getElementById("formSqM").value);
+                const sellerName = document.getElementById("formSellerName").value.trim();
+                const phone = document.getElementById("formPhone").value.trim();
+                const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
+                const email = document.getElementById("formEmail").value.trim();
+                const description = document.getElementById("formDescription").value.trim();
+
+                const submitBtn = document.getElementById("submitPublishFormBtn");
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
+                }
+
+                try {
+                    const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+                    await addDoc(listingsCollection, {
+                        category,
+                        title,
+                        location: locationVal,
+                        price,
+                        rooms,
+                        sqm,
+                        sellerName,
+                        phone,
+                        phoneAlt,
+                        email,
+                        description,
+                        images: uploadedImagesBase64,
+                        createdAt: Date.now(),
+                        userId: currentUser.uid
+                    });
+
+                    showToast("המודעה שלך פורסמה בהצלחה בלוח!", "success");
+                    closePublishModal();
+                } catch (error) {
+                    showToast("ארעה שגיאה בפרסום המודעה. נסה שנית", "error");
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `<span class="whitespace-nowrap">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
+                    }
+                }
+            });
+        }
 
         const fetchListings = () => {
-            if (!currentUser) return;
+            if (!currentUser || !db) return;
             const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
             
             onSnapshot(listingsCollection, (snapshot) => {
@@ -1021,9 +1097,9 @@
 
             if (currentCategoryFilter !== "הכל") {
                 filtered = filtered.filter(item => item.category === currentCategoryFilter);
-                resetCategoryFilterBtn.classList.remove("hidden");
+                if (resetCategoryFilterBtn) resetCategoryFilterBtn.classList.remove("hidden");
             } else {
-                resetCategoryFilterBtn.classList.add("hidden");
+                if (resetCategoryFilterBtn) resetCategoryFilterBtn.classList.add("hidden");
             }
 
             if (searchQuery) {
@@ -1031,7 +1107,7 @@
                 filtered = filtered.filter(item => 
                     item.title.toLowerCase().includes(query) ||
                     item.description.toLowerCase().includes(query) ||
-                    (listing.location && listing.location.toLowerCase().includes(query)) ||
+                    (item.location && item.location.toLowerCase().includes(query)) ||
                     item.sellerName.toLowerCase().includes(query) ||
                     item.category.toLowerCase().includes(query)
                 );
@@ -1051,16 +1127,16 @@
                 filtered = filtered.filter(item => item.sqm >= minSqMVal);
             }
 
-            resultsCount.textContent = `${filtered.length} נכסים זמינים`;
+            if (resultsCount) resultsCount.textContent = `${filtered.length} נכסים זמינים`;
 
             if (filtered.length === 0) {
-                listingsGrid.innerHTML = "";
-                noResults.classList.remove("hidden");
+                if (listingsGrid) listingsGrid.innerHTML = "";
+                if (noResults) noResults.classList.remove("hidden");
                 return;
             }
 
-            noResults.classList.add("hidden");
-            listingsGrid.innerHTML = "";
+            if (noResults) noResults.classList.add("hidden");
+            if (listingsGrid) listingsGrid.innerHTML = "";
 
             filtered.forEach((listing, index) => {
                 const card = document.createElement("div");
@@ -1116,13 +1192,13 @@
                 `;
 
                 card.addEventListener("click", () => openListingDetail(listing));
-                listingsGrid.appendChild(card);
+                if (listingsGrid) listingsGrid.appendChild(card);
             });
         };
 
         const openListingDetail = (listing) => {
-            detailTitle.textContent = listing.title;
-            detailCategory.textContent = listing.category;
+            if (detailTitle) detailTitle.textContent = listing.title;
+            if (detailCategory) detailCategory.textContent = listing.category;
             
             let priceLabel = `₪${listing.price.toLocaleString()}`;
             if (listing.category === "שכירות") {
@@ -1132,73 +1208,89 @@
             } else {
                 priceLabel += " / קנייה";
             }
-            detailPrice.textContent = priceLabel;
+            if (detailPrice) detailPrice.textContent = priceLabel;
             
-            detailDescription.textContent = listing.description;
-            detailSellerName.textContent = listing.sellerName;
-            detailEmail.textContent = listing.email;
-            detailEmail.href = `mailto:${listing.email}`;
-            detailPhone.textContent = listing.phone;
-            detailPhone.href = `tel:${listing.phone}`;
-            callSellerBtn.href = `tel:${listing.phone}`;
-            detailLocation.textContent = listing.location || "לא צוין";
-            detailDate.textContent = `פורסם בתאריך: ${new Date(listing.createdAt).toLocaleDateString('he-IL')}`;
+            if (detailDescription) detailDescription.textContent = listing.description;
+            if (detailSellerName) detailSellerName.textContent = listing.sellerName;
+            if (detailEmail) {
+                detailEmail.textContent = listing.email;
+                detailEmail.href = `mailto:${listing.email}`;
+            }
+            if (detailPhone) {
+                detailPhone.textContent = listing.phone;
+                detailPhone.href = `tel:${listing.phone}`;
+            }
+            if (callSellerBtn) callSellerBtn.href = `tel:${listing.phone}`;
+            if (detailLocation) detailLocation.textContent = listing.location || "לא צוין";
+            if (detailDate) detailDate.textContent = `פורסם בתאריך: ${new Date(listing.createdAt).toLocaleDateString('he-IL')}`;
 
-            detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} חדרים` : "-";
-            detailSqMVal.textContent = listing.sqm ? `${listing.sqm} מ״ר` : "-";
-            detailTypeVal.textContent = listing.category;
+            if (detailRoomsVal) detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} חדרים` : "-";
+            if (detailSqMVal) detailSqMVal.textContent = listing.sqm ? `${listing.sqm} מ״ר` : "-";
+            if (detailTypeVal) detailTypeVal.textContent = listing.category;
 
             if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
-                detailPhoneAlt.textContent = listing.phoneAlt;
-                detailPhoneAlt.href = `tel:${listing.phoneAlt}`;
-                detailPhoneAltWrapper.classList.remove("hidden");
+                if (detailPhoneAlt) {
+                    detailPhoneAlt.textContent = listing.phoneAlt;
+                    detailPhoneAlt.href = `tel:${listing.phoneAlt}`;
+                }
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.remove("hidden");
             } else {
-                detailPhoneAltWrapper.classList.add("hidden");
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.add("hidden");
             }
 
-            detailMainImage.src = listing.images && listing.images[0] ? listing.images[0] : '';
-            detailThumbnails.innerHTML = "";
+            if (detailMainImage) detailMainImage.src = listing.images && listing.images[0] ? listing.images[0] : '';
+            if (detailThumbnails) {
+                detailThumbnails.innerHTML = "";
 
-            if (listing.images && listing.images.length > 0) {
-                listing.images.forEach((imgBase64, index) => {
-                    const thumb = document.createElement("img");
-                    thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
-                    thumb.src = imgBase64;
-                    thumb.addEventListener("click", () => {
-                        detailMainImage.src = imgBase64;
-                        document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
-                        thumb.classList.add("border-[#c39e5c]", "scale-105");
+                if (listing.images && listing.images.length > 0) {
+                    listing.images.forEach((imgBase64, index) => {
+                        const thumb = document.createElement("img");
+                        thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
+                        thumb.src = imgBase64;
+                        thumb.addEventListener("click", () => {
+                            if (detailMainImage) detailMainImage.src = imgBase64;
+                            document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
+                            thumb.classList.add("border-[#c39e5c]", "scale-105");
+                        });
+                        detailThumbnails.appendChild(thumb);
                     });
-                    detailThumbnails.appendChild(thumb);
-                });
+                }
             }
 
-            listingDetailModal.classList.remove("hidden");
-            listingDetailModal.classList.add("flex");
-            document.body.style.overflow = "hidden";
-            setTimeout(() => {
-                listingDetailModal.classList.remove("opacity-0");
-                listingDetailModal.firstElementChild.classList.remove("scale-95");
-            }, 10);
+            if (listingDetailModal) {
+                listingDetailModal.classList.remove("hidden");
+                listingDetailModal.classList.add("flex");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => {
+                    listingDetailModal.classList.remove("opacity-0");
+                    if (listingDetailModal.firstElementChild) {
+                        listingDetailModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
+            }
         };
 
         const closeListingDetail = () => {
-            listingDetailModal.classList.add("opacity-0");
-            listingDetailModal.firstElementChild.classList.add("scale-95");
-            setTimeout(() => {
-                listingDetailModal.classList.add("hidden");
-                listingDetailModal.classList.remove("flex");
-                document.body.style.overflow = "auto";
-            }, 300);
+            if (listingDetailModal) {
+                listingDetailModal.classList.add("opacity-0");
+                if (listingDetailModal.firstElementChild) {
+                    listingDetailModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    listingDetailModal.classList.add("hidden");
+                    listingDetailModal.classList.remove("flex");
+                    document.body.style.overflow = "auto";
+                }, 300);
+            }
         };
 
-        closeDetailModalBtn.addEventListener("click", closeListingDetail);
-        closeDetailBottomBtn.addEventListener("click", closeListingDetail);
+        if (closeDetailModalBtn) closeDetailModalBtn.addEventListener("click", closeListingDetail);
+        if (closeDetailBottomBtn) closeDetailBottomBtn.addEventListener("click", closeListingDetail);
 
         document.querySelectorAll(".category-card").forEach((card) => {
             card.addEventListener("click", () => {
                 currentCategoryFilter = card.dataset.categorySelect;
-                searchCategorySelect.value = currentCategoryFilter;
+                if (searchCategorySelect) searchCategorySelect.value = currentCategoryFilter;
                 
                 document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
                 card.classList.add("ring-2", "ring-[#c39e5c]");
@@ -1212,8 +1304,8 @@
         });
 
         const performSearch = () => {
-            searchQuery = searchInput.value.trim();
-            currentCategoryFilter = searchCategorySelect.value;
+            if (searchInput) searchQuery = searchInput.value.trim();
+            if (searchCategorySelect) currentCategoryFilter = searchCategorySelect.value;
             
             document.querySelectorAll(".category-card").forEach(c => {
                 if (c.dataset.categorySelect === currentCategoryFilter) {
@@ -1224,55 +1316,69 @@
             });
 
             if (searchQuery !== "") {
-                clearSearchBtn.classList.remove("hidden");
+                if (clearSearchBtn) clearSearchBtn.classList.remove("hidden");
             } else {
-                clearSearchBtn.classList.add("hidden");
+                if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
             }
             renderListings();
         };
 
-        searchSubmitBtn.addEventListener("click", performSearch);
-        searchInput.addEventListener("keypress", (e) => {
-            if (e.key === 'Enter') performSearch();
-        });
+        if (searchSubmitBtn) searchSubmitBtn.addEventListener("click", performSearch);
+        if (searchInput) {
+            searchInput.addEventListener("keypress", (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+        }
 
-        clearSearchBtn.addEventListener("click", () => {
-            searchInput.value = "";
-            searchQuery = "";
-            clearSearchBtn.classList.add("hidden");
-            renderListings();
-        });
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener("click", () => {
+                if (searchInput) searchInput.value = "";
+                searchQuery = "";
+                clearSearchBtn.classList.add("hidden");
+                renderListings();
+            });
+        }
 
-        showAllListingsLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            resetAllFilters();
-        });
+        if (showAllListingsLink) {
+            showAllListingsLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                resetAllFilters();
+            });
+        }
 
-        resetCategoryFilterBtn.addEventListener("click", () => {
-            currentCategoryFilter = "הכל";
-            searchCategorySelect.value = "הכל";
-            document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
-            renderListings();
-        });
+        if (resetCategoryFilterBtn) {
+            resetCategoryFilterBtn.addEventListener("click", () => {
+                currentCategoryFilter = "הכל";
+                if (searchCategorySelect) searchCategorySelect.value = "הכל";
+                document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
+                renderListings();
+            });
+        }
 
         const resetAllFilters = () => {
-            searchInput.value = "";
+            if (searchInput) searchInput.value = "";
             searchQuery = "";
-            clearSearchBtn.classList.add("hidden");
+            if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
             currentCategoryFilter = "הכל";
-            searchCategorySelect.value = "הכל";
-            document.getElementById("filterMaxPrice").value = "";
-            document.getElementById("filterMinRooms").value = "";
-            document.getElementById("filterMinSqM").value = "";
+            if (searchCategorySelect) searchCategorySelect.value = "הכל";
+            
+            const maxP = document.getElementById("filterMaxPrice");
+            const minR = document.getElementById("filterMinRooms");
+            const minS = document.getElementById("filterMinSqM");
+
+            if (maxP) maxP.value = "";
+            if (minR) minR.value = "";
+            if (minS) minS.value = "";
+
             document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
             renderListings();
         };
 
-        resetFiltersBtn.addEventListener("click", resetAllFilters);
+        if (resetFiltersBtn) resetFiltersBtn.addEventListener("click", resetAllFilters);
 
         const navItems = document.querySelectorAll("#mainNav .nav-item");
         const sections = [
-            document.body,
+            document.getElementById("hero-section"),
             document.getElementById("categories-section"),
             document.getElementById("listings-section")
         ];
