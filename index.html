@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שכירות בקליק - לוח דירות ונכסים</title>
+    <link rel="icon" type="image/png" href="1.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #faf9f6;
+        }
+        .luxury-shadow {
+            box-shadow: 0 20px 40px -15px rgba(30, 62, 48, 0.07);
+        }
+        .luxury-shadow-sm {
+            box-shadow: 0 10px 20px -10px rgba(30, 62, 48, 0.04);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .nav-link-active {
+            color: #1e3e30 !important;
+            font-weight: 800;
+        }
+        .nav-link-active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #c39e5c;
+            position: absolute;
+            bottom: -4px;
+            right: 0;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 antialiased overflow-x-hidden">
+
+    <header class="bg-white/95 backdrop-blur-md border-b border-stone-100 sticky top-0 z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-3 shrink-0">
+                <img src="1.png" alt="לוגו שכירות בקליק" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
+                <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">שכירות בקליק</h1>
+                    <p class="text-[9px] sm:text-[10px] text-[#c39e5c] font-bold tracking-widest">לוח דירות יוקרה</p>
+                </div>
+            </div>
+
+            <nav id="mainNav" class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-500">
+                <a href="#" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30] nav-link-active">ראשי</a>
+                <a href="#categories-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30]">קטגוריות</a>
+                <a href="#listings-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30]">נכסים חמים</a>
+                <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="py-1 transition-all duration-300 hover:text-[#1e3e30]">צור קשר</a>
+            </nav>
+
+            <div class="flex items-center gap-2 sm:gap-3.5">
+                <div id="authStatus" class="hidden flex items-center gap-2 bg-stone-50 py-1 px-2.5 sm:px-3 rounded-full border border-stone-100 text-[11px] sm:text-xs max-w-[140px] sm:max-w-xs overflow-hidden transition-all duration-300">
+                    <img id="userAvatar" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#c39e5c] shrink-0" src="" alt="פרופיל">
+                    <span id="userName" class="font-bold text-[#1e3e30] truncate max-w-[50px] sm:max-w-[100px]"></span>
+                    <button id="logoutBtn" class="text-rose-600 hover:text-rose-700 font-extrabold mr-1 transition shrink-0">התנתק</button>
+                </div>
+                
+                <button id="loginBtn" class="bg-stone-50 hover:bg-stone-100 text-slate-700 font-bold py-2 px-3 sm:px-4 rounded-xl border border-stone-200 transition-all duration-300 hover:scale-[1.03] text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0">
+                    <i class="fab fa-google text-red-500"></i>
+                    <span class="whitespace-nowrap">התחברות</span>
+                </button>
+
+                <button id="openPublishModalBtn" class="bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-2 px-3 sm:px-4.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-md shadow-[#1e3e30]/10 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0">
+                    <i class="fas fa-plus text-[9px]"></i>
+                    <span class="whitespace-nowrap">פרסמו נכס</span>
+                </button>
+
+                <button id="mobileMenuToggle" class="lg:hidden text-[#1e3e30] p-2 hover:bg-stone-50 rounded-xl transition">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="fixed inset-0 bg-[#1e3e30]/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-72 h-full p-6 flex flex-col gap-6 shadow-2xl transition-transform duration-300 translate-x-full mr-auto">
+            <div class="flex items-center justify-between border-b border-stone-100 pb-4">
+                <span class="font-extrabold text-[#1e3e30]">תפריט ניווט</span>
+                <button id="closeMobileMenu" class="text-stone-400 hover:text-stone-600 p-2"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <nav class="flex flex-col gap-4 text-sm font-semibold text-stone-600">
+                <a href="#" class="mobile-nav-item py-2 px-3 rounded-xl hover:bg-stone-50 transition">ראשי</a>
+                <a href="#categories-section" class="mobile-nav-item py-2 px-3 rounded-xl hover:bg-stone-50 transition">קטגוריות</a>
+                <a href="#listings-section" class="mobile-nav-item py-2 px-3 rounded-xl hover:bg-stone-50 transition">נכסים חמים</a>
+                <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl hover:bg-stone-50 transition flex items-center justify-between">
+                    <span>צור קשר</span>
+                    <i class="fas fa-external-link-alt text-[10px] text-stone-400"></i>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <main class="flex-grow">
+        
+        <section class="relative h-[500px] sm:h-[540px] flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#1e3e30]/75 via-[#1e3e30]/65 to-[#faf9f6]"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto px-4 text-center text-white mb-8 w-full">
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-black mb-4 tracking-tight leading-tight px-2 animate-in fade-in slide-in-from-bottom-6 duration-700">
+                    מצאו את המקום <span class="text-[#c39e5c]">המושלם לכם</span>
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-stone-200 max-w-2xl mx-auto mb-8 font-light px-4 animate-in fade-in slide-in-from-bottom-8 duration-900">
+                    אלפי דירות, צימרים ומתחמי אירוח במקום אחד. חיבור ישיר ומהיר בין מפרסמים לשוכרים ללא עמלות תיווך.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mx-auto px-4 sm:px-0 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                    <a href="#listings-section" class="w-full sm:w-auto bg-[#c39e5c] hover:bg-[#b08945] text-[#1e3e30] font-extrabold px-8 py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-[#c39e5c]/20 text-xs sm:text-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-search text-[10px]"></i>
+                        <span class="whitespace-nowrap">גלו נכסים</span>
+                    </a>
+                    <button id="heroPublishBtn" class="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white border-2 border-white/85 hover:border-white font-extrabold px-8 py-3 rounded-xl transition-all duration-300 hover:scale-[1.03] text-xs sm:text-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-plus text-[10px]"></i>
+                        <span class="whitespace-nowrap">פרסמו נכס חינם</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-20 mb-16 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+            <div class="bg-white rounded-3xl p-4 sm:p-5 md:p-6 luxury-shadow border border-stone-100/80">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
+                    <div class="md:col-span-6 flex items-center bg-stone-50 rounded-2xl border border-stone-200/60 px-4 py-3 focus-within:border-[#1e3e30] focus-within:ring-2 focus-within:ring-[#1e3e30]/5 transition-all duration-300">
+                        <i class="fas fa-search text-stone-400 ml-3 text-sm"></i>
+                        <input id="searchInput" type="text" placeholder="חפשו לפי עיר, שם מפרסם, חדרים או תיאור..." class="w-full bg-transparent border-none outline-none text-slate-800 placeholder-slate-400 font-medium text-xs sm:text-sm">
+                    </div>
+                    
+                    <div class="md:col-span-3">
+                        <select id="searchCategorySelect" class="w-full bg-stone-50 border border-stone-200/60 rounded-2xl py-3 px-4 text-slate-700 font-semibold text-xs sm:text-sm outline-none focus:border-[#1e3e30] focus:ring-2 focus:ring-[#1e3e30]/5 transition-all duration-300">
+                            <option value="הכל">כל הקטגוריות</option>
+                            <option value="שכירות">שכירות</option>
+                            <option value="קניה">קניה</option>
+                            <option value="השכרה לימים בודדים">השכרה לימים בודדים</option>
+                            <option value="צימרים">צימרים</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-3 flex items-center gap-2 w-full">
+                        <button id="searchSubmitBtn" class="flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3 px-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <i class="fas fa-search text-[10px]"></i>
+                            <span class="whitespace-nowrap">חפשו</span>
+                        </button>
+                        <button id="clearSearchBtn" class="hidden bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-700 p-3 rounded-2xl transition-all duration-300 shrink-0">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-stone-100/80 text-[11px] sm:text-xs">
+                    <button id="advancedFilterToggle" class="text-stone-500 hover:text-[#1e3e30] font-bold flex items-center gap-1.5 transition">
+                        <i class="fas fa-sliders-h"></i>
+                        <span class="whitespace-nowrap">סינון מתקדם (אופציונלי)</span>
+                    </button>
+                    <button id="showAllListingsLink" class="text-[#c39e5c] hover:text-[#b08945] font-extrabold hover:underline transition whitespace-nowrap">הצג את כל הדירות</button>
+                </div>
+
+                <div id="advancedFilterPanel" class="hidden mt-4 pt-4 border-t border-stone-100 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">מחיר מקסימלי</label>
+                            <input id="filterMaxPrice" type="number" placeholder="ללא הגבלה" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#1e3e30]">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">מינימום חדרים</label>
+                            <input id="filterMinRooms" type="number" placeholder="למשל: 3" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#1e3e30]">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">מינימום מ"ר</label>
+                            <input id="filterMinSqM" type="number" placeholder="למשל: 80" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#1e3e30]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="categories-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="text-center max-w-xl mx-auto mb-10">
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-[#1e3e30] mb-2">קטגוריות</h3>
+                <p class="text-stone-500 text-sm">בחרו את סוג המגורים או האירוח המתאים לכם ביותר</p>
+                <div class="w-12 h-0.5 bg-[#c39e5c] mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div data-category-select="שכירות" class="category-card cursor-pointer group relative h-64 rounded-3xl overflow-hidden luxury-shadow transition-all duration-500 hover:translate-y-[-6px] hover:shadow-xl">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-5 right-5 left-5 text-white z-10">
+                        <div class="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 text-xs transition-transform duration-300 group-hover:rotate-12">
+                            <i class="fas fa-key text-[#c39e5c]"></i>
+                        </div>
+                        <h4 class="text-lg font-extrabold mb-1 transition-colors duration-300 group-hover:text-[#c39e5c]">שכירות</h4>
+                        <p class="text-stone-300 text-xs">דירות, בתים ונכסים להשכרה ארוכת טווח</p>
+                    </div>
+                </div>
+
+                <div data-category-select="קניה" class="category-card cursor-pointer group relative h-64 rounded-3xl overflow-hidden luxury-shadow transition-all duration-500 hover:translate-y-[-6px] hover:shadow-xl">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-5 right-5 left-5 text-white z-10">
+                        <div class="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 text-xs transition-transform duration-300 group-hover:rotate-12">
+                            <i class="fas fa-home text-[#c39e5c]"></i>
+                        </div>
+                        <h4 class="text-lg font-extrabold mb-1 transition-colors duration-300 group-hover:text-[#c39e5c]">קניה</h4>
+                        <p class="text-stone-300 text-xs">נכסים למכירה ולהשקעה ברחבי הארץ</p>
+                    </div>
+                </div>
+
+                <div data-category-select="השכרה לימים בודדים" class="category-card cursor-pointer group relative h-64 rounded-3xl overflow-hidden luxury-shadow transition-all duration-500 hover:translate-y-[-6px] hover:shadow-xl">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-5 right-5 left-5 text-white z-10">
+                        <div class="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 text-xs transition-transform duration-300 group-hover:rotate-12">
+                            <i class="fas fa-calendar-alt text-[#c39e5c]"></i>
+                        </div>
+                        <h4 class="text-lg font-extrabold mb-1 transition-colors duration-300 group-hover:text-[#c39e5c]">השכרה לימים בודדים</h4>
+                        <p class="text-stone-300 text-xs">דירות נופש ואירוח קצר מועד</p>
+                    </div>
+                </div>
+
+                <div data-category-select="צימרים" class="category-card cursor-pointer group relative h-64 rounded-3xl overflow-hidden luxury-shadow transition-all duration-500 hover:translate-y-[-6px] hover:shadow-xl">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-5 right-5 left-5 text-white z-10">
+                        <div class="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 text-xs transition-transform duration-300 group-hover:rotate-12">
+                            <i class="fas fa-campground text-[#c39e5c]"></i>
+                        </div>
+                        <h4 class="text-lg font-extrabold mb-1 transition-colors duration-300 group-hover:text-[#c39e5c]">צימרים</h4>
+                        <p class="text-stone-300 text-xs">צימרים, וילות יוקרה ובקתות כפריות</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="listings-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-stone-200/60 pb-5 mb-8 gap-4">
+                <div>
+                    <h3 class="text-2xl font-extrabold text-[#1e3e30] flex items-center gap-2">
+                        <span class="w-2.5 h-6 bg-[#c39e5c] rounded-full inline-block"></span>
+                        נכסים זמינים בלוח
+                    </h3>
+                    <p class="text-xs text-stone-400 mt-1">עדכונים שוטפים מהשטח ישירות מהבעלים</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="resultsCount" class="text-xs font-bold text-[#1e3e30] bg-[#1e3e30]/5 py-1.5 px-3.5 rounded-full whitespace-nowrap">טוען...</span>
+                    <button id="resetCategoryFilterBtn" class="hidden text-xs font-extrabold text-[#c39e5c] hover:text-[#b08945] hover:underline transition-all duration-300 whitespace-nowrap">הצג הכל</button>
+                </div>
+            </div>
+
+            <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="col-span-full py-24 flex flex-col items-center justify-center text-stone-400">
+                    <i class="fas fa-circle-notch fa-spin text-4xl text-[#1e3e30] mb-4"></i>
+                    <p class="font-bold text-slate-600 text-sm text-center">מעדכן את רשימת הנכסים המפוארת...</p>
+                </div>
+            </div>
+
+            <div id="noResults" class="hidden col-span-full py-20 flex flex-col items-center justify-center text-center bg-white rounded-3xl border border-stone-100 p-8 luxury-shadow max-w-lg mx-auto">
+                <div class="w-14 h-14 bg-stone-50 rounded-full flex items-center justify-center text-stone-400 mb-4 animate-bounce">
+                    <i class="fas fa-search text-xl text-[#c39e5c]"></i>
+                </div>
+                <h4 class="text-lg font-extrabold text-slate-800 mb-1">לא מצאנו נכסים תואמים</h4>
+                <p class="text-stone-400 text-xs mb-6 max-w-xs">נסו לעדכן את פילטר החיפוש או לבחור בקטגוריה אחרת לקבלת תוצאות טובות יותר.</p>
+                <button id="resetFiltersBtn" class="bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-2.5 px-6 rounded-xl text-xs transition">אפס סינונים</button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="publishModal" class="fixed inset-0 bg-[#1e3e30]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
+            <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-10 h-10 bg-[#1e3e30]/5 text-[#1e3e30] rounded-xl flex items-center justify-center">
+                        <i class="fas fa-hotel text-sm"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-base font-extrabold text-[#1e3e30]">פרסום נכס חדש</h3>
+                        <p class="text-[10px] text-stone-400">חיבור ישיר מול שוכרים ורוכשים פוטנציאליים</p>
+                    </div>
+                </div>
+                <button id="closePublishModalBtn" class="text-stone-400 hover:text-stone-600 p-2 rounded-lg hover:bg-stone-100 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div id="unauthModalState" class="p-8 text-center flex-grow flex flex-col items-center justify-center">
+                <div class="w-14 h-14 bg-[#1e3e30]/5 text-[#1e3e30] rounded-full flex items-center justify-center mb-4">
+                    <i class="fab fa-google text-2xl"></i>
+                </div>
+                <h4 class="text-lg font-extrabold text-[#1e3e30] mb-2 px-2">פרסום נכס דורש התחברות לגוגל</h4>
+                <p class="text-stone-400 text-xs max-w-xs mb-8 px-4">על מנת לוודא כי המפרסמים בלוח הינם אנשים אמיתיים וכדי למנוע מודעות ספאם, עליך לבצע התחברות קלה ומהירה.</p>
+                <div class="flex flex-col sm:flex-row gap-3 w-full max-w-xs px-4 sm:px-0">
+                    <button id="modalLoginBtn" class="w-full sm:flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 text-xs">
+                        <i class="fab fa-google"></i>
+                        <span class="whitespace-nowrap">התחברות מהירה עם גוגל</span>
+                    </button>
+                    <button id="cancelModalBtn" class="w-full sm:w-auto bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition duration-200 text-xs whitespace-nowrap">
+                        ביטול
+                    </button>
+                </div>
+            </div>
+
+            <form id="publishForm" class="hidden p-6 sm:p-8 overflow-y-auto space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">קטגוריית פרסום <span class="text-rose-500">*</span></label>
+                        <select id="formCategory" required class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
+                            <option value="שכירות">שכירות</option>
+                            <option value="קניה">קניה</option>
+                            <option value="השכרה לימים בודדים">השכרה לימים בודדים</option>
+                            <option value="צימרים">צימרים</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">כותרת המודעה <span class="text-rose-500">*</span></label>
+                        <input id="formTitle" type="text" required placeholder="למשל: דירת 4 חדרים מפוארת במגדלי פאר" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">עיר / ישוב <span class="text-rose-500">*</span></label>
+                        <input id="formLocation" type="text" required placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">מחיר בשקלים (₪) <span class="text-rose-500">*</span></label>
+                        <input id="formPrice" type="number" required placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">מספר חדרים <span class="text-rose-500">*</span></label>
+                        <input id="formRooms" type="number" step="0.5" required placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">מטר רבוע (מ"ר) <span class="text-rose-500">*</span></label>
+                        <input id="formSqM" type="number" required placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">שם מלא של המפרסם <span class="text-rose-500">*</span></label>
+                        <input id="formSellerName" type="text" required placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">מספר טלפון לפניות <span class="text-rose-500">*</span></label>
+                        <input id="formPhone" type="tel" required placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">טלפון נוסף</label>
+                        <input id="formPhoneAlt" type="tel" placeholder="למשל: 054-9876543" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">כתובת אימייל ליצירת קשר <span class="text-rose-500">*</span></label>
+                        <input id="formEmail" type="email" required placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">תיאור חופשי ומפרט נוסף <span class="text-rose-500">*</span></label>
+                        <textarea id="formDescription" required rows="4" placeholder="תארו את הנכס בפירוט (קומה, כיווני אוויר, מרפסת שמש, מעלית, חניה, ריהוט מיוחד וכדומה)" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">העלאת תמונות (מינימום 2 תמונות) <span class="text-rose-500">*</span></label>
+                        <div class="relative border-2 border-dashed border-stone-200 hover:border-[#1e3e30] bg-stone-50 hover:bg-stone-100/40 rounded-2xl p-6 text-center transition-all duration-300 cursor-pointer">
+                            <input id="formImages" type="file" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                            <div class="space-y-2">
+                                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-stone-400 mx-auto shadow-sm">
+                                    <i class="fas fa-images text-base text-[#c39e5c]"></i>
+                                </div>
+                                <div class="text-[#1e3e30] font-bold text-xs">לחצו לבחירת תמונות או גררו אותן לכאן</div>
+                                <div class="text-[10px] text-stone-400">חובה לצרף לפחות 2 תמונות שונות כדי לפרסם את הנכס בלוח</div>
+                            </div>
+                        </div>
+                        <div id="imagePreviewsContainer" class="hidden mt-4 grid grid-cols-4 gap-3 bg-stone-50 p-3 rounded-2xl border border-stone-100"></div>
+                    </div>
+                </div>
+
+                <div class="border-t border-stone-100 pt-6 flex flex-col sm:flex-row items-center justify-end gap-3 w-full">
+                    <button id="cancelPublishFormBtn" type="button" class="w-full sm:w-auto bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-xs transition text-center whitespace-nowrap">ביטול</button>
+                    <button id="submitPublishFormBtn" type="submit" class="w-full sm:w-auto bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#1e3e30]/10 flex items-center justify-center gap-2">
+                        <span class="whitespace-nowrap">פרסמו מודעה</span>
+                        <i class="fas fa-paper-plane text-[10px]"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="listingDetailModal" class="fixed inset-0 bg-[#1e3e30]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
+            <div class="relative bg-stone-900 h-64 sm:h-80 flex-shrink-0">
+                <img id="detailMainImage" class="w-full h-full object-cover" src="" alt="תמונת נכס ראשית">
+                <div class="absolute top-4 right-4 bg-slate-900/40 hover:bg-slate-900/60 text-white rounded-full transition z-10">
+                    <button id="closeDetailModalBtn" class="w-9 h-9 flex items-center justify-center">
+                        <i class="fas fa-times text-base"></i>
+                    </button>
+                </div>
+                <div class="absolute bottom-4 right-4 left-4 flex gap-2 overflow-x-auto hide-scrollbar z-10 bg-slate-950/40 p-2 rounded-xl backdrop-blur-sm" id="detailThumbnails"></div>
+            </div>
+
+            <div class="p-6 sm:p-8 overflow-y-auto flex-grow space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <span id="detailCategory" class="bg-[#1e3e30]/5 text-[#1e3e30] font-extrabold text-[10px] px-3.5 py-1.5 rounded-full uppercase tracking-wider"></span>
+                    <div id="detailPrice" class="text-2xl font-black text-[#c39e5c]"></div>
+                </div>
+
+                <div>
+                    <h2 id="detailTitle" class="text-lg sm:text-xl font-extrabold text-[#1e3e30] leading-snug"></h2>
+                    <div class="flex items-center gap-1.5 text-xs text-stone-400 mt-1.5">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="detailLocation"></span>
+                        <span class="text-stone-300">•</span>
+                        <span id="detailDate"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 border-y border-stone-100 py-4 text-center">
+                    <div class="bg-stone-50 rounded-xl py-2.5">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5">חדרים</p>
+                        <p id="detailRoomsVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
+                    </div>
+                    <div class="bg-stone-50 rounded-xl py-2.5">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5">שטח נכס</p>
+                        <p id="detailSqMVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
+                    </div>
+                    <div class="bg-stone-50 rounded-xl py-2.5">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5">סוג עסקה</p>
+                        <p id="detailTypeVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
+                    <h3 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-2">
+                        <i class="fas fa-file-alt text-[#c39e5c]"></i>
+                        תיאור ומפרט המודעה
+                    </h3>
+                    <p id="detailDescription" class="text-[#1e3e30]/90 text-xs leading-relaxed whitespace-pre-line"></p>
+                </div>
+
+                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
+                    <h3 class="font-bold text-[#1e3e30] text-xs mb-3 flex items-center gap-2">
+                        <i class="fas fa-id-card text-[#c39e5c]"></i>
+                        פרטי מפרסם ויצירת קשר
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-user text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400">בעלי הנכס</p>
+                                <p id="detailSellerName" class="font-extrabold text-slate-700"></p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-envelope text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400">דואר אלקטרוני</p>
+                                <a id="detailEmail" href="" class="font-extrabold text-[#c39e5c] hover:underline"></a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-phone-alt text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400">טלפון ראשי</p>
+                                <a id="detailPhone" href="" class="font-extrabold text-[#1e3e30]"></a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5" id="detailPhoneAltWrapper">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-mobile-alt text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400">טלפון נוסף</p>
+                                <a id="detailPhoneAlt" href="" class="font-extrabold text-[#1e3e30]"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-stone-100 bg-stone-50 p-5 flex flex-col sm:flex-row gap-3 w-full">
+                <a id="callSellerBtn" href="" class="w-full sm:flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3.5 px-6 rounded-xl text-center text-xs transition duration-200 flex items-center justify-center gap-2 shadow-md shadow-[#1e3e30]/10">
+                    <i class="fas fa-phone-alt text-[10px]"></i>
+                    <span class="whitespace-nowrap">התקשרו עכשיו</span>
+                </a>
+                <button id="closeDetailBottomBtn" class="w-full sm:w-auto bg-stone-200 hover:bg-stone-300 text-slate-700 font-bold py-3.5 px-6 rounded-xl text-xs transition duration-200 text-center whitespace-nowrap">
+                    סגור
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="setupGuideModal" class="fixed inset-0 bg-[#1e3e30]/50 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-lg luxury-shadow overflow-hidden flex flex-col border border-stone-100 transform scale-95 transition-transform duration-300">
+            <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-sm"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-base font-extrabold text-[#1e3e30]">הנחיות להפעלת התחברות גוגל</h3>
+                        <p class="text-[10px] text-stone-400">הגדרות אבטחה חסרות בדומיין הנוכחי</p>
+                    </div>
+                </div>
+                <button id="closeSetupGuideBtn" class="text-stone-400 hover:text-stone-600 p-2 rounded-lg hover:bg-stone-100 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-xs text-slate-600 leading-relaxed text-right">
+                <p class="font-bold text-sm text-stone-800">ההתחברות בוטלה או נעצרה כיוון שהאתר רץ כעת בדומיין שאינו מאושר בקונסולת גוגל או Firebase.</p>
+                <p>כדי שאימות גוגל יעבוד בצורה מלאה ב-GitHub Pages או בכל סביבת הרצה אחרת, עליך להגדיר שני דברים פשוטים:</p>
+                
+                <div class="space-y-3 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                    <div class="flex gap-2.5">
+                        <span class="font-bold text-[#c39e5c] shrink-0">1.</span>
+                        <div>
+                            <p class="font-bold text-stone-800 mb-0.5">הוספה ב-Firebase Console:</p>
+                            <p>כנס אל ה-Firebase Console שלך > פתח את פרוייקט <span class="font-mono bg-white px-1.5 py-0.5 rounded border">sunlit-theory-474508-e1</span> > עבור אל <strong>Authentication</strong> > לשונית <strong>Settings</strong> > תחת <strong>Authorized Domains</strong> הוסף את הדומיין הנוכחי של האתר (לדוגמה <span class="font-mono bg-white px-1 py-0.5 rounded text-rose-600" id="currentDomainPlaceholder"></span>).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2.5 pt-2 border-t border-stone-200">
+                        <span class="font-bold text-[#c39e5c] shrink-0">2.</span>
+                        <div>
+                            <p class="font-bold text-stone-800 mb-0.5">הוספה ב-Google Cloud Console:</p>
+                            <p>כנס אל ה-Google Cloud Console > בחר בפרוייקט שלך > עבור אל <strong>APIs & Services</strong> > תחת <strong>Credentials</strong> לחץ על ה-OAuth Client ID המוגדר שלכם > תחת <strong>Authorized JavaScript origins</strong> הוסף את אותה כתובת דומיין.</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-stone-400">לאחר השלמת הגדרות אלו (שאורכות פחות מ-2 דקות), חיבור גוגל יפעל בצורה אוטומטית מלאה ואמיתית לחלוטין!</p>
+            </div>
+            <div class="bg-stone-50 p-5 border-t border-stone-100 flex justify-end">
+                <button id="closeSetupGuideBottomBtn" class="bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-2.5 px-6 rounded-xl text-xs transition">הבנתי, תודה</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
+        <span id="toastIcon"></span>
+        <span id="toastText" class="font-bold"></span>
+    </div>
+
+    <footer class="bg-[#1e3e30] text-stone-300 border-t border-stone-900 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="1.png" alt="לוגו" class="w-10 h-10 object-contain brightness-0 invert" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
+                    <span class="text-xl font-black text-white">שכירות בקליק</span>
+                </div>
+                <p class="text-stone-400 text-xs leading-relaxed max-w-xs mb-4">
+                    הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.
+                </p>
+                <div class="flex items-center gap-3 text-white">
+                    <a href="#" class="w-7 h-7 rounded-full bg-white/5 hover:bg-[#c39e5c] transition flex items-center justify-center text-xs"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-7 h-7 rounded-full bg-white/5 hover:bg-[#c39e5c] transition flex items-center justify-center text-xs"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-7 h-7 rounded-full bg-white/5 hover:bg-[#c39e5c] transition flex items-center justify-center text-xs"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-4 tracking-wider uppercase">קטגוריות ראשיות</h4>
+                <ul class="space-y-2 text-xs text-stone-400">
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block">דירות ובתים לשכירות</a></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block">נכסים למכירה וקניה</a></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block">דירות נופש לימים בודדים</a></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block">צימרים ומתחמי אירוח</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-4 tracking-wider uppercase">קישורים שימושיים</h4>
+                <ul class="space-y-2 text-xs text-stone-400">
+                    <li><button id="footerPublishBtn" class="hover:text-white transition inline-block text-right">פרסום נכס חדש</button></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block">כל הנכסים בלוח</a></li>
+                    <li><a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="hover:text-white transition inline-block">פרופיל מפתח CSS</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-semibold">
+            <p>© 2026 שכירות בקליק — כל הזכויות שמורות.</p>
+            <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="text-[#c39e5c] hover:text-[#b08945] transition flex items-center gap-1">
+                <span>פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות</span>
+                <i class="fas fa-external-link-alt text-[9px]"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let currentUser = null;
+        let isGoogleUser = false;
+        let allListings = [];
+        let currentCategoryFilter = "הכל";
+        let searchQuery = "";
+
+        const loginBtn = document.getElementById("loginBtn");
+        const authStatus = document.getElementById("authStatus");
+        const userAvatar = document.getElementById("userAvatar");
+        const userName = document.getElementById("userName");
+        const logoutBtn = document.getElementById("logoutBtn");
+        
+        const openPublishModalBtn = document.getElementById("openPublishModalBtn");
+        const heroPublishBtn = document.getElementById("heroPublishBtn");
+        const footerPublishBtn = document.getElementById("footerPublishBtn");
+        const closePublishModalBtn = document.getElementById("closePublishModalBtn");
+        const publishModal = document.getElementById("publishModal");
+        const unauthModalState = document.getElementById("unauthModalState");
+        const modalLoginBtn = document.getElementById("modalLoginBtn");
+        const cancelModalBtn = document.getElementById("cancelModalBtn");
+        const publishForm = document.getElementById("publishForm");
+        const cancelPublishFormBtn = document.getElementById("cancelPublishFormBtn");
+        const imagePreviewsContainer = document.getElementById("imagePreviewsContainer");
+        const formImagesInput = document.getElementById("formImages");
+        
+        const listingsGrid = document.getElementById("listingsGrid");
+        const resultsCount = document.getElementById("resultsCount");
+        const noResults = document.getElementById("noResults");
+        const searchInput = document.getElementById("searchInput");
+        const searchCategorySelect = document.getElementById("searchCategorySelect");
+        const searchSubmitBtn = document.getElementById("searchSubmitBtn");
+        const clearSearchBtn = document.getElementById("clearSearchBtn");
+        const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+        const showAllListingsLink = document.getElementById("showAllListingsLink");
+        const resetCategoryFilterBtn = document.getElementById("resetCategoryFilterBtn");
+        const advancedFilterToggle = document.getElementById("advancedFilterToggle");
+        const advancedFilterPanel = document.getElementById("advancedFilterPanel");
+
+        const listingDetailModal = document.getElementById("listingDetailModal");
+        const closeDetailModalBtn = document.getElementById("closeDetailModalBtn");
+        const closeDetailBottomBtn = document.getElementById("closeDetailBottomBtn");
+        const detailMainImage = document.getElementById("detailMainImage");
+        const detailThumbnails = document.getElementById("detailThumbnails");
+        const detailCategory = document.getElementById("detailCategory");
+        const detailPrice = document.getElementById("detailPrice");
+        const detailTitle = document.getElementById("detailTitle");
+        const detailLocation = document.getElementById("detailLocation");
+        const detailDate = document.getElementById("detailDate");
+        const detailDescription = document.getElementById("detailDescription");
+        const detailSellerName = document.getElementById("detailSellerName");
+        const detailEmail = document.getElementById("detailEmail");
+        const detailPhone = document.getElementById("detailPhone");
+        const detailPhoneAlt = document.getElementById("detailPhoneAlt");
+        const detailPhoneAltWrapper = document.getElementById("detailPhoneAltWrapper");
+        const callSellerBtn = document.getElementById("callSellerBtn");
+        const detailRoomsVal = document.getElementById("detailRoomsVal");
+        const detailSqMVal = document.getElementById("detailSqMVal");
+        const detailTypeVal = document.getElementById("detailTypeVal");
+
+        const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const closeMobileMenu = document.getElementById("closeMobileMenu");
+
+        const setupGuideModal = document.getElementById("setupGuideModal");
+        const closeSetupGuideBtn = document.getElementById("closeSetupGuideBtn");
+        const closeSetupGuideBottomBtn = document.getElementById("closeSetupGuideBottomBtn");
+        const currentDomainPlaceholder = document.getElementById("currentDomainPlaceholder");
+
+        let uploadedImagesBase64 = [];
+
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                fetchListings();
+                if (!user.isAnonymous) {
+                    isGoogleUser = true;
+                    loginBtn.classList.add("hidden");
+                    authStatus.classList.remove("hidden");
+                    authStatus.classList.add("flex");
+                    userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
+                    userName.textContent = user.displayName || 'משתמש גוגל';
+                    unauthModalState.classList.add("hidden");
+                    publishForm.classList.remove("hidden");
+                    document.getElementById("formSellerName").value = user.displayName || "";
+                    document.getElementById("formEmail").value = user.email || "";
+                } else {
+                    isGoogleUser = false;
+                    loginBtn.classList.remove("hidden");
+                    authStatus.classList.add("hidden");
+                    authStatus.classList.remove("flex");
+                    unauthModalState.classList.remove("hidden");
+                    publishForm.classList.add("hidden");
+                }
+            }
+        });
+
+        const showToast = (message, type = "info") => {
+            const toast = document.getElementById("toast");
+            const toastIcon = document.getElementById("toastIcon");
+            const toastText = document.getElementById("toastText");
+
+            if (!toast || !toastText) {
+                return;
+            }
+
+            toastText.textContent = message;
+            if (type === "success") {
+                toastIcon.innerHTML = `<i class="fas fa-check-circle text-emerald-400 text-base"></i>`;
+            } else if (type === "error") {
+                toastIcon.innerHTML = `<i class="fas fa-exclamation-circle text-rose-400 text-base"></i>`;
+            } else {
+                toastIcon.innerHTML = `<i class="fas fa-info-circle text-blue-400 text-base"></i>`;
+            }
+            toast.classList.remove("translate-y-20", "opacity-0");
+            setTimeout(() => {
+                toast.classList.add("translate-y-20", "opacity-0");
+            }, 3500);
+        };
+
+        const showSetupGuide = () => {
+            if (currentDomainPlaceholder) {
+                currentDomainPlaceholder.textContent = window.location.origin;
+            }
+            if (setupGuideModal) {
+                setupGuideModal.classList.remove("hidden");
+                setupGuideModal.classList.add("flex");
+                setTimeout(() => {
+                    setupGuideModal.classList.remove("opacity-0");
+                    if (setupGuideModal.firstElementChild) {
+                        setupGuideModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
+            }
+        };
+
+        const closeSetupGuide = () => {
+            if (setupGuideModal) {
+                setupGuideModal.classList.add("opacity-0");
+                if (setupGuideModal.firstElementChild) {
+                    setupGuideModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    setupGuideModal.classList.add("hidden");
+                    setupGuideModal.classList.remove("flex");
+                }, 300);
+            }
+        };
+
+        if (closeSetupGuideBtn) closeSetupGuideBtn.addEventListener("click", closeSetupGuide);
+        if (closeSetupGuideBottomBtn) closeSetupGuideBottomBtn.addEventListener("click", closeSetupGuide);
+
+        const handleGoogleLogin = async () => {
+            showToast("מתחבר לגוגל...", "info");
+            try {
+                const provider = new GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                await signInWithPopup(auth, provider);
+                showToast("התחברת בהצלחה באמצעות גוגל", "success");
+            } catch (error) {
+                if (error.code === "auth/unauthorized-domain" || error.code === "auth/operation-not-allowed" || error.code === "auth/cancelled-popup-request" || error.code === "auth/popup-closed-by-user") {
+                    showSetupGuide();
+                } else {
+                    showToast("שגיאת התחברות. נסו שנית או בדקו את ההגדרות", "error");
+                }
+            }
+        };
+
+        loginBtn.addEventListener("click", handleGoogleLogin);
+        modalLoginBtn.addEventListener("click", handleGoogleLogin);
+        
+        logoutBtn.addEventListener("click", async () => {
+            await signOut(auth);
+            await signInAnonymously(auth);
+            showToast("התנתקת מהמערכת", "info");
+        });
+
+        mobileMenuToggle.addEventListener("click", () => {
+            mobileMenu.classList.remove("hidden");
+            setTimeout(() => {
+                mobileMenu.classList.remove("opacity-0");
+                mobileMenu.firstElementChild.classList.remove("translate-x-full");
+            }, 10);
+        });
+
+        const closeMobileMenuFn = () => {
+            mobileMenu.firstElementChild.classList.add("translate-x-full");
+            mobileMenu.classList.add("opacity-0");
+            setTimeout(() => {
+                mobileMenu.classList.add("hidden");
+            }, 300);
+        };
+
+        closeMobileMenu.addEventListener("click", closeMobileMenuFn);
+        mobileMenu.addEventListener("click", (e) => {
+            if (e.target === mobileMenu) closeMobileMenuFn();
+        });
+
+        document.querySelectorAll(".mobile-nav-item").forEach(item => {
+            item.addEventListener("click", () => {
+                closeMobileMenuFn();
+            });
+        });
+
+        const openPublish = () => {
+            publishModal.classList.remove("hidden");
+            publishModal.classList.add("flex");
+            document.body.style.overflow = "hidden";
+            setTimeout(() => {
+                publishModal.classList.remove("opacity-0");
+                publishModal.firstElementChild.classList.remove("scale-95");
+            }, 10);
+            if (isGoogleUser) {
+                unauthModalState.classList.add("hidden");
+                publishForm.classList.remove("hidden");
+            } else {
+                unauthModalState.classList.remove("hidden");
+                publishForm.classList.add("hidden");
+            }
+        };
+
+        openPublishModalBtn.addEventListener("click", openPublish);
+        heroPublishBtn.addEventListener("click", openPublish);
+        footerPublishBtn.addEventListener("click", openPublish);
+
+        const closePublishModal = () => {
+            publishModal.classList.add("opacity-0");
+            publishModal.firstElementChild.classList.add("scale-95");
+            setTimeout(() => {
+                publishModal.classList.add("hidden");
+                publishModal.classList.remove("flex");
+                document.body.style.overflow = "auto";
+                publishForm.reset();
+                imagePreviewsContainer.innerHTML = "";
+                imagePreviewsContainer.classList.add("hidden");
+                uploadedImagesBase64 = [];
+            }, 300);
+        };
+
+        closePublishModalBtn.addEventListener("click", closePublishModal);
+        cancelModalBtn.addEventListener("click", closePublishModal);
+        cancelPublishFormBtn.addEventListener("click", closePublishModal);
+
+        advancedFilterToggle.addEventListener("click", () => {
+            advancedFilterPanel.classList.toggle("hidden");
+        });
+
+        const compressImage = (file) => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 640;
+                        const MAX_HEIGHT = 480;
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                };
+            });
+        };
+
+        formImagesInput.addEventListener("change", async (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+
+            imagePreviewsContainer.innerHTML = "";
+            imagePreviewsContainer.classList.remove("hidden");
+            uploadedImagesBase64 = [];
+
+            const loaders = files.map(async (file) => {
+                const previewDiv = document.createElement("div");
+                previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
+                previewDiv.innerHTML = `<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-spinner fa-spin text-stone-400"></i></div>`;
+                imagePreviewsContainer.appendChild(previewDiv);
+
+                const base64 = await compressImage(file);
+                uploadedImagesBase64.push(base64);
+
+                previewDiv.innerHTML = `
+                    <img class="w-full h-full object-cover" src="${base64}">
+                    <div class="absolute inset-0 bg-stone-950/20"></div>
+                `;
+            });
+
+            await Promise.all(loaders);
+        });
+
+        publishForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (!currentUser || currentUser.isAnonymous) {
+                showToast("עליך להתחבר עם גוגל תחילה", "error");
+                return;
+            }
+
+            if (uploadedImagesBase64.length < 2) {
+                showToast("חובה להעלות לפחות 2 תמונות שונות של הנכס", "error");
+                return;
+            }
+
+            const category = document.getElementById("formCategory").value;
+            const title = document.getElementById("formTitle").value.trim();
+            const locationVal = document.getElementById("formLocation").value.trim();
+            const price = parseFloat(document.getElementById("formPrice").value);
+            const rooms = parseFloat(document.getElementById("formRooms").value);
+            const sqm = parseFloat(document.getElementById("formSqM").value);
+            const sellerName = document.getElementById("formSellerName").value.trim();
+            const phone = document.getElementById("formPhone").value.trim();
+            const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
+            const email = document.getElementById("formEmail").value.trim();
+            const description = document.getElementById("formDescription").value.trim();
+
+            const submitBtn = document.getElementById("submitPublishFormBtn");
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
+
+            try {
+                const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+                await addDoc(listingsCollection, {
+                    category,
+                    title,
+                    location: locationVal,
+                    price,
+                    rooms,
+                    sqm,
+                    sellerName,
+                    phone,
+                    phoneAlt,
+                    email,
+                    description,
+                    images: uploadedImagesBase64,
+                    createdAt: Date.now(),
+                    userId: currentUser.uid
+                });
+
+                showToast("המודעה שלך פורסמה בהצלחה בלוח!", "success");
+                closePublishModal();
+            } catch (error) {
+                showToast("ארעה שגיאה בפרסום המודעה. נסה שנית", "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span class="whitespace-nowrap">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
+            }
+        });
+
+        const fetchListings = () => {
+            if (!currentUser) return;
+            const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+            
+            onSnapshot(listingsCollection, (snapshot) => {
+                allListings = [];
+                snapshot.forEach((doc) => {
+                    allListings.push({ id: doc.id, ...doc.data() });
+                });
+                
+                allListings.sort((a, b) => b.createdAt - a.createdAt);
+                renderListings();
+            }, (error) => {
+                showToast("שגיאה בטעינת הנתונים מהשרת", "error");
+            });
+        };
+
+        const renderListings = () => {
+            let filtered = allListings;
+
+            if (currentCategoryFilter !== "הכל") {
+                filtered = filtered.filter(item => item.category === currentCategoryFilter);
+                resetCategoryFilterBtn.classList.remove("hidden");
+            } else {
+                resetCategoryFilterBtn.classList.add("hidden");
+            }
+
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(item => 
+                    item.title.toLowerCase().includes(query) ||
+                    item.description.toLowerCase().includes(query) ||
+                    (listing.location && listing.location.toLowerCase().includes(query)) ||
+                    item.sellerName.toLowerCase().includes(query) ||
+                    item.category.toLowerCase().includes(query)
+                );
+            }
+
+            const maxPriceVal = parseFloat(document.getElementById("filterMaxPrice").value);
+            const minRoomsVal = parseFloat(document.getElementById("filterMinRooms").value);
+            const minSqMVal = parseFloat(document.getElementById("filterMinSqM").value);
+
+            if (!isNaN(maxPriceVal)) {
+                filtered = filtered.filter(item => item.price <= maxPriceVal);
+            }
+            if (!isNaN(minRoomsVal)) {
+                filtered = filtered.filter(item => item.rooms >= minRoomsVal);
+            }
+            if (!isNaN(minSqMVal)) {
+                filtered = filtered.filter(item => item.sqm >= minSqMVal);
+            }
+
+            resultsCount.textContent = `${filtered.length} נכסים זמינים`;
+
+            if (filtered.length === 0) {
+                listingsGrid.innerHTML = "";
+                noResults.classList.remove("hidden");
+                return;
+            }
+
+            noResults.classList.add("hidden");
+            listingsGrid.innerHTML = "";
+
+            filtered.forEach((listing, index) => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-3xl border border-stone-100 overflow-hidden luxury-shadow hover:translate-y-[-5px] hover:shadow-2xl transition-all duration-300 flex flex-col cursor-pointer group opacity-0 translate-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-forwards";
+                card.style.animationDelay = `${index * 50}ms`;
+                
+                const mainImg = listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                
+                let priceLabel = `₪${listing.price.toLocaleString()}`;
+                if (listing.category === "שכירות") {
+                    priceLabel += " / לחודש";
+                } else if (listing.category === "השכרה לימים בודדים" || listing.category === "צימרים") {
+                    priceLabel += " / לילה";
+                } else {
+                    priceLabel += " / קנייה";
+                }
+
+                const locationText = listing.location || "לא צוין";
+                const roomsText = listing.rooms ? `${listing.rooms} חדרים` : "לא צוין";
+                const sqmText = listing.sqm ? `${listing.sqm} מ״ר` : "לא צוין";
+
+                card.innerHTML = `
+                    <div class="relative aspect-[4/3] bg-stone-900 overflow-hidden">
+                        <img class="w-full h-full object-cover transition duration-700 group-hover:scale-105" src="${mainImg}" alt="${listing.title}">
+                        <div class="absolute top-4 right-4 bg-[#1e3e30] text-[#c39e5c] font-bold text-[9px] px-3 py-1.5 rounded-full tracking-wider uppercase">
+                            ${listing.category}
+                        </div>
+                        <div class="absolute bottom-4 left-4 bg-stone-950/50 text-white font-bold text-[10px] px-3 py-1 rounded-full backdrop-blur-sm">
+                            ₪${listing.price.toLocaleString()}
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-[10px] text-stone-400 font-bold">
+                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-[#c39e5c]"></i> ${locationText}</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-user-circle"></i> ${listing.sellerName}</span>
+                            </div>
+                            <h4 class="text-base font-extrabold text-[#1e3e30] group-hover:text-[#c39e5c] transition-colors duration-300 leading-snug line-clamp-1">${listing.title}</h4>
+                            <p class="text-stone-500 text-xs leading-relaxed line-clamp-2 h-9">${listing.description}</p>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between text-stone-500">
+                            <div class="flex items-center gap-3 text-[10px] font-bold">
+                                <span><i class="fas fa-bed ml-1 text-[#c39e5c]"></i>${roomsText}</span>
+                                <span><i class="fas fa-expand-arrows-alt ml-1 text-[#c39e5c]"></i>${sqmText}</span>
+                            </div>
+                            <span class="text-[#c39e5c] group-hover:text-[#b08945] font-extrabold text-xs flex items-center gap-1 transition-colors duration-300">
+                                <span>לפרטים</span>
+                                <i class="fas fa-chevron-left text-[9px] transition-transform duration-300 group-hover:-translate-x-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener("click", () => openListingDetail(listing));
+                listingsGrid.appendChild(card);
+            });
+        };
+
+        const openListingDetail = (listing) => {
+            detailTitle.textContent = listing.title;
+            detailCategory.textContent = listing.category;
+            
+            let priceLabel = `₪${listing.price.toLocaleString()}`;
+            if (listing.category === "שכירות") {
+                priceLabel += " / לחודש";
+            } else if (listing.category === "השכרה לימים בודדים" || listing.category === "צימרים") {
+                priceLabel += " / לילה";
+            } else {
+                priceLabel += " / קנייה";
+            }
+            detailPrice.textContent = priceLabel;
+            
+            detailDescription.textContent = listing.description;
+            detailSellerName.textContent = listing.sellerName;
+            detailEmail.textContent = listing.email;
+            detailEmail.href = `mailto:${listing.email}`;
+            detailPhone.textContent = listing.phone;
+            detailPhone.href = `tel:${listing.phone}`;
+            callSellerBtn.href = `tel:${listing.phone}`;
+            detailLocation.textContent = listing.location || "לא צוין";
+            detailDate.textContent = `פורסם בתאריך: ${new Date(listing.createdAt).toLocaleDateString('he-IL')}`;
+
+            detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} חדרים` : "-";
+            detailSqMVal.textContent = listing.sqm ? `${listing.sqm} מ״ר` : "-";
+            detailTypeVal.textContent = listing.category;
+
+            if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
+                detailPhoneAlt.textContent = listing.phoneAlt;
+                detailPhoneAlt.href = `tel:${listing.phoneAlt}`;
+                detailPhoneAltWrapper.classList.remove("hidden");
+            } else {
+                detailPhoneAltWrapper.classList.add("hidden");
+            }
+
+            detailMainImage.src = listing.images && listing.images[0] ? listing.images[0] : '';
+            detailThumbnails.innerHTML = "";
+
+            if (listing.images && listing.images.length > 0) {
+                listing.images.forEach((imgBase64, index) => {
+                    const thumb = document.createElement("img");
+                    thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
+                    thumb.src = imgBase64;
+                    thumb.addEventListener("click", () => {
+                        detailMainImage.src = imgBase64;
+                        document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
+                        thumb.classList.add("border-[#c39e5c]", "scale-105");
+                    });
+                    detailThumbnails.appendChild(thumb);
+                });
+            }
+
+            listingDetailModal.classList.remove("hidden");
+            listingDetailModal.classList.add("flex");
+            document.body.style.overflow = "hidden";
+            setTimeout(() => {
+                listingDetailModal.classList.remove("opacity-0");
+                listingDetailModal.firstElementChild.classList.remove("scale-95");
+            }, 10);
+        };
+
+        const closeListingDetail = () => {
+            listingDetailModal.classList.add("opacity-0");
+            listingDetailModal.firstElementChild.classList.add("scale-95");
+            setTimeout(() => {
+                listingDetailModal.classList.add("hidden");
+                listingDetailModal.classList.remove("flex");
+                document.body.style.overflow = "auto";
+            }, 300);
+        };
+
+        closeDetailModalBtn.addEventListener("click", closeListingDetail);
+        closeDetailBottomBtn.addEventListener("click", closeListingDetail);
+
+        document.querySelectorAll(".category-card").forEach((card) => {
+            card.addEventListener("click", () => {
+                currentCategoryFilter = card.dataset.categorySelect;
+                searchCategorySelect.value = currentCategoryFilter;
+                
+                document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
+                card.classList.add("ring-2", "ring-[#c39e5c]");
+
+                const element = document.getElementById("listings-section");
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+                renderListings();
+            });
+        });
+
+        const performSearch = () => {
+            searchQuery = searchInput.value.trim();
+            currentCategoryFilter = searchCategorySelect.value;
+            
+            document.querySelectorAll(".category-card").forEach(c => {
+                if (c.dataset.categorySelect === currentCategoryFilter) {
+                    c.classList.add("ring-2", "ring-[#c39e5c]");
+                } else {
+                    c.classList.remove("ring-2", "ring-[#c39e5c]");
+                }
+            });
+
+            if (searchQuery !== "") {
+                clearSearchBtn.classList.remove("hidden");
+            } else {
+                clearSearchBtn.classList.add("hidden");
+            }
+            renderListings();
+        };
+
+        searchSubmitBtn.addEventListener("click", performSearch);
+        searchInput.addEventListener("keypress", (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        clearSearchBtn.addEventListener("click", () => {
+            searchInput.value = "";
+            searchQuery = "";
+            clearSearchBtn.classList.add("hidden");
+            renderListings();
+        });
+
+        showAllListingsLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            resetAllFilters();
+        });
+
+        resetCategoryFilterBtn.addEventListener("click", () => {
+            currentCategoryFilter = "הכל";
+            searchCategorySelect.value = "הכל";
+            document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
+            renderListings();
+        });
+
+        const resetAllFilters = () => {
+            searchInput.value = "";
+            searchQuery = "";
+            clearSearchBtn.classList.add("hidden");
+            currentCategoryFilter = "הכל";
+            searchCategorySelect.value = "הכל";
+            document.getElementById("filterMaxPrice").value = "";
+            document.getElementById("filterMinRooms").value = "";
+            document.getElementById("filterMinSqM").value = "";
+            document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
+            renderListings();
+        };
+
+        resetFiltersBtn.addEventListener("click", resetAllFilters);
+
+        const navItems = document.querySelectorAll("#mainNav .nav-item");
+        const sections = [
+            document.body,
+            document.getElementById("categories-section"),
+            document.getElementById("listings-section")
+        ];
+
+        navItems.forEach((item, index) => {
+            item.addEventListener("click", (e) => {
+                if (item.getAttribute("href").startsWith("#")) {
+                    e.preventDefault();
+                    const targetId = item.getAttribute("href");
+                    const targetEl = targetId === "#" ? document.body : document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                navItems.forEach(nav => nav.classList.remove("nav-link-active"));
+                item.classList.add("nav-link-active");
+            });
+        });
+
+        window.addEventListener("scroll", () => {
+            let currentActiveIndex = 0;
+            const scrollPosition = window.scrollY + 120;
+
+            sections.forEach((section, index) => {
+                if (section) {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollPosition >= top && scrollPosition < top + height) {
+                        currentActiveIndex = index;
+                    }
+                }
+            });
+
+            navItems.forEach((nav, index) => {
+                if (index === currentActiveIndex) {
+                    nav.classList.add("nav-link-active");
+                } else {
+                    nav.classList.remove("nav-link-active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
