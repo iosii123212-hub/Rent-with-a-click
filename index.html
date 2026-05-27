@@ -54,7 +54,9 @@
             <div class="flex items-center gap-3 shrink-0">
                 <img src="1.png" alt="לוגו" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
                 <div>
-                    <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">שכירות בקליק</h1>
+                    <div class="flex items-center gap-1.5">
+                        <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">שכירות בקליק</h1>
+                    </div>
                     <p class="text-[9px] sm:text-[10px] text-[#c39e5c] font-bold tracking-widest">לוח דירות יוקרה</p>
                 </div>
             </div>
@@ -67,6 +69,11 @@
             </nav>
 
             <div class="flex items-center gap-2 sm:gap-3.5">
+                <button id="exportGithubBtn" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-extrabold py-2 px-3 sm:px-4 rounded-xl transition duration-200 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0" title="ייצוא קבצי JSON ותמונות לתיקיית GitHub">
+                    <i class="fas fa-file-download text-amber-600"></i>
+                    <span class="whitespace-nowrap">ייצוא ל-GitHub</span>
+                </button>
+
                 <div id="authStatus" class="hidden flex items-center gap-2 bg-stone-50 py-1 px-2.5 sm:px-3 rounded-full border border-stone-100 text-[11px] sm:text-xs max-w-[140px] sm:max-w-xs overflow-hidden transition-all duration-300">
                     <img id="userAvatar" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#c39e5c] shrink-0" src="" alt="פרופיל">
                     <span id="userName" class="font-bold text-[#1e3e30] truncate max-w-[50px] sm:max-w-[100px]"></span>
@@ -519,54 +526,15 @@
         </div>
     </div>
 
-    <div id="setupGuideModal" class="fixed inset-0 bg-[#1e3e30]/50 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-lg luxury-shadow overflow-hidden flex flex-col border border-stone-100 transform scale-95 transition-transform duration-300">
-            <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-exclamation-triangle text-sm"></i>
-                    </span>
-                    <div>
-                        <h3 class="text-base font-extrabold text-[#1e3e30]">הנחיות להפעלת התחברות גוגל</h3>
-                        <p class="text-[10px] text-stone-400">הגדרות אבטחה חסרות בדומיין הנוכחי</p>
-                    </div>
-                </div>
-                <button id="closeSetupGuideBtn" class="text-stone-400 hover:text-stone-600 p-2 rounded-lg hover:bg-stone-100 transition">
-                    <i class="fas fa-times text-lg"></i>
-                </button>
-            </div>
-            <div class="p-6 space-y-4 text-xs text-slate-600 leading-relaxed text-right">
-                <p class="font-bold text-sm text-stone-800">ההתחברות בוטלה או נעצרה כיוון שהאתר רץ כעת בדומיין שאינו מאושר בקונסולת גוגל או Firebase.</p>
-                <p>כדי שאימות גוגל יעבוד בצורה מלאה ב-GitHub Pages או בכל סביבת הרצה אחרת, עליך להגדיר שני דברים פשוטים:</p>
-                
-                <div class="space-y-3 bg-stone-50 p-4 rounded-2xl border border-stone-100">
-                    <div class="flex gap-2.5">
-                        <span class="font-bold text-[#c39e5c] shrink-0">1.</span>
-                        <div>
-                            <p class="font-bold text-stone-800 mb-0.5">הוספה ב-Firebase Console:</p>
-                            <p>כנס אל ה-Firebase Console שלך > פתח את פרוייקט <span class="font-mono bg-white px-1.5 py-0.5 rounded border">sunlit-theory-474508-e1</span> > עבור אל <strong>Authentication</strong> > לשונית <strong>Settings</strong> > תחת <strong>Authorized Domains</strong> הוסף את הדומיין הנוכחי של האתר (לדוגמה <span class="font-mono bg-white px-1 py-0.5 rounded text-rose-600" id="currentDomainPlaceholder"></span>).</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-2.5 pt-2 border-t border-stone-200">
-                        <span class="font-bold text-[#c39e5c] shrink-0">2.</span>
-                        <div>
-                            <p class="font-bold text-stone-800 mb-0.5">הוספה ב-Google Cloud Console:</p>
-                            <p>כנס אל ה-Google Cloud Console > בחר בפרוייקט שלך > עבור אל <strong>APIs & Services</strong> > תחת <strong>Credentials</strong> לחץ על ה-OAuth Client ID המוגדר שלכם > תחת <strong>Authorized JavaScript origins</strong> הוסף את אותה כתובת דומיין.</p>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-stone-400">לאחר השלמת הגדרות אלו (שאורכות פחות מ-2 דקות), חיבור גוגל יפעל בצורה אוטומטית מלאה ואמיתית לחלוטין!</p>
-            </div>
-            <div class="bg-stone-50 p-5 border-t border-stone-100 flex justify-end">
-                <button id="closeSetupGuideBottomBtn" class="bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-2.5 px-6 rounded-xl text-xs transition">הבנתי, תודה</button>
-            </div>
-        </div>
-    </div>
-
     <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
         <span id="toastIcon"></span>
         <span id="toastText" class="font-bold"></span>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-40">
+        <button class="w-11 h-11 bg-[#1e3e30] hover:bg-[#152c22] text-white rounded-full flex items-center justify-center shadow-lg transition duration-200 hover:scale-105">
+            <i class="fas fa-universal-access text-lg"></i>
+        </button>
     </div>
 
     <footer class="bg-[#1e3e30] text-stone-300 border-t border-stone-900 pt-16 pb-12">
@@ -617,33 +585,20 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        let firebaseConfig = {};
-        try {
-            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-                apiKey: "",
-                authDomain: "",
-                projectId: "",
-                storageBucket: "",
-                messagingSenderId: "",
-                appId: ""
-            };
-        } catch (e) {
-            console.error(e);
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyDyrwlFDqg5A-z9ku3tR0Ly65vgQ-BgrX0",
+            authDomain: "apartment-in-a-click.firebaseapp.com",
+            projectId: "apartment-in-a-click",
+            storageBucket: "apartment-in-a-click.firebasestorage.app",
+            messagingSenderId: "1084738747576",
+            appId: "1:1084738747576:web:db654cfa6b4f99b480484d",
+            measurementId: "G-20JGGVKB8H"
+        };
 
-        let app, auth, db;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-        } catch (e) {
-            console.error(e);
-        }
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
         let currentUser = null;
         let isGoogleUser = false;
@@ -708,59 +663,42 @@
         const mobileMenu = document.getElementById("mobileMenu");
         const closeMobileMenu = document.getElementById("closeMobileMenu");
 
-        const setupGuideModal = document.getElementById("setupGuideModal");
-        const closeSetupGuideBtn = document.getElementById("closeSetupGuideBtn");
-        const closeSetupGuideBottomBtn = document.getElementById("closeSetupGuideBottomBtn");
-        const currentDomainPlaceholder = document.getElementById("currentDomainPlaceholder");
+        const exportGithubBtn = document.getElementById("exportGithubBtn");
 
         let uploadedImagesBase64 = [];
 
         const initAuth = async () => {
-            if (!auth) return;
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (e) {
-                console.error(e);
-            }
+            fetchListings();
         };
-
-        initAuth();
 
         if (auth) {
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
                 if (user) {
-                    fetchListings();
-                    if (!user.isAnonymous) {
-                        isGoogleUser = true;
-                        if (loginBtn) loginBtn.classList.add("hidden");
-                        if (authStatus) {
-                            authStatus.classList.remove("hidden");
-                            authStatus.classList.add("flex");
-                        }
-                        if (userAvatar) userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
-                        if (userName) userName.textContent = user.displayName || 'משתמש גוגל';
-                        if (unauthModalState) unauthModalState.classList.add("hidden");
-                        if (publishForm) publishForm.classList.remove("hidden");
-                        
-                        const fsName = document.getElementById("formSellerName");
-                        const fsEmail = document.getElementById("formEmail");
-                        if (fsName) fsName.value = user.displayName || "";
-                        if (fsEmail) fsEmail.value = user.email || "";
-                    } else {
-                        isGoogleUser = false;
-                        if (loginBtn) loginBtn.classList.remove("hidden");
-                        if (authStatus) {
-                            authStatus.classList.add("hidden");
-                            authStatus.classList.remove("flex");
-                        }
-                        if (unauthModalState) unauthModalState.classList.remove("hidden");
-                        if (publishForm) publishForm.classList.add("hidden");
+                    isGoogleUser = true;
+                    if (loginBtn) loginBtn.classList.add("hidden");
+                    if (authStatus) {
+                        authStatus.classList.remove("hidden");
+                        authStatus.classList.add("flex");
                     }
+                    if (userAvatar) userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
+                    if (userName) userName.textContent = user.displayName || 'משתמש מחובר';
+                    if (unauthModalState) unauthModalState.classList.add("hidden");
+                    if (publishForm) publishForm.classList.remove("hidden");
+                    
+                    const fsName = document.getElementById("formSellerName");
+                    const fsEmail = document.getElementById("formEmail");
+                    if (fsName) fsName.value = user.displayName || "";
+                    if (fsEmail) fsEmail.value = user.email || "";
+                } else {
+                    isGoogleUser = false;
+                    if (loginBtn) loginBtn.classList.remove("hidden");
+                    if (authStatus) {
+                        authStatus.classList.add("hidden");
+                        authStatus.classList.remove("flex");
+                    }
+                    if (unauthModalState) unauthModalState.classList.remove("hidden");
+                    if (publishForm) publishForm.classList.add("hidden");
                 }
             });
         }
@@ -770,9 +708,7 @@
             const tIcon = document.getElementById("toastIcon");
             const tText = document.getElementById("toastText");
 
-            if (!tNode || !tText) {
-                return;
-            }
+            if (!tNode || !tText) return;
 
             tText.textContent = message;
             if (tIcon) {
@@ -790,38 +726,6 @@
             }, 3500);
         };
 
-        const showSetupGuide = () => {
-            if (currentDomainPlaceholder) {
-                currentDomainPlaceholder.textContent = window.location.origin;
-            }
-            if (setupGuideModal) {
-                setupGuideModal.classList.remove("hidden");
-                setupGuideModal.classList.add("flex");
-                setTimeout(() => {
-                    setupGuideModal.classList.remove("opacity-0");
-                    if (setupGuideModal.firstElementChild) {
-                        setupGuideModal.firstElementChild.classList.remove("scale-95");
-                    }
-                }, 10);
-            }
-        };
-
-        const closeSetupGuide = () => {
-            if (setupGuideModal) {
-                setupGuideModal.classList.add("opacity-0");
-                if (setupGuideModal.firstElementChild) {
-                    setupGuideModal.firstElementChild.classList.add("scale-95");
-                }
-                setTimeout(() => {
-                    setupGuideModal.classList.add("hidden");
-                    setupGuideModal.classList.remove("flex");
-                }, 300);
-            }
-        };
-
-        if (closeSetupGuideBtn) closeSetupGuideBtn.addEventListener("click", closeSetupGuide);
-        if (closeSetupGuideBottomBtn) closeSetupGuideBottomBtn.addEventListener("click", closeSetupGuide);
-
         const handleGoogleLogin = async () => {
             if (!auth) {
                 showToast("מערכת האימות לא אותחלה כראוי", "error");
@@ -834,10 +738,11 @@
                 await signInWithPopup(auth, provider);
                 showToast("התחברת בהצלחה באמצעות גוגל", "success");
             } catch (error) {
-                if (error.code === "auth/unauthorized-domain" || error.code === "auth/operation-not-allowed" || error.code === "auth/cancelled-popup-request" || error.code === "auth/popup-closed-by-user") {
-                    showSetupGuide();
+                console.error("שגיאת אימות גוגל:", error);
+                if (error.code === "auth/configuration-not-found") {
+                    showToast("יש להפעיל את Google Sign-In בתוך ה-Firebase Console שלכם תחת Authentication.", "error");
                 } else {
-                    showToast("שגיאת התחברות. נסו שנית או בדקו את ההגדרות", "error");
+                    showToast("שגיאת התחברות: " + error.message, "error");
                 }
             }
         };
@@ -849,7 +754,6 @@
             logoutBtn.addEventListener("click", async () => {
                 if (!auth) return;
                 await signOut(auth);
-                await signInAnonymously(auth);
                 showToast("התנתקת מהמערכת", "info");
             });
         }
@@ -1013,9 +917,9 @@
         }
 
         if (publishForm) {
-            publishForm.addEventListener("submit", async (e) => {
+            publishForm.addEventListener("submit", (e) => {
                 e.preventDefault();
-                if (!currentUser || currentUser.isAnonymous) {
+                if (!currentUser) {
                     showToast("עליך להתחבר עם גוגל תחילה", "error");
                     return;
                 }
@@ -1037,60 +941,170 @@
                 const email = document.getElementById("formEmail").value.trim();
                 const description = document.getElementById("formDescription").value.trim();
 
-                const submitBtn = document.getElementById("submitPublishFormBtn");
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
-                }
+                const stamp = Date.now();
+                const imageFileNames = uploadedImagesBase64.map((img, i) => `image_apartment_${stamp}_${i}.jpg`);
 
+                const newListing = {
+                    id: "id_" + stamp,
+                    category,
+                    title,
+                    location: locationVal,
+                    price,
+                    rooms,
+                    sqm,
+                    sellerName,
+                    phone,
+                    phoneAlt,
+                    email,
+                    description,
+                    images: uploadedImagesBase64,
+                    imageFileNames,
+                    createdAt: stamp,
+                    userId: currentUser.uid
+                };
+
+                allListings.unshift(newListing);
+                
                 try {
-                    const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
-                    await addDoc(listingsCollection, {
-                        category,
-                        title,
-                        location: locationVal,
-                        price,
-                        rooms,
-                        sqm,
-                        sellerName,
-                        phone,
-                        phoneAlt,
-                        email,
-                        description,
-                        images: uploadedImagesBase64,
-                        createdAt: Date.now(),
-                        userId: currentUser.uid
-                    });
-
-                    showToast("המודעה שלך פורסמה בהצלחה בלוח!", "success");
-                    closePublishModal();
-                } catch (error) {
-                    showToast("ארעה שגיאה בפרסום המודעה. נסה שנית", "error");
-                } finally {
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = `<span class="whitespace-nowrap">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
-                    }
+                    localStorage.setItem("click_rent_listings_json", JSON.stringify(allListings));
+                    
+                    const localImagesData = localStorage.getItem("click_rent_local_images");
+                    const localImages = localImagesData ? JSON.parse(localImagesData) : {};
+                    localImages[newListing.id] = uploadedImagesBase64;
+                    localStorage.setItem("click_rent_local_images", JSON.stringify(localImages));
+                } catch(err) {
+                    console.error("שגיאה בשמירה ל-LocalStorage:", err);
                 }
+
+                showToast("המודעה נשמרה בהצלחה בלוח! לחצו על 'ייצוא ל-GitHub' להורדת הקבצים שלכם.", "success");
+                closePublishModal();
+                renderListings();
             });
         }
 
-        const fetchListings = () => {
-            if (!currentUser || !db) return;
-            const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
-            
-            onSnapshot(listingsCollection, (snapshot) => {
-                allListings = [];
-                snapshot.forEach((doc) => {
-                    allListings.push({ id: doc.id, ...doc.data() });
-                });
-                
-                allListings.sort((a, b) => b.createdAt - a.createdAt);
-                renderListings();
-            }, (error) => {
-                showToast("שגיאה בטעינת הנתונים מהשרת", "error");
-            });
+        const fetchListings = async () => {
+            let loadedListings = [];
+            try {
+                const response = await fetch('1.json');
+                if (response.ok) {
+                    loadedListings = await response.json();
+                    
+                    let localImages = {};
+                    try {
+                        const localData = localStorage.getItem("click_rent_local_images");
+                        if (localData) localImages = JSON.parse(localData);
+                    } catch(e) {}
+
+                    loadedListings.forEach(listing => {
+                        if (localImages[listing.id]) {
+                            listing.images = localImages[listing.id];
+                        } else {
+                            listing.images = listing.imageFileNames ? listing.imageFileNames : [];
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn("Could not fetch 1.json directly, falling back to local storage.", e);
+            }
+
+            if (loadedListings.length === 0) {
+                try {
+                    const saved = localStorage.getItem("click_rent_listings_json");
+                    if (saved) loadedListings = JSON.parse(saved);
+                } catch(e) {}
+            }
+
+            if (loadedListings.length === 0) {
+                loadedListings = [
+                    {
+                        id: "default-1",
+                        category: "שכירות",
+                        title: "פנטהאוז יוקרתי ומעוצב בלב הכרך",
+                        location: "תל אביב",
+                        price: 11800,
+                        rooms: 4.5,
+                        sqm: 135,
+                        sellerName: "יוסף שלום בן שטרית",
+                        phone: "050-1234567",
+                        phoneAlt: "",
+                        email: "css-0@mitmachim.top",
+                        description: "דירת גג פנטהאוז יוקרתית בעיצוב אדריכלי מודרני מרהיב, מרפסת שמש ענקית הצופה לקו הרקיע, מוארת ומרווחת מאוד. כולל שתי חניות ומחסן פרטי.",
+                        images: ["https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"],
+                        imageFileNames: ["apartment_1_view1.jpg", "apartment_1_view2.jpg"],
+                        createdAt: Date.now() - 3600000
+                    },
+                    {
+                        id: "default-2",
+                        category: "צימרים",
+                        title: "סוויטת זכוכית פנורמית מול נוף ההרים",
+                        location: "גליל עליון",
+                        price: 1400,
+                        rooms: 2,
+                        sqm: 65,
+                        sellerName: "ישראל ישראלי",
+                        phone: "052-7654321",
+                        phoneAlt: "054-1112223",
+                        email: "israel@gmail.com",
+                        description: "בקתת סוויטה מפוארת ומבודדת לחלוטין הבנויה כולה קירות זכוכית פנורמיים מול נוף עוצר נשימה. כוללת בריכה מחוממת ופרטית, ג'קוזי ענק ומטבחון מאובזר.",
+                        images: ["https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80"],
+                        imageFileNames: ["zimmer_luxury_1.jpg", "zimmer_luxury_2.jpg"],
+                        createdAt: Date.now() - 86400000
+                    }
+                ];
+                try {
+                    localStorage.setItem("click_rent_listings_json", JSON.stringify(loadedListings));
+                } catch(e) {}
+            }
+
+            allListings = loadedListings;
+            renderListings();
         };
+
+        if (exportGithubBtn) {
+            exportGithubBtn.addEventListener("click", () => {
+                if (allListings.length === 0) {
+                    showToast("אין מודעות לייצוא כעת.", "error");
+                    return;
+                }
+
+                const listingsForJson = allListings.map(listing => {
+                    const copy = { ...listing };
+                    delete copy.images;
+                    return copy;
+                });
+
+                const jsonString = JSON.stringify(listingsForJson, null, 2);
+                const blob = new Blob([jsonString], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "1.json";
+                a.click();
+                URL.revokeObjectURL(url);
+
+                let localImages = {};
+                try {
+                    const localData = localStorage.getItem("click_rent_local_images");
+                    if (localData) localImages = JSON.parse(localData);
+                } catch(e) {}
+
+                allListings.forEach(listing => {
+                    const imgs = localImages[listing.id] || (Array.isArray(listing.images) ? listing.images : []);
+                    if (imgs.length > 0) {
+                        imgs.forEach((base64, index) => {
+                            if (base64.startsWith("data:")) {
+                                const imgA = document.createElement("a");
+                                imgA.href = base64;
+                                imgA.download = listing.imageFileNames && listing.imageFileNames[index] ? listing.imageFileNames[index] : `image_${listing.id}_${index}.jpg`;
+                                imgA.click();
+                            }
+                        });
+                    }
+                });
+
+                showToast("הקבצים הורדו בהצלחה! העבירו את 1.json ואת התמונות לתיקיית האתר שלכם ב-GitHub.", "success");
+            });
+        }
 
         const renderListings = () => {
             let filtered = allListings;
@@ -1419,6 +1433,10 @@
                     nav.classList.remove("nav-link-active");
                 }
             });
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            initAuth();
         });
     </script>
 </body>
