@@ -56,6 +56,9 @@
                 <div>
                     <div class="flex items-center gap-1.5">
                         <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">שכירות בקליק</h1>
+                        <button id="adminSettingsBtn" class="text-stone-400 hover:text-[#c39e5c] transition p-1 rounded-lg" title="הגדרות סנכרון GitHub">
+                            <i class="fas fa-sync-alt text-xs"></i>
+                        </button>
                     </div>
                     <p class="text-[9px] sm:text-[10px] text-[#c39e5c] font-bold tracking-widest">לוח דירות יוקרה</p>
                 </div>
@@ -69,11 +72,6 @@
             </nav>
 
             <div class="flex items-center gap-2 sm:gap-3.5">
-                <button id="exportGithubBtn" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-extrabold py-2 px-3 sm:px-4 rounded-xl transition duration-200 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0" title="ייצוא קבצי JSON ותמונות לתיקיית GitHub">
-                    <i class="fas fa-file-download text-amber-600"></i>
-                    <span class="whitespace-nowrap">ייצוא ל-GitHub</span>
-                </button>
-
                 <div id="authStatus" class="hidden flex items-center gap-2 bg-stone-50 py-1 px-2.5 sm:px-3 rounded-full border border-stone-100 text-[11px] sm:text-xs max-w-[140px] sm:max-w-xs overflow-hidden transition-all duration-300">
                     <img id="userAvatar" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#c39e5c] shrink-0" src="" alt="פרופיל">
                     <span id="userName" class="font-bold text-[#1e3e30] truncate max-w-[50px] sm:max-w-[100px]"></span>
@@ -526,6 +524,47 @@
         </div>
     </div>
 
+    <div id="adminSettingsModal" class="fixed inset-0 bg-[#1e3e30]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-md luxury-shadow overflow-hidden flex flex-col border border-stone-100 transform scale-95 transition-transform duration-300">
+            <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-10 h-10 bg-[#1e3e30]/5 text-[#1e3e30] rounded-xl flex items-center justify-center">
+                        <i class="fas fa-sync-alt text-sm"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-base font-extrabold text-[#1e3e30]">סנכרון GitHub אוטומטי</h3>
+                        <p class="text-[10px] text-stone-400">הגדירו עדכון קובץ 1.json ללא מגע יד אדם</p>
+                    </div>
+                </div>
+                <button id="closeAdminSettingsBtn" class="text-stone-400 hover:text-stone-600 p-2 rounded-lg hover:bg-stone-100 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-xs text-slate-600 text-right leading-relaxed">
+                <p>הזינו את פרטי הגישה של ה-GitHub שלכם כדי שהאתר יעדכן, ידחוף ויערוך אוטומטית ובצורה חלקה את הקובץ 1.json בכל פעם שמתווסף נכס חדש:</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">שם משתמש ב-GitHub (Owner)</label>
+                        <input id="githubOwnerInput" type="text" placeholder="למשל: yosef-shalom" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2.5 px-3 outline-none focus:border-[#1e3e30]">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">שם המאגר ב-GitHub (Repository Name)</label>
+                        <input id="githubRepoInput" type="text" placeholder="למשל: apartment-in-a-click" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2.5 px-3 outline-none focus:border-[#1e3e30]">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1">מפתח גישה אישי של GitHub (Personal Access Token - PAT)</label>
+                        <input id="githubTokenInput" type="password" placeholder="ghp_********************************" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2.5 px-3 outline-none focus:border-[#1e3e30]">
+                    </div>
+                </div>
+            </div>
+            <div class="bg-stone-50 p-5 border-t border-stone-100 flex gap-3 justify-end">
+                <button id="clearAdminSettingsBtn" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold py-2.5 px-5 rounded-xl text-xs transition">אפס הגדרות</button>
+                <button id="saveAdminSettingsBtn" class="bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-2.5 px-6 rounded-xl text-xs transition shadow-lg shadow-[#1e3e30]/10">שמור והפעל</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
         <span id="toastIcon"></span>
         <span id="toastText" class="font-bold"></span>
@@ -586,19 +625,22 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDyrwlFDqg5A-z9ku3tR0Ly65vgQ-BgrX0",
-            authDomain: "apartment-in-a-click.firebaseapp.com",
-            projectId: "apartment-in-a-click",
-            storageBucket: "apartment-in-a-click.firebasestorage.app",
-            messagingSenderId: "1084738747576",
-            appId: "1:1084738747576:web:db654cfa6b4f99b480484d",
-            measurementId: "G-20JGGVKB8H"
+            apiKey: "AIzaSyBei_fW7THtJCjlseMbpIDpcaesJheu5Z8",
+            authDomain: "bklik-ae57a.firebaseapp.com",
+            projectId: "bklik-ae57a",
+            storageBucket: "bklik-ae57a.firebasestorage.app",
+            messagingSenderId: "749982626207",
+            appId: "1:749982626207:web:fcc90197c8b2dbc0becdaa",
+            measurementId: "G-CDCH18TBYC"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = "bklik-ae57a";
 
         let currentUser = null;
         let isGoogleUser = false;
@@ -663,7 +705,11 @@
         const mobileMenu = document.getElementById("mobileMenu");
         const closeMobileMenu = document.getElementById("closeMobileMenu");
 
-        const exportGithubBtn = document.getElementById("exportGithubBtn");
+        const adminSettingsBtn = document.getElementById("adminSettingsBtn");
+        const adminSettingsModal = document.getElementById("adminSettingsModal");
+        const closeAdminSettingsBtn = document.getElementById("closeAdminSettingsBtn");
+        const saveAdminSettingsBtn = document.getElementById("saveAdminSettingsBtn");
+        const clearAdminSettingsBtn = document.getElementById("clearAdminSettingsBtn");
 
         let uploadedImagesBase64 = [];
 
@@ -917,7 +963,7 @@
         }
 
         if (publishForm) {
-            publishForm.addEventListener("submit", (e) => {
+            publishForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 if (!currentUser) {
                     showToast("עליך להתחבר עם גוגל תחילה", "error");
@@ -945,7 +991,6 @@
                 const imageFileNames = uploadedImagesBase64.map((img, i) => `image_apartment_${stamp}_${i}.jpg`);
 
                 const newListing = {
-                    id: "id_" + stamp,
                     category,
                     title,
                     location: locationVal,
@@ -963,108 +1008,110 @@
                     userId: currentUser.uid
                 };
 
-                allListings.unshift(newListing);
-                
-                try {
-                    localStorage.setItem("click_rent_listings_json", JSON.stringify(allListings));
-                    
-                    const localImagesData = localStorage.getItem("click_rent_local_images");
-                    const localImages = localImagesData ? JSON.parse(localImagesData) : {};
-                    localImages[newListing.id] = uploadedImagesBase64;
-                    localStorage.setItem("click_rent_local_images", JSON.stringify(localImages));
-                } catch(err) {
-                    console.error("שגיאה בשמירה ל-LocalStorage:", err);
+                const submitBtn = document.getElementById("submitPublishFormBtn");
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
                 }
 
-                showToast("המודעה נשמרה בהצלחה בלוח! לחצו על 'ייצוא ל-GitHub' להורדת הקבצים שלכם.", "success");
-                closePublishModal();
-                renderListings();
+                try {
+                    const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+                    await addDoc(listingsCollection, newListing);
+                    showToast("המודעה שלך פורסמה בהצלחה והיא נשמרה ישירות ב-Firestore ללא שום נגיעת אדם!", "success");
+                    closePublishModal();
+                } catch (error) {
+                    showToast("ארעה שגיאה בפרסום המודעה. נסה שנית", "error");
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `<span class="whitespace-nowrap">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
+                    }
+                }
             });
         }
 
-        const fetchListings = async () => {
-            let loadedListings = [];
-            try {
-                const response = await fetch('1.json');
-                if (response.ok) {
-                    loadedListings = await response.json();
-                    
-                    let localImages = {};
-                    try {
-                        const localData = localStorage.getItem("click_rent_local_images");
-                        if (localData) localImages = JSON.parse(localData);
-                    } catch(e) {}
-
-                    loadedListings.forEach(listing => {
-                        if (localImages[listing.id]) {
-                            listing.images = localImages[listing.id];
-                        } else {
-                            listing.images = listing.imageFileNames ? listing.imageFileNames : [];
+        const fetchListings = () => {
+            if (!db) return;
+            const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+            
+            onSnapshot(listingsCollection, (snapshot) => {
+                allListings = [];
+                snapshot.forEach((doc) => {
+                    allListings.push({ id: doc.id, ...doc.data() });
+                });
+                
+                if (allListings.length === 0) {
+                    allListings = [
+                        {
+                            id: "default-1",
+                            category: "שכירות",
+                            title: "פנטהאוז יוקרתי ומעוצב בלב הכרך",
+                            location: "תל אביב",
+                            price: 11800,
+                            rooms: 4.5,
+                            sqm: 135,
+                            sellerName: "יוסף שלום [CSS]",
+                            phone: "050-1234567",
+                            phoneAlt: "",
+                            email: "css-0@mitmachim.top",
+                            description: "דירת גג פנטהאוז יוקרתית בעיצוב אדריכלי מודרני מרהיב, מרפסת שמש ענקית הצופה לקו הרקיע, מוארת ומרווחת מאוד. כולל שתי חניות ומחסן פרטי.",
+                            images: ["https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"],
+                            imageFileNames: ["apartment_1_view1.jpg", "apartment_1_view2.jpg"],
+                            createdAt: Date.now() - 3600000
+                        },
+                        {
+                            id: "default-2",
+                            category: "צימרים",
+                            title: "סוויטת זכוכית פנורמית מול נוף ההרים",
+                            location: "גליל עליון",
+                            price: 1400,
+                            rooms: 2,
+                            sqm: 65,
+                            sellerName: "ישראל ישראלי",
+                            phone: "052-7654321",
+                            phoneAlt: "054-1112223",
+                            email: "israel@gmail.com",
+                            description: "בקתת סוויטה מפוארת ומבודדת לחלוטין הבנויה כולה קירות זכוכית פנורמיים מול נוף עוצר נשימה. כוללת בריכה מחוממת ופרטית, ג'קוזי ענק ומטבחון מאובזר.",
+                            images: ["https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80"],
+                            imageFileNames: ["zimmer_luxury_1.jpg", "zimmer_luxury_2.jpg"],
+                            createdAt: Date.now() - 86400000
                         }
-                    });
+                    ];
+                } else {
+                    allListings.sort((a, b) => b.createdAt - a.createdAt);
                 }
-            } catch (e) {
-                console.warn("Could not fetch 1.json directly, falling back to local storage.", e);
-            }
-
-            if (loadedListings.length === 0) {
-                try {
-                    const saved = localStorage.getItem("click_rent_listings_json");
-                    if (saved) loadedListings = JSON.parse(saved);
-                } catch(e) {}
-            }
-
-            if (loadedListings.length === 0) {
-                loadedListings = [
-                    {
-                        id: "default-1",
-                        category: "שכירות",
-                        title: "פנטהאוז יוקרתי ומעוצב בלב הכרך",
-                        location: "תל אביב",
-                        price: 11800,
-                        rooms: 4.5,
-                        sqm: 135,
-                        sellerName: "יוסף שלום בן שטרית",
-                        phone: "050-1234567",
-                        phoneAlt: "",
-                        email: "css-0@mitmachim.top",
-                        description: "דירת גג פנטהאוז יוקרתית בעיצוב אדריכלי מודרני מרהיב, מרפסת שמש ענקית הצופה לקו הרקיע, מוארת ומרווחת מאוד. כולל שתי חניות ומחסן פרטי.",
-                        images: ["https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"],
-                        imageFileNames: ["apartment_1_view1.jpg", "apartment_1_view2.jpg"],
-                        createdAt: Date.now() - 3600000
-                    },
-                    {
-                        id: "default-2",
-                        category: "צימרים",
-                        title: "סוויטת זכוכית פנורמית מול נוף ההרים",
-                        location: "גליל עליון",
-                        price: 1400,
-                        rooms: 2,
-                        sqm: 65,
-                        sellerName: "ישראל ישראלי",
-                        phone: "052-7654321",
-                        phoneAlt: "054-1112223",
-                        email: "israel@gmail.com",
-                        description: "בקתת סוויטה מפוארת ומבודדת לחלוטין הבנויה כולה קירות זכוכית פנורמיים מול נוף עוצר נשימה. כוללת בריכה מחוממת ופרטית, ג'קוזי ענק ומטבחון מאובזר.",
-                        images: ["https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80"],
-                        imageFileNames: ["zimmer_luxury_1.jpg", "zimmer_luxury_2.jpg"],
-                        createdAt: Date.now() - 86400000
-                    }
-                ];
-                try {
-                    localStorage.setItem("click_rent_listings_json", JSON.stringify(loadedListings));
-                } catch(e) {}
-            }
-
-            allListings = loadedListings;
-            renderListings();
+                renderListings();
+                triggerAutoSyncWithGithub();
+            }, (error) => {
+                console.error("שגיאה בטעינת הנתונים:", error);
+            });
         };
 
-        if (exportGithubBtn) {
-            exportGithubBtn.addEventListener("click", () => {
-                if (allListings.length === 0) {
-                    showToast("אין מודעות לייצוא כעת.", "error");
-                    return;
+        const triggerAutoSyncWithGithub = async () => {
+            const githubOwner = localStorage.getItem("click_rent_github_owner");
+            const githubRepo = localStorage.getItem("click_rent_github_repo");
+            const githubToken = localStorage.getItem("click_rent_github_token");
+
+            if (!githubOwner || !githubRepo || !githubToken) {
+                return;
+            }
+
+            try {
+                const url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/1.json`;
+                const response = await fetch(url, {
+                    headers: {
+                        "Authorization": `token ${githubToken}`,
+                        "Accept": "application/vnd.github.v3+json"
+                    }
+                });
+
+                let sha = "";
+                let existingContent = [];
+                if (response.ok) {
+                    const data = await response.json();
+                    sha = data.sha;
+                    const decoded = atob(data.content.replace(/\s/g, ''));
+                    existingContent = JSON.parse(decoded);
                 }
 
                 const listingsForJson = allListings.map(listing => {
@@ -1073,36 +1120,146 @@
                     return copy;
                 });
 
-                const jsonString = JSON.stringify(listingsForJson, null, 2);
-                const blob = new Blob([jsonString], { type: "application/json" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "1.json";
-                a.click();
-                URL.revokeObjectURL(url);
+                if (JSON.stringify(listingsForJson) === JSON.stringify(existingContent)) {
+                    return;
+                }
 
-                let localImages = {};
-                try {
-                    const localData = localStorage.getItem("click_rent_local_images");
-                    if (localData) localImages = JSON.parse(localData);
-                } catch(e) {}
-
-                allListings.forEach(listing => {
-                    const imgs = localImages[listing.id] || (Array.isArray(listing.images) ? listing.images : []);
-                    if (imgs.length > 0) {
-                        imgs.forEach((base64, index) => {
-                            if (base64.startsWith("data:")) {
-                                const imgA = document.createElement("a");
-                                imgA.href = base64;
-                                imgA.download = listing.imageFileNames && listing.imageFileNames[index] ? listing.imageFileNames[index] : `image_${listing.id}_${index}.jpg`;
-                                imgA.click();
-                            }
-                        });
-                    }
+                const newContentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(listingsForJson, null, 2))));
+                
+                const putResponse = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${githubToken}`,
+                        "Content-Type": "application/json",
+                        "Accept": "application/vnd.github.v3+json"
+                    },
+                    body: JSON.stringify({
+                        message: "Auto-sync listings 1.json",
+                        content: newContentEncoded,
+                        sha: sha
+                    })
                 });
 
-                showToast("הקבצים הורדו בהצלחה! העבירו את 1.json ואת התמונות לתיקיית האתר שלכם ב-GitHub.", "success");
+                if (putResponse.ok) {
+                    showToast("קובץ 1.json עודכן אוטומטית ב-GitHub בהצלחה!", "success");
+                    
+                    allListings.forEach(async (listing) => {
+                        const imgs = Array.isArray(listing.images) ? listing.images : [];
+                        for (let i = 0; i < imgs.length; i++) {
+                            const base64 = imgs[i];
+                            if (base64.startsWith("data:image/")) {
+                                const rawBase64 = base64.split(",")[1];
+                                const imgFileName = listing.imageFileNames && listing.imageFileNames[i] ? listing.imageFileNames[i] : `image_${listing.id}_${i}.jpg`;
+                                const imgUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${imgFileName}`;
+                                
+                                try {
+                                    const imgCheck = await fetch(imgUrl, {
+                                        headers: {
+                                            "Authorization": `token ${githubToken}`,
+                                            "Accept": "application/vnd.github.v3+json"
+                                        }
+                                    });
+                                    
+                                    let imgSha = "";
+                                    if (imgCheck.ok) {
+                                        const imgData = await imgCheck.json();
+                                        imgSha = imgData.sha;
+                                    }
+                                    
+                                    await fetch(imgUrl, {
+                                        method: "PUT",
+                                        headers: {
+                                            "Authorization": `token ${githubToken}`,
+                                            "Content-Type": "application/json",
+                                            "Accept": "application/vnd.github.v3+json"
+                                        },
+                                        body: JSON.stringify({
+                                            message: `Upload image ${imgFileName}`,
+                                            content: rawBase64,
+                                            sha: imgSha
+                                        })
+                                    });
+                                } catch (e) {
+                                    console.error(e);
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    console.error("Failed to sync to GitHub:", await putResponse.text());
+                }
+            } catch (err) {
+                console.error("GitHub Auto-Sync Error:", err);
+            }
+        };
+
+        if (adminSettingsBtn) {
+            adminSettingsBtn.addEventListener("click", () => {
+                if (adminSettingsModal) {
+                    adminSettingsModal.classList.remove("hidden");
+                    adminSettingsModal.classList.add("flex");
+                    
+                    const ownerInput = document.getElementById("githubOwnerInput");
+                    const repoInput = document.getElementById("githubRepoInput");
+                    const tokenInput = document.getElementById("githubTokenInput");
+
+                    if (ownerInput) ownerInput.value = localStorage.getItem("click_rent_github_owner") || "";
+                    if (repoInput) repoInput.value = localStorage.getItem("click_rent_github_repo") || "";
+                    if (tokenInput) tokenInput.value = localStorage.getItem("click_rent_github_token") || "";
+
+                    setTimeout(() => {
+                        adminSettingsModal.classList.remove("opacity-0");
+                        if (adminSettingsModal.firstElementChild) {
+                            adminSettingsModal.firstElementChild.classList.remove("scale-95");
+                        }
+                    }, 10);
+                }
+            });
+        }
+
+        const closeAdminSettings = () => {
+            if (adminSettingsModal) {
+                adminSettingsModal.classList.add("opacity-0");
+                if (adminSettingsModal.firstElementChild) {
+                    adminSettingsModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    adminSettingsModal.classList.add("hidden");
+                    adminSettingsModal.classList.remove("flex");
+                }, 300);
+            }
+        };
+
+        if (closeAdminSettingsBtn) closeAdminSettingsBtn.addEventListener("click", closeAdminSettings);
+
+        if (saveAdminSettingsBtn) {
+            saveAdminSettingsBtn.addEventListener("click", () => {
+                const owner = document.getElementById("githubOwnerInput").value.trim();
+                const repo = document.getElementById("githubRepoInput").value.trim();
+                const token = document.getElementById("githubTokenInput").value.trim();
+
+                if (!owner || !repo || !token) {
+                    showToast("אנא מלאו את כל שדות החובה לסנכרון", "error");
+                    return;
+                }
+
+                localStorage.setItem("click_rent_github_owner", owner);
+                localStorage.setItem("click_rent_github_repo", repo);
+                localStorage.setItem("click_rent_github_token", token);
+
+                showToast("הגדרות הסנכרון נשמרו בהצלחה! מבצע סנכרון ראשוני...", "success");
+                closeAdminSettings();
+                triggerAutoSyncWithGithub();
+            });
+        }
+
+        if (clearAdminSettingsBtn) {
+            clearAdminSettingsBtn.addEventListener("click", () => {
+                localStorage.removeItem("click_rent_github_owner");
+                localStorage.removeItem("click_rent_github_repo");
+                localStorage.removeItem("click_rent_github_token");
+                showToast("הגדרות הסנכרון אופסו בהצלחה", "success");
+                closeAdminSettings();
             });
         }
 
