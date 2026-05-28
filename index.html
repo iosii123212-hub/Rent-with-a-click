@@ -609,7 +609,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -734,7 +734,7 @@
                 `מארגנים שבת משפחתית? ישנן ${holidays} דירות אירוח פנויות לשבתות וחגים.`,
                 "פרסום נכסים ב'שכירות בקליק' הוא חינמי לחלוטין וללא שום עמלות תיווך!",
                 "ניתן לסנן את הנכסים בקלות לפי מחיר מקסימלי, חדרים ושטח במפרט המתקדם.",
-                "כל המודעות בלוח מתעדכנות אוטומטית ובאופן ישיר מול בעלי הנכס ללא מתווכים."
+                "כל המודעות בלוח מתעדענות אוטומטית ובאופן ישיר מול בעלי הנכס ללא מתווכים."
             ];
         };
 
@@ -757,6 +757,12 @@
         };
 
         const initAuth = async () => {
+            if (!auth) return;
+            try {
+                await signInAnonymously(auth);
+            } catch (e) {
+                console.error("שגיאה בחיבור אנונימי ראשוני:", e);
+            }
             fetchListings();
             setInterval(triggerTriviaNotification, 16000);
             setTimeout(triggerTriviaNotification, 3000);
@@ -765,7 +771,7 @@
         if (auth) {
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
-                if (user) {
+                if (user && !user.isAnonymous) {
                     isGoogleUser = true;
                     if (loginBtn) loginBtn.classList.add("hidden");
                     if (authStatus) {
@@ -794,6 +800,29 @@
             });
         }
 
+        const showToast = (message, type = "info") => {
+            const tNode = document.getElementById("toast");
+            const tIcon = document.getElementById("toastIcon");
+            const tText = document.getElementById("toastText");
+
+            if (!tNode || !tText) return;
+
+            tText.textContent = message;
+            if (tIcon) {
+                if (type === "success") {
+                    tIcon.innerHTML = `<i class="fas fa-check-circle text-emerald-400 text-base"></i>`;
+                } else if (type === "error") {
+                    tIcon.innerHTML = `<i class="fas fa-exclamation-circle text-rose-400 text-base"></i>`;
+                } else {
+                    tIcon.innerHTML = `<i class="fas fa-info-circle text-blue-400 text-base"></i>`;
+                }
+            }
+            tNode.classList.remove("translate-y-20", "opacity-0");
+            setTimeout(() => {
+                tNode.classList.add("translate-y-20", "opacity-0");
+            }, 3500);
+        };
+
         const handleGoogleLogin = async () => {
             if (!auth) {
                 showToast("מערכת האימות לא אותחלה כראוי", "error");
@@ -809,6 +838,8 @@
                 console.error("שגיאת אימות גוגל:", error);
                 if (error.code === "auth/configuration-not-found") {
                     showToast("יש להפעיל את Google Sign-In בתוך ה-Firebase Console שלכם תחת Authentication.", "error");
+                } else if (error.code === "auth/popup-blocked") {
+                    showToast("חלון ההתחברות נחסם על ידי הדפדפן. אנא אפשרו חלונות קופצים בדפדפן עבור אתר זה ונסו שוב.", "error");
                 } else {
                     showToast("שגיאת התחברות: " + error.message, "error");
                 }
@@ -822,6 +853,9 @@
             logoutBtn.addEventListener("click", async () => {
                 if (!auth) return;
                 await signOut(auth);
+                try {
+                    await signInAnonymously(auth);
+                } catch(e) {}
                 showToast("התנתקת מהמערכת", "info");
             });
         }
@@ -957,7 +991,7 @@
         if (publishForm) {
             publishForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                if (!currentUser) {
+                if (!currentUser || currentUser.isAnonymous) {
                     showToast("עליך להתחבר עם גוגל תחילה", "error");
                     return;
                 }
@@ -1355,51 +1389,6 @@
         };
 
         if (resetFiltersBtn) resetFiltersBtn.addEventListener("click", resetAllFilters);
-
-        const navItems = document.querySelectorAll("#mainNav .nav-item");
-        const sections = [
-            document.getElementById("hero-section"),
-            document.getElementById("categories-section"),
-            document.getElementById("listings-section")
-        ];
-
-        navItems.forEach((item, index) => {
-            item.addEventListener("click", (e) => {
-                if (item.getAttribute("href").startsWith("#")) {
-                    e.preventDefault();
-                    const targetId = item.getAttribute("href");
-                    const targetEl = targetId === "#" ? document.body : document.querySelector(targetId);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-                navItems.forEach(nav => nav.classList.remove("nav-link-active"));
-                item.classList.add("nav-link-active");
-            });
-        });
-
-        window.addEventListener("scroll", () => {
-            let currentActiveIndex = 0;
-            const scrollPosition = window.scrollY + 120;
-
-            sections.forEach((section, index) => {
-                if (section) {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
-                    if (scrollPosition >= top && scrollPosition < top + height) {
-                        currentActiveIndex = index;
-                    }
-                }
-            });
-
-            navItems.forEach((nav, index) => {
-                if (index === currentActiveIndex) {
-                    nav.classList.add("nav-link-active");
-                } else {
-                    nav.classList.remove("nav-link-active");
-                }
-            });
-        });
 
         window.addEventListener("DOMContentLoaded", () => {
             initAuth();
