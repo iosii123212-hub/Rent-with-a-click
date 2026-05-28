@@ -705,19 +705,44 @@
 
         let uploadedImagesBase64 = [];
 
-        const triviaList = [
-            "היום ביקרו באתר מעל 1,480 גולשים שחיפשו דירות וצימרים לשבת הקרובה!",
-            "באתר זה מפורסמים כעת עשרות נכסי פרימיום בלעדיים שאינם קיימים בשום מקום אחר.",
-            "פרסום נכסים ב'שכירות בקליק' הוא חינמי לחלוטין וללא שום עמלות תיווך!",
-            "למעלה מ-82% מהמפרסמים כאן מוצאים שוכרים מתאימים בתוך פחות מ-48 שעות.",
-            "נכון להיום רשומים בלוח האירוח מעל 180 מפרסמים פעילים ומרוצים.",
-            "סוף שבוע הנוכחי מאופיין בביקוש שיא לצימרים ודירות נופש מאובזרות!"
-        ];
+        const escapeHTML = (str) => {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        };
+
+        const safeImgSrc = (src) => {
+            if (!src) return '';
+            const clean = String(src).trim();
+            if (clean.startsWith('data:image/') || clean.startsWith('http://') || clean.startsWith('https://')) {
+                return clean;
+            }
+            return '';
+        };
+
+        const getRealTriviaList = () => {
+            const total = allListings.length;
+            const zimmers = allListings.filter(l => l.category === 'צימרים').length;
+            const holidays = allListings.filter(l => l.category === 'השכרה לימים בודדים / שבתות וחגים').length;
+            return [
+                `באתר מפורסמים כעת ${total} נכסים מאומתים בזמן אמת.`,
+                `מחפשים חופשה כפרית? מצאנו ${zimmers} צימרים ומתחמי ספא פנויים בלוח.`,
+                `מארגנים שבת משפחתית? ישנן ${holidays} דירות אירוח פנויות לשבתות וחגים.`,
+                "פרסום נכסים ב'שכירות בקליק' הוא חינמי לחלוטין וללא שום עמלות תיווך!",
+                "ניתן לסנן את הנכסים בקלות לפי מחיר מקסימלי, חדרים ושטח במפרט המתקדם.",
+                "כל המודעות בלוח מתעדכנות אוטומטית ובאופן ישיר מול בעלי הנכס ללא מתווכים."
+            ];
+        };
 
         let triviaIndex = 0;
         const triggerTriviaNotification = () => {
             if (!didYouKnowBox || !didYouKnowText) return;
             
+            const triviaList = getRealTriviaList();
             didYouKnowBox.classList.add("translate-x-96", "opacity-0");
             
             setTimeout(() => {
@@ -747,7 +772,7 @@
                         authStatus.classList.remove("hidden");
                         authStatus.classList.add("flex");
                     }
-                    if (userAvatar) userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
+                    if (userAvatar) userAvatar.src = safeImgSrc(user.photoURL) || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
                     if (userName) userName.textContent = user.displayName || 'משתמש מחובר';
                     if (unauthModalState) unauthModalState.classList.add("hidden");
                     if (publishForm) publishForm.classList.remove("hidden");
@@ -768,29 +793,6 @@
                 }
             });
         }
-
-        const showToast = (message, type = "info") => {
-            const tNode = document.getElementById("toast");
-            const tIcon = document.getElementById("toastIcon");
-            const tText = document.getElementById("toastText");
-
-            if (!tNode || !tText) return;
-
-            tText.textContent = message;
-            if (tIcon) {
-                if (type === "success") {
-                    tIcon.innerHTML = `<i class="fas fa-check-circle text-emerald-400 text-base"></i>`;
-                } else if (type === "error") {
-                    tIcon.innerHTML = `<i class="fas fa-exclamation-circle text-rose-400 text-base"></i>`;
-                } else {
-                    tIcon.innerHTML = `<i class="fas fa-info-circle text-blue-400 text-base"></i>`;
-                }
-            }
-            tNode.classList.remove("translate-y-20", "opacity-0");
-            setTimeout(() => {
-                tNode.classList.add("translate-y-20", "opacity-0");
-            }, 3500);
-        };
 
         const handleGoogleLogin = async () => {
             if (!auth) {
@@ -918,40 +920,6 @@
             });
         }
 
-        const compressImage = (file) => {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 640;
-                        const MAX_HEIGHT = 480;
-                        let width = img.width;
-                        let height = img.height;
-                        if (width > height) {
-                            if (width > MAX_WIDTH) {
-                                height *= MAX_WIDTH / width;
-                                width = MAX_WIDTH;
-                            }
-                        } else {
-                            if (height > MAX_HEIGHT) {
-                                width *= MAX_HEIGHT / height;
-                                height = MAX_HEIGHT;
-                            }
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.7));
-                    };
-                };
-            });
-        };
-
         if (formImagesInput) {
             formImagesInput.addEventListener("change", async (e) => {
                 const files = Array.from(e.target.files);
@@ -972,10 +940,14 @@
                     const base64 = await compressImage(file);
                     uploadedImagesBase64.push(base64);
 
-                    previewDiv.innerHTML = `
-                        <img class="w-full h-full object-cover" src="${base64}">
-                        <div class="absolute inset-0 bg-stone-950/20"></div>
-                    `;
+                    previewDiv.innerHTML = "";
+                    const imgEl = document.createElement("img");
+                    imgEl.className = "w-full h-full object-cover";
+                    imgEl.src = safeImgSrc(base64);
+                    const overlay = document.createElement("div");
+                    overlay.className = "absolute inset-0 bg-stone-950/20";
+                    previewDiv.appendChild(imgEl);
+                    previewDiv.appendChild(overlay);
                 });
 
                 await Promise.all(loaders);
@@ -1083,7 +1055,7 @@
                 const listing = allListings[slideIndex];
                 if (!listing) return;
 
-                sidebarSlideImg.src = listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
                 sidebarSlideCategory.textContent = listing.category;
                 sidebarSlideTitle.textContent = listing.title;
                 sidebarSlideLocation.textContent = listing.location || "צפון";
@@ -1168,9 +1140,9 @@
 
                 card.innerHTML = `
                     <div class="relative aspect-[4/3] bg-stone-900 overflow-hidden">
-                        <img class="w-full h-full object-cover transition duration-700 group-hover:scale-105" src="${mainImg}" alt="${listing.title}">
+                        <img class="w-full h-full object-cover transition duration-700 group-hover:scale-105" src="${safeImgSrc(mainImg)}" alt="${escapeHTML(listing.title)}">
                         <div class="absolute top-4 right-4 bg-[#1e3e30] text-[#c39e5c] font-bold text-[9px] px-3 py-1.5 rounded-full tracking-wider uppercase">
-                            ${listing.category}
+                            ${escapeHTML(listing.category)}
                         </div>
                         <div class="absolute bottom-4 left-4 bg-stone-950/50 text-white font-bold text-[10px] px-3 py-1 rounded-full backdrop-blur-sm">
                             ₪${listing.price.toLocaleString()}
@@ -1179,17 +1151,17 @@
                     <div class="p-6 flex-grow flex flex-col justify-between">
                         <div class="space-y-3">
                             <div class="flex items-center justify-between text-[10px] text-stone-400 font-bold">
-                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-[#c39e5c]"></i> ${locationText}</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-user-circle"></i> ${listing.sellerName}</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-[#c39e5c]"></i> ${escapeHTML(locationText)}</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-user-circle"></i> ${escapeHTML(listing.sellerName)}</span>
                             </div>
-                            <h4 class="text-base font-extrabold text-[#1e3e30] group-hover:text-[#c39e5c] transition-colors duration-300 leading-snug line-clamp-1">${listing.title}</h4>
-                            <p class="text-stone-500 text-xs leading-relaxed line-clamp-2 h-9">${listing.description}</p>
+                            <h4 class="text-base font-extrabold text-[#1e3e30] group-hover:text-[#c39e5c] transition-colors duration-300 leading-snug line-clamp-1">${escapeHTML(listing.title)}</h4>
+                            <p class="text-stone-500 text-xs leading-relaxed line-clamp-2 h-9">${escapeHTML(listing.description)}</p>
                         </div>
                         
                         <div class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between text-stone-500">
                             <div class="flex items-center gap-3 text-[10px] font-bold">
-                                <span><i class="fas fa-bed ml-1 text-[#c39e5c]"></i>${roomsText}</span>
-                                <span><i class="fas fa-expand-arrows-alt ml-1 text-[#c39e5c]"></i>${sqmText}</span>
+                                <span><i class="fas fa-bed ml-1 text-[#c39e5c]"></i>${escapeHTML(roomsText)}</span>
+                                <span><i class="fas fa-expand-arrows-alt ml-1 text-[#c39e5c]"></i>${escapeHTML(sqmText)}</span>
                             </div>
                             <span class="text-[#c39e5c] group-hover:text-[#b08945] font-extrabold text-xs flex items-center gap-1 transition-colors duration-300">
                                 <span>לפרטים</span>
@@ -1222,13 +1194,13 @@
             if (detailSellerName) detailSellerName.textContent = listing.sellerName;
             if (detailEmail) {
                 detailEmail.textContent = listing.email;
-                detailEmail.href = `mailto:${listing.email}`;
+                detailEmail.href = `mailto:${encodeURIComponent(listing.email)}`;
             }
             if (detailPhone) {
                 detailPhone.textContent = listing.phone;
-                detailPhone.href = `tel:${listing.phone}`;
+                detailPhone.href = `tel:${encodeURIComponent(listing.phone)}`;
             }
-            if (callSellerBtn) callSellerBtn.href = `tel:${listing.phone}`;
+            if (callSellerBtn) callSellerBtn.href = `tel:${encodeURIComponent(listing.phone)}`;
             if (detailLocation) detailLocation.textContent = listing.location || "לא צוין";
             if (detailDate) detailDate.textContent = `פורסם בתאריך: ${new Date(listing.createdAt).toLocaleDateString('he-IL')}`;
 
@@ -1239,14 +1211,14 @@
             if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
                 if (detailPhoneAlt) {
                     detailPhoneAlt.textContent = listing.phoneAlt;
-                    detailPhoneAlt.href = `tel:${listing.phoneAlt}`;
+                    detailPhoneAlt.href = `tel:${encodeURIComponent(listing.phoneAlt)}`;
                 }
                 if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.remove("hidden");
             } else {
                 if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.add("hidden");
             }
 
-            if (detailMainImage) detailMainImage.src = listing.images && listing.images[0] ? listing.images[0] : '';
+            if (detailMainImage) detailMainImage.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : '');
             if (detailThumbnails) {
                 detailThumbnails.innerHTML = "";
 
@@ -1254,9 +1226,9 @@
                     listing.images.forEach((imgBase64, index) => {
                         const thumb = document.createElement("img");
                         thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
-                        thumb.src = imgBase64;
+                        thumb.src = safeImgSrc(imgBase64);
                         thumb.addEventListener("click", () => {
-                            if (detailMainImage) detailMainImage.src = imgBase64;
+                            if (detailMainImage) detailMainImage.src = safeImgSrc(imgBase64);
                             document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
                             thumb.classList.add("border-[#c39e5c]", "scale-105");
                         });
