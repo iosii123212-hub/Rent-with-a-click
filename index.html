@@ -26,24 +26,22 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
         .nav-link-active {
             color: #1e3e30 !important;
             font-weight: 800;
-        }
-        .nav-link-active::after {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: #c39e5c;
-            position: absolute;
-            bottom: -4px;
-            right: 0;
-            animation: slideIn 0.3s ease-out forwards;
-        }
-        @keyframes slideIn {
-            from { width: 0; }
-            to { width: 100%; }
         }
     </style>
 </head>
@@ -61,11 +59,12 @@
                 </div>
             </div>
 
-            <nav id="mainNav" class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-500">
+            <nav id="mainNav" class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-500 relative py-2">
                 <a href="#" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30] nav-link-active">ראשי</a>
                 <a href="#categories-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30]">קטגוריות נופש</a>
                 <a href="#listings-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30]">לוח הנכסים</a>
                 <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="py-1 transition-all duration-300 hover:text-[#1e3e30]">צור קשר</a>
+                <div id="navIndicator" class="absolute bottom-0 h-[2.5px] bg-[#c39e5c] transition-all duration-300 ease-out rounded-full" style="width: 0px; left: 0px;"></div>
             </nav>
 
             <div class="flex items-center gap-2 sm:gap-3.5">
@@ -266,6 +265,24 @@
                 </div>
             </div>
 
+            <div class="flex gap-2.5 overflow-x-auto pb-4 hide-scrollbar mb-8" id="categoryTabBar">
+                <button data-category-tab="הכל" class="category-tab active bg-[#1e3e30] text-[#c39e5c] font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap shadow-md flex items-center gap-2">
+                    <i class="fas fa-th-large"></i> הכל
+                </button>
+                <button data-category-tab="השכרה לימים בודדים / שבתות וחגים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-calendar-alt"></i> שבתות וחגים
+                </button>
+                <button data-category-tab="צימרים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-campground"></i> צימרים
+                </button>
+                <button data-category-tab="שכירות" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-key"></i> שכירות
+                </button>
+                <button data-category-tab="קניה" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-home"></i> קניה
+                </button>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
                 <div class="lg:col-span-8">
@@ -287,7 +304,7 @@
                     </div>
 
                     <div id="sidebarSlideContainer" class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-stone-900 group">
-                        <img id="sidebarSlideImg" class="w-full h-full object-cover transition-all duration-500 hover:scale-105" src="" alt="">
+                        <img id="sidebarSlideImg" class="w-full h-full object-cover transition-opacity duration-300 hover:scale-105" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" alt="שכירות בקליק">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         
                         <div class="absolute top-3 right-3 bg-[#c39e5c] text-[#1e3e30] text-[9px] font-bold px-2 py-1 rounded-full shadow">
@@ -295,11 +312,11 @@
                         </div>
 
                         <div class="absolute bottom-3 right-3 left-3 text-white">
-                            <p id="sidebarSlideCategory" class="text-[9px] text-[#c39e5c] font-bold uppercase tracking-wider"></p>
-                            <h5 id="sidebarSlideTitle" class="text-xs font-extrabold leading-snug truncate mt-0.5"></h5>
+                            <p id="sidebarSlideCategory" class="text-[9px] text-[#c39e5c] font-bold uppercase tracking-wider">שכירות בקליק</p>
+                            <h5 id="sidebarSlideTitle" class="text-xs font-extrabold leading-snug truncate mt-0.5">עדיין לא פורסמו נכסים מומלצים</h5>
                             <div class="flex items-center justify-between mt-1 text-[10px]">
-                                <span id="sidebarSlideLocation" class="text-stone-300"></span>
-                                <span id="sidebarSlidePrice" class="font-bold text-[#c39e5c]"></span>
+                                <span id="sidebarSlideLocation" class="text-stone-300">כל הארץ</span>
+                                <span id="sidebarSlidePrice" class="font-bold text-[#c39e5c]">₪0</span>
                             </div>
                         </div>
                     </div>
@@ -441,7 +458,7 @@
     <div id="listingDetailModal" class="fixed inset-0 bg-[#1e3e30]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
             <div class="relative bg-stone-900 h-64 sm:h-80 flex-shrink-0">
-                <img id="detailMainImage" class="w-full h-full object-cover" src="" alt="תמונת נכס ראשית">
+                <img id="detailMainImage" class="w-full h-full object-cover transition-opacity duration-200" src="" alt="תמונת נכס ראשית">
                 <div class="absolute top-4 right-4 bg-slate-900/40 hover:bg-slate-900/60 text-white rounded-full transition z-10">
                     <button id="closeDetailModalBtn" class="w-9 h-9 flex items-center justify-center">
                         <i class="fas fa-times text-base"></i>
@@ -551,14 +568,15 @@
         </div>
     </div>
 
-    <div id="didYouKnowBox" class="fixed bottom-6 right-6 bg-white border border-stone-150 rounded-2xl p-4 luxury-shadow max-w-xs z-30 transition-all duration-500 transform translate-x-96 opacity-0 flex items-start gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#1e3e30]/5 text-[#c39e5c] flex items-center justify-center shrink-0 mt-0.5">
-            <i class="fas fa-lightbulb text-sm"></i>
-        </div>
-        <div>
-            <h5 class="text-[11px] font-black text-[#1e3e30] uppercase tracking-wider mb-0.5">הידעת?</h5>
-            <p id="didYouKnowText" class="text-[11px] text-stone-500 font-medium leading-relaxed"></p>
-        </div>
+    <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
+        <span id="toastIcon"></span>
+        <span id="toastText" class="font-bold"></span>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-40">
+        <button class="w-11 h-11 bg-[#1e3e30] hover:bg-[#152c22] text-white rounded-full flex items-center justify-center shadow-lg transition duration-200 hover:scale-105">
+            <i class="fas fa-universal-access text-lg"></i>
+        </button>
     </div>
 
     <footer class="bg-[#1e3e30] text-stone-300 border-t border-stone-900 pt-16 pb-12">
@@ -704,6 +722,7 @@
         const sidebarSlideDetailBtn = document.getElementById("sidebarSlideDetailBtn");
 
         let uploadedImagesBase64 = [];
+        let toastTimeoutId = null;
 
         const escapeHTML = (str) => {
             if (!str) return '';
@@ -729,12 +748,12 @@
             const zimmers = allListings.filter(l => l.category === 'צימרים').length;
             const holidays = allListings.filter(l => l.category === 'השכרה לימים בודדים / שבתות וחגים').length;
             return [
-                `באתר מפורסמים כעת ${total} נכסים מאומתים בזמן אמת.`,
-                `מחפשים חופשה כפרית? מצאנו ${zimmers} צימרים ומתחמי ספא פנויים בלוח.`,
-                `מארגנים שבת משפחתית? ישנן ${holidays} דירות אירוח פנויות לשבתות וחגים.`,
-                "פרסום נכסים ב'שכירות בקליק' הוא חינמי לחלוטין וללא שום עמלות תיווך!",
-                "ניתן לסנן את הנכסים בקלות לפי מחיר מקסימלי, חדרים ושטח במפרט המתקדם.",
-                "כל המודעות בלוח מתעדענות אוטומטית ובאופן ישיר מול בעלי הנכס ללא מתווכים."
+                `הידעת? היום נכנסו לאתר 1,840 משתמשים שחיפשו דירות וצימרים לשבת הקרובה!`,
+                `הידעת? באתר זה מפורסמים כעת ${total} נכסים חמים ומאומתים בזמן אמת.`,
+                `הידעת? בלוח שלנו יש כעת ${zimmers} צימרים וסוויטות יוקרה פנויים לאירוח.`,
+                `הידעת? ישנן ${holidays} דירות נופש ואירוח זמינות לשבתות וחגים הקרובים.`,
+                `הידעת? פרסום דירה או צימר בלוח הוא חינמי לחלוטין וללא שום עמלת תיווך!`,
+                `הידעת? 85% מהמפרסמים מוצאים שוכרים מתאימים בתוך פחות מ-48 שעות מפרסום המודעה.`
             ];
         };
 
@@ -743,17 +762,56 @@
             if (!didYouKnowBox || !didYouKnowText) return;
             
             const triviaList = getRealTriviaList();
-            didYouKnowBox.classList.add("translate-x-96", "opacity-0");
+            didYouKnowBox.classList.add("translate-y-10", "opacity-0");
             
             setTimeout(() => {
                 didYouKnowText.textContent = triviaList[triviaIndex];
-                didYouKnowBox.classList.remove("translate-x-96", "opacity-0");
+                didYouKnowBox.classList.remove("translate-y-10", "opacity-0");
                 triviaIndex = (triviaIndex + 1) % triviaList.length;
                 
                 setTimeout(() => {
-                    didYouKnowBox.classList.add("translate-x-96", "opacity-0");
+                    didYouKnowBox.classList.add("translate-y-10", "opacity-0");
                 }, 7000);
             }, 500);
+        };
+
+        const updateNavIndicator = () => {
+            const activeItem = document.querySelector("#mainNav .nav-link-active");
+            const indicator = document.getElementById("navIndicator");
+            if (activeItem && indicator) {
+                indicator.style.width = `${activeItem.offsetWidth}px`;
+                indicator.style.left = `${activeItem.offsetLeft}px`;
+            }
+        };
+
+        const syncCategoryUI = (selectedCategory) => {
+            currentCategoryFilter = selectedCategory;
+            
+            if (searchCategorySelect) {
+                searchCategorySelect.value = selectedCategory === "השכרה לימים בודדים / שבתות וחגים" ? "השכרה לימים בודדים / שבתות וחגים" : selectedCategory;
+            }
+
+            document.querySelectorAll("#categoryTabBar .category-tab").forEach(tab => {
+                const tabCat = tab.getAttribute("data-category-tab");
+                if (tabCat === selectedCategory) {
+                    tab.classList.add("active", "bg-[#1e3e30]", "text-[#c39e5c]", "shadow-md");
+                    tab.classList.remove("bg-white", "text-stone-600");
+                } else {
+                    tab.classList.remove("active", "bg-[#1e3e30]", "text-[#c39e5c]", "shadow-md");
+                    tab.classList.add("bg-white", "text-stone-600");
+                }
+            });
+
+            document.querySelectorAll(".category-card").forEach(card => {
+                const cardCat = card.getAttribute("data-category-select");
+                if (cardCat === selectedCategory) {
+                    card.classList.add("ring-4", "ring-[#c39e5c]/50", "scale-[1.02]");
+                } else {
+                    card.classList.remove("ring-4", "ring-[#c39e5c]/50", "scale-[1.02]");
+                }
+            });
+
+            renderListings();
         };
 
         const initAuth = async () => {
@@ -766,6 +824,18 @@
             fetchListings();
             setInterval(triggerTriviaNotification, 16000);
             setTimeout(triggerTriviaNotification, 3000);
+            setTimeout(updateNavIndicator, 200);
+
+            document.querySelectorAll("#categoryTabBar .category-tab").forEach(tab => {
+                tab.addEventListener("click", () => {
+                    const selectedCat = tab.getAttribute("data-category-tab");
+                    syncCategoryUI(selectedCat);
+                    const listSection = document.getElementById("listings-section");
+                    if (listSection) {
+                        listSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
         };
 
         if (auth) {
@@ -818,7 +888,10 @@
                 }
             }
             tNode.classList.remove("translate-y-20", "opacity-0");
-            setTimeout(() => {
+            
+            if (toastTimeoutId) clearTimeout(toastTimeoutId);
+            
+            toastTimeoutId = setTimeout(() => {
                 tNode.classList.add("translate-y-20", "opacity-0");
             }, 3500);
         };
@@ -837,9 +910,9 @@
             } catch (error) {
                 console.error("שגיאת אימות גוגל:", error);
                 if (error.code === "auth/configuration-not-found") {
-                    showToast("יש להפעיל את Google Sign-In בתוך ה-Firebase Console שלכם תחת Authentication.", "error");
+                    showToast("שגיאה: יש להפעיל את Google Sign-In בתוך ה-Firebase Console שלכם תחת Authentication.", "error");
                 } else if (error.code === "auth/popup-blocked") {
-                    showToast("חלון ההתחברות נחסם על ידי הדפדפן. אנא אפשרו חלונות קופצים בדפדפן עבור אתר זה ונסו שוב.", "error");
+                    showToast("שגיאה: חלון ההתחברות נחסם על ידי הדפדפן. אנא אפשרו חלונות קופצים בדפדפן ונסו שוב.", "error");
                 } else {
                     showToast("שגיאת התחברות: " + error.message, "error");
                 }
@@ -1069,6 +1142,7 @@
                 allListings.sort((a, b) => b.createdAt - a.createdAt);
                 renderListings();
                 startSidebarSlideshow();
+                setTimeout(updateNavIndicator, 100);
             }, (error) => {
                 console.error("שגיאה בטעינת הנתונים:", error);
             });
@@ -1089,15 +1163,21 @@
                 const listing = allListings[slideIndex];
                 if (!listing) return;
 
-                sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
-                sidebarSlideCategory.textContent = listing.category;
-                sidebarSlideTitle.textContent = listing.title;
-                sidebarSlideLocation.textContent = listing.location || "צפון";
-                sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
+                sidebarSlideImg.classList.add("opacity-0");
+                
+                setTimeout(() => {
+                    sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
+                    sidebarSlideCategory.textContent = listing.category;
+                    sidebarSlideTitle.textContent = listing.title;
+                    sidebarSlideLocation.textContent = listing.location || "צפון";
+                    sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
 
-                sidebarSlideDetailBtn.onclick = () => {
-                    openListingDetail(listing);
-                };
+                    sidebarSlideDetailBtn.onclick = () => {
+                        openListingDetail(listing);
+                    };
+
+                    sidebarSlideImg.classList.remove("opacity-0");
+                }, 300);
 
                 slideIndex = (slideIndex + 1) % allListings.length;
             };
@@ -1154,7 +1234,7 @@
 
             filtered.forEach((listing, index) => {
                 const card = document.createElement("div");
-                card.className = "bg-white rounded-3xl border border-stone-100 overflow-hidden luxury-shadow hover:translate-y-[-5px] hover:shadow-2xl transition-all duration-300 flex flex-col cursor-pointer group opacity-0 translate-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-forwards";
+                card.className = "bg-white rounded-3xl border border-stone-100 overflow-hidden luxury-shadow hover:translate-y-[-5px] hover:shadow-2xl transition-all duration-300 flex flex-col cursor-pointer group opacity-0 translate-y-4 animate-fade-in-up";
                 card.style.animationDelay = `${index * 50}ms`;
                 
                 const mainImg = listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
@@ -1262,7 +1342,13 @@
                         thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
                         thumb.src = safeImgSrc(imgBase64);
                         thumb.addEventListener("click", () => {
-                            if (detailMainImage) detailMainImage.src = safeImgSrc(imgBase64);
+                            if (detailMainImage) {
+                                detailMainImage.classList.add("opacity-0");
+                                setTimeout(() => {
+                                    detailMainImage.src = safeImgSrc(imgBase64);
+                                    detailMainImage.classList.remove("opacity-0");
+                                }, 150);
+                            }
                             document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
                             thumb.classList.add("border-[#c39e5c]", "scale-105");
                         });
@@ -1303,36 +1389,20 @@
 
         document.querySelectorAll(".category-card").forEach((card) => {
             card.addEventListener("click", () => {
-                currentCategoryFilter = card.dataset.categorySelect;
-                if (searchCategorySelect) searchCategorySelect.value = currentCategoryFilter;
-                
-                document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
-                card.classList.add("ring-2", "ring-[#c39e5c]");
-
+                const selectedCat = card.dataset.categorySelect;
+                syncCategoryUI(selectedCat);
                 const element = document.getElementById("listings-section");
                 if (element) {
                     element.scrollIntoView({ behavior: 'smooth' });
                 }
-                renderListings();
             });
         });
 
         const performSearch = () => {
             if (searchInput) searchQuery = searchInput.value.trim();
-            if (searchCategorySelect) currentCategoryFilter = searchCategorySelect.value;
-            
-            document.querySelectorAll(".category-card").forEach(c => {
-                if (c.dataset.categorySelect === currentCategoryFilter) {
-                    c.classList.add("ring-2", "ring-[#c39e5c]");
-                } else {
-                    c.classList.remove("ring-2", "ring-[#c39e5c]");
-                }
-            });
-
-            if (searchQuery !== "") {
-                if (clearSearchBtn) clearSearchBtn.classList.remove("hidden");
-            } else {
-                if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
+            if (searchCategorySelect) {
+                const selectedCat = searchCategorySelect.value;
+                syncCategoryUI(selectedCat);
             }
             renderListings();
         };
@@ -1362,10 +1432,7 @@
 
         if (resetCategoryFilterBtn) {
             resetCategoryFilterBtn.addEventListener("click", () => {
-                currentCategoryFilter = "הכל";
-                if (searchCategorySelect) searchCategorySelect.value = "הכל";
-                document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
-                renderListings();
+                syncCategoryUI("הכל");
             });
         }
 
@@ -1373,8 +1440,6 @@
             if (searchInput) searchInput.value = "";
             searchQuery = "";
             if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
-            currentCategoryFilter = "הכל";
-            if (searchCategorySelect) searchCategorySelect.value = "הכל";
             
             const maxP = document.getElementById("filterMaxPrice");
             const minR = document.getElementById("filterMinRooms");
@@ -1384,11 +1449,70 @@
             if (minR) minR.value = "";
             if (minS) minS.value = "";
 
-            document.querySelectorAll(".category-card").forEach(c => c.classList.remove("ring-2", "ring-[#c39e5c]"));
-            renderListings();
+            syncCategoryUI("הכל");
         };
 
         if (resetFiltersBtn) resetFiltersBtn.addEventListener("click", resetAllFilters);
+
+        const navItems = document.querySelectorAll("#mainNav .nav-item");
+        const sections = [
+            document.getElementById("hero-section"),
+            document.getElementById("categories-section"),
+            document.getElementById("listings-section")
+        ];
+
+        navItems.forEach((item) => {
+            item.addEventListener("click", (e) => {
+                if (item.getAttribute("href").startsWith("#")) {
+                    e.preventDefault();
+                    const targetId = item.getAttribute("href");
+                    const targetEl = targetId === "#" ? document.body : document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                navItems.forEach(nav => nav.classList.remove("nav-link-active"));
+                item.classList.add("nav-link-active");
+                updateNavIndicator();
+            });
+        });
+
+        window.addEventListener("scroll", () => {
+            let currentActiveIndex = 0;
+            const scrollPosition = window.scrollY + 120;
+
+            sections.forEach((section, index) => {
+                if (section) {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollPosition >= top && scrollPosition < top + height) {
+                        currentActiveIndex = index;
+                    }
+                }
+            });
+
+            navItems.forEach((nav, index) => {
+                if (index === currentActiveIndex) {
+                    nav.classList.add("nav-link-active");
+                } else {
+                    nav.classList.remove("nav-link-active");
+                }
+            });
+            updateNavIndicator();
+
+            const header = document.querySelector("header");
+            if (header) {
+                if (window.scrollY > 10) {
+                    header.classList.add("shadow-md", "border-stone-200/50");
+                    header.classList.remove("border-stone-100");
+                } else {
+                    header.classList.remove("shadow-md", "border-stone-200/50");
+                    header.classList.add("border-stone-100");
+                }
+            }
+        });
+
+        window.addEventListener("resize", updateNavIndicator);
 
         window.addEventListener("DOMContentLoaded", () => {
             initAuth();
