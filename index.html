@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>שכירות בקליק - לוח דירות ונכסים</title>
+    <title>דירות בקליק - לוח דירות ונכסים</title>
     <link rel="icon" type="image/png" href="1.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -50,10 +50,13 @@
     <header class="bg-white/95 backdrop-blur-md border-b border-stone-100 sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3 shrink-0">
-                <img src="1.png" alt="לוגו" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-stone-50 flex items-center justify-center shrink-0 overflow-hidden">
+                    <img src="1.png" alt="לוגו" class="w-full h-full object-contain transition-transform duration-500 hover:rotate-6" onerror="this.style.display='none'; document.getElementById('headerLogoIcon').style.display='block';">
+                    <i id="headerLogoIcon" class="fas fa-home text-[#1e3e30] text-lg sm:text-xl" style="display:none;"></i>
+                </div>
                 <div>
                     <div class="flex items-center gap-1.5">
-                        <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">שכירות בקליק</h1>
+                        <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight">דירות בקליק</h1>
                     </div>
                     <p class="text-[9px] sm:text-[10px] text-[#c39e5c] font-bold tracking-widest">אירוח קצר, שבתות וצימרים</p>
                 </div>
@@ -304,7 +307,7 @@
                     </div>
 
                     <div id="sidebarSlideContainer" class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-stone-900 group">
-                        <img id="sidebarSlideImg" class="w-full h-full object-cover transition-opacity duration-300 hover:scale-105" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" alt="שכירות בקליק">
+                        <img id="sidebarSlideImg" class="w-full h-full object-cover transition-opacity duration-300 hover:scale-105" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" alt="דירות בקליק">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         
                         <div class="absolute top-3 right-3 bg-[#c39e5c] text-[#1e3e30] text-[9px] font-bold px-2 py-1 rounded-full shadow">
@@ -312,7 +315,7 @@
                         </div>
 
                         <div class="absolute bottom-3 right-3 left-3 text-white">
-                            <p id="sidebarSlideCategory" class="text-[9px] text-[#c39e5c] font-bold uppercase tracking-wider">שכירות בקליק</p>
+                            <p id="sidebarSlideCategory" class="text-[9px] text-[#c39e5c] font-bold uppercase tracking-wider">דירות בקליק</p>
                             <h5 id="sidebarSlideTitle" class="text-xs font-extrabold leading-snug truncate mt-0.5">עדיין לא פורסמו נכסים מומלצים</h5>
                             <div class="flex items-center justify-between mt-1 text-[10px]">
                                 <span id="sidebarSlideLocation" class="text-stone-300">כל הארץ</span>
@@ -568,32 +571,29 @@
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
-        <span id="toastIcon"></span>
-        <span id="toastText" class="font-bold"></span>
-    </div>
-
-    <div class="fixed bottom-6 right-6 z-40">
-        <button class="w-11 h-11 bg-[#1e3e30] hover:bg-[#152c22] text-white rounded-full flex items-center justify-center shadow-lg transition duration-200 hover:scale-105">
-            <i class="fas fa-universal-access text-lg"></i>
-        </button>
+    <div id="didYouKnowBox" class="fixed bottom-6 right-6 bg-white border border-stone-150 rounded-2xl p-4 luxury-shadow max-w-xs z-30 transition-all duration-500 transform translate-y-10 opacity-0 flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#1e3e30]/5 text-[#c39e5c] flex items-center justify-center shrink-0 mt-0.5">
+            <i class="fas fa-lightbulb text-sm"></i>
+        </div>
+        <div>
+            <h5 class="text-[11px] font-black text-[#1e3e30] uppercase tracking-wider mb-0.5">הידעת?</h5>
+            <p id="didYouKnowText" class="text-[11px] text-stone-500 font-medium leading-relaxed"></p>
+        </div>
     </div>
 
     <footer class="bg-[#1e3e30] text-stone-300 border-t border-stone-900 pt-16 pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <img src="1.png" alt="לוגו" class="w-10 h-10 object-contain brightness-0 invert" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
-                    <span class="text-xl font-black text-white">שכירות בקליק</span>
+                    <div class="w-10 h-10 rounded-lg bg-[#c39e5c]/10 text-[#c39e5c] flex items-center justify-center shrink-0">
+                        <img src="1.png" alt="לוגו" class="w-full h-full object-contain rounded-lg" onerror="this.style.display='none'; document.getElementById('footerLogoIcon').style.display='block';">
+                        <i id="footerLogoIcon" class="fas fa-home text-lg" style="display:none;"></i>
+                    </div>
+                    <span class="text-xl font-black text-white">דירות בקליק</span>
                 </div>
                 <p class="text-stone-400 text-xs leading-relaxed max-w-xs mb-4">
                     הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.
                 </p>
-                <div class="flex items-center gap-3 text-white">
-                    <a href="#" class="w-7 h-7 rounded-full bg-white/5 hover:bg-[#c39e5c] transition flex items-center justify-center text-xs"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="w-7 h-7 rounded-full bg-white/5 hover:bg-[#c39e5c] transition flex items-center justify-center text-xs"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="w-7 h-7 rounded-full bg-white/5 hover:bg-[#c39e5c] transition flex items-center justify-center text-xs"><i class="fab fa-whatsapp"></i></a>
-                </div>
             </div>
 
             <div>
@@ -617,7 +617,7 @@
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-semibold">
-            <p>© 2026 שכירות בקליק — כל הזכויות שמורות.</p>
+            <p>© 2026 דירות בקליק — כל הזכויות שמורות.</p>
             <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="text-[#c39e5c] hover:text-[#b08945] transition flex items-center gap-1">
                 <span>פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות</span>
                 <i class="fas fa-external-link-alt text-[9px]"></i>
@@ -794,11 +794,9 @@
             document.querySelectorAll("#categoryTabBar .category-tab").forEach(tab => {
                 const tabCat = tab.getAttribute("data-category-tab");
                 if (tabCat === selectedCategory) {
-                    tab.classList.add("active", "bg-[#1e3e30]", "text-[#c39e5c]", "shadow-md");
-                    tab.classList.remove("bg-white", "text-stone-600");
+                    tab.className = "category-tab active bg-[#1e3e30] text-[#c39e5c] font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap shadow-md flex items-center gap-2";
                 } else {
-                    tab.classList.remove("active", "bg-[#1e3e30]", "text-[#c39e5c]", "shadow-md");
-                    tab.classList.add("bg-white", "text-stone-600");
+                    tab.className = "category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2";
                 }
             });
 
@@ -1027,6 +1025,46 @@
             });
         }
 
+        const compressImage = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            const MAX_WIDTH = 800;
+                            const MAX_HEIGHT = 600;
+                            let width = img.width;
+                            let height = img.height;
+                            if (width > height) {
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
+                                }
+                            } else {
+                                if (height > MAX_HEIGHT) {
+                                    width *= MAX_HEIGHT / height;
+                                    height = MAX_HEIGHT;
+                                }
+                            }
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+                            resolve(canvas.toDataURL('image/jpeg', 0.85));
+                        } catch (e) {
+                            reject(e);
+                        }
+                    };
+                    img.onerror = (err) => reject(err);
+                    img.src = event.target.result;
+                };
+                reader.onerror = (err) => reject(err);
+                reader.readAsDataURL(file);
+            });
+        };
+
         if (formImagesInput) {
             formImagesInput.addEventListener("change", async (e) => {
                 const files = Array.from(e.target.files);
@@ -1038,26 +1076,30 @@
                 }
                 uploadedImagesBase64 = [];
 
-                const loaders = files.map(async (file) => {
+                for (const file of files) {
                     const previewDiv = document.createElement("div");
-                    previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
+                    previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200 animate-pulse";
                     previewDiv.innerHTML = `<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-spinner fa-spin text-stone-400"></i></div>`;
                     if (imagePreviewsContainer) imagePreviewsContainer.appendChild(previewDiv);
 
-                    const base64 = await compressImage(file);
-                    uploadedImagesBase64.push(base64);
+                    try {
+                        const base64 = await compressImage(file);
+                        uploadedImagesBase64.push(base64);
 
-                    previewDiv.innerHTML = "";
-                    const imgEl = document.createElement("img");
-                    imgEl.className = "w-full h-full object-cover";
-                    imgEl.src = safeImgSrc(base64);
-                    const overlay = document.createElement("div");
-                    overlay.className = "absolute inset-0 bg-stone-950/20";
-                    previewDiv.appendChild(imgEl);
-                    previewDiv.appendChild(overlay);
-                });
-
-                await Promise.all(loaders);
+                        previewDiv.innerHTML = "";
+                        previewDiv.classList.remove("animate-pulse");
+                        const imgEl = document.createElement("img");
+                        imgEl.className = "w-full h-full object-cover";
+                        imgEl.src = safeImgSrc(base64);
+                        const overlay = document.createElement("div");
+                        overlay.className = "absolute inset-0 bg-stone-950/10";
+                        previewDiv.appendChild(imgEl);
+                        previewDiv.appendChild(overlay);
+                    } catch (error) {
+                        console.error("Image loading failed:", error);
+                        previewDiv.innerHTML = `<div class="absolute inset-0 flex flex-col items-center justify-center text-rose-500 text-[10px] p-2 text-center"><i class="fas fa-exclamation-triangle mb-1"></i>שגיאה בטעינה</div>`;
+                    }
+                }
             });
         }
 
@@ -1085,6 +1127,18 @@
                 const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
                 const email = document.getElementById("formEmail").value.trim();
                 const description = document.getElementById("formDescription").value.trim();
+
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    showToast("אנא הזינו כתובת אימייל תקינה", "error");
+                    return;
+                }
+
+                const phonePattern = /^[0-9\-+]{7,15}$/;
+                if (!phonePattern.test(phone)) {
+                    showToast("אנא הזינו מספר טלפון תקין (ספרות בלבד)", "error");
+                    return;
+                }
 
                 const stamp = Date.now();
                 const imageFileNames = uploadedImagesBase64.map((img, i) => `image_apartment_${stamp}_${i}.jpg`);
@@ -1152,7 +1206,7 @@
             if (slideInterval) clearInterval(slideInterval);
             if (allListings.length === 0) {
                 sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
-                sidebarSlideCategory.textContent = 'שכירות בקליק';
+                sidebarSlideCategory.textContent = 'דירות בקליק';
                 sidebarSlideTitle.textContent = 'עדיין לא פורסמו נכסים מומלצים';
                 sidebarSlideLocation.textContent = 'כל הארץ';
                 sidebarSlidePrice.textContent = '₪0';
@@ -1412,6 +1466,10 @@
             searchInput.addEventListener("keypress", (e) => {
                 if (e.key === 'Enter') performSearch();
             });
+        }
+
+        if (searchCategorySelect) {
+            searchCategorySelect.addEventListener("change", performSearch);
         }
 
         if (clearSearchBtn) {
