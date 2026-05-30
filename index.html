@@ -1163,8 +1163,8 @@
                     img.onload = () => {
                         try {
                             const canvas = document.createElement('canvas');
-                            const MAX_WIDTH = 400;
-                            const MAX_HEIGHT = 300;
+                            const MAX_WIDTH = 500;
+                            const MAX_HEIGHT = 375;
                             let width = img.width;
                             let height = img.height;
                             if (width > height) {
@@ -1182,7 +1182,7 @@
                             canvas.height = height;
                             const ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, width, height);
-                            resolve(canvas.toDataURL('image/jpeg', 0.4));
+                            resolve(canvas.toDataURL('image/jpeg', 0.5));
                         } catch (err) {
                             resolve(rawBase64);
                         }
@@ -1292,11 +1292,16 @@
                     showToast("המודעה שלך פורסמה בהצלחה והיא נשמרה ישירות ב-Firestore ללא שום נגיעת אדם!", "success");
                     closePublishModal();
                 } catch (error) {
-                    showToast("ארעה שגיאה בפרסום המודעה: " + error.message, "error");
+                    console.error("פרסום נכשל:", error);
+                    if (error.code === "permission-denied") {
+                        showToast("שגיאת הרשאות: וודאו שהגדרתם את ה-Rules של Cloud Firestore במצב ציבורי (allow read, write: if true;)!", "error");
+                    } else {
+                        showToast("ארעה שגיאה בפרסום המודעה: " + error.message, "error");
+                    }
                 } finally {
                     if (submitBtn) {
                         submitBtn.disabled = false;
-                        submitBtn.innerHTML = `<span class="whitespace-nowrap">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
+                        submitBtn.innerHTML = `<span class="whitespace-nowrap" data-translate="submitListing">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
                     }
                 }
             });
@@ -1638,11 +1643,19 @@
             try {
                 const provider = new GoogleAuthProvider();
                 provider.setCustomParameters({ prompt: 'select_account' });
-                await signInWithPopup(auth, provider);
+                
+                const popupPromise = signInWithPopup(auth, provider);
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("popup-blocked-or-iframe-sandbox")), 4500)
+                );
+                
+                await Promise.race([popupPromise, timeoutPromise]);
                 showToast("התחברת בהצלחה באמצעות גוגל", "success");
             } catch (error) {
                 console.error("שגיאת אימות גוגל:", error);
-                if (error.code === "auth/configuration-not-found") {
+                if (error.message === "popup-blocked-or-iframe-sandbox") {
+                    showToast("ההתחברות ממתינה. ייתכן וסביבת התצוגה המקדימה (Iframe) או חוסם פופ-אפים מונעים את פתיחת החלון. פתחו את האתר ישירות בכתובת ה-GitHub שלכם כדי להתחבר!", "error");
+                } else if (error.code === "auth/configuration-not-found") {
                     showToast("שגיאה: יש להפעיל את Google Sign-In בתוך ה-Firebase Console שלכם תחת Authentication.", "error");
                 } else if (error.code === "auth/popup-blocked") {
                     showToast("שגיאה: חלון ההתחברות נחסם על ידי הדפדפן. אנא אפשרו חלונות קופצים בדפדפן ונסו שוב.", "error");
