@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>דירות בקליק - לוח דירות ונכסים</title>
-    <link rel="icon" type="image/png" href="1.png">
+    <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=120&q=80">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,9 +50,8 @@
     <header class="bg-white/95 backdrop-blur-md border-b border-stone-100 sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3 shrink-0">
-                <img src="1.png" alt="לוגו" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
-                <div class="hidden w-10 h-10 rounded-xl bg-[#c39e5c]/10 text-[#c39e5c] flex items-center justify-center shrink-0">
-                    <i class="fas fa-home text-lg"></i>
+                <div class="w-11 h-11 rounded-2xl bg-[#1e3e30]/5 text-[#c39e5c] flex items-center justify-center shrink-0 border border-stone-100 shadow-sm">
+                    <i class="fas fa-hotel text-lg"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-1.5">
@@ -76,7 +75,7 @@
                     <span id="langToggleText" class="whitespace-nowrap">English</span>
                 </button>
 
-                <div id="authStatus" class="hidden flex items-center gap-2 bg-stone-50 py-1 px-2.5 sm:px-3 rounded-full border border-stone-100 text-[11px] sm:text-xs max-w-[140px] sm:max-w-xs overflow-hidden transition-all duration-300">
+                <div id="authStatus" class="hidden items-center gap-2 bg-stone-50 py-1 px-2.5 sm:px-3 rounded-full border border-stone-100 text-[11px] sm:text-xs max-w-[140px] sm:max-w-xs overflow-hidden transition-all duration-300">
                     <img id="userAvatar" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#c39e5c] shrink-0" src="" alt="פרופיל">
                     <span id="userName" class="font-bold text-[#1e3e30] truncate max-w-[50px] sm:max-w-[100px]"></span>
                     <button id="logoutBtn" class="text-rose-600 hover:text-rose-700 font-extrabold mr-1 transition shrink-0" data-translate="logout">התנתק</button>
@@ -101,7 +100,7 @@
     </header>
 
     <div id="mobileMenu" class="fixed inset-0 bg-[#1e3e30]/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-white w-72 h-full p-6 flex flex-col gap-6 shadow-2xl transition-transform duration-300 translate-x-full mr-auto">
+        <div class="bg-white w-72 h-full p-6 flex flex-col gap-6 shadow-2xl transition-transform duration-300 -translate-x-full ml-auto">
             <div class="flex items-center justify-between border-b border-stone-100 pb-4">
                 <span class="font-extrabold text-[#1e3e30]" data-translate="logoText">תפריט ניווט</span>
                 <button id="closeMobileMenu" class="text-stone-400 hover:text-stone-600 p-2"><i class="fas fa-times text-lg"></i></button>
@@ -121,7 +120,7 @@
     <main class="flex-grow">
         
         <section id="hero-section" class="relative h-[500px] sm:h-[540px] flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80');"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-[#1e3e30]/75 via-[#1e3e30]/65 to-[#faf9f6]"></div>
             
             <div class="relative z-10 max-w-4xl mx-auto px-4 text-center text-white mb-8 w-full">
@@ -150,7 +149,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
                     <div class="md:col-span-6 flex items-center bg-stone-50 rounded-2xl border border-stone-200/60 px-4 py-3 focus-within:border-[#1e3e30] focus-within:ring-2 focus-within:ring-[#1e3e30]/5 transition-all duration-300">
                         <i class="fas fa-search text-stone-400 ml-3 text-sm"></i>
-                        <input id="searchInput" type="text" data-translate-placeholder="searchPlaceholder" placeholder="חפשו לפי עיר, סוג אירוח, חדרים או מילות מפתח..." class="w-full bg-transparent border-none outline-none text-slate-800 placeholder-slate-400 font-medium text-xs sm:text-sm">
+                        <input id="searchInput" type="text" data-translate-placeholder="searchPlaceholder" placeholder="חפשו לפי עיר, סוג אירוח, חדרים..." class="w-full bg-transparent border-none outline-none text-slate-800 placeholder-slate-400 font-medium text-xs sm:text-sm">
                     </div>
                     
                     <div class="md:col-span-3">
@@ -615,21 +614,18 @@
         </div>
     </div>
 
-    <div id="didYouKnowBox" class="fixed bottom-6 right-6 bg-white border border-stone-150 rounded-2xl p-4 luxury-shadow max-w-xs z-30 transition-all duration-500 transform translate-y-10 opacity-0 flex items-start gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#1e3e30]/5 text-[#c39e5c] flex items-center justify-center shrink-0 mt-0.5">
-            <i class="fas fa-lightbulb text-sm"></i>
-        </div>
-        <div>
-            <h5 class="text-[11px] font-black text-[#1e3e30] uppercase tracking-wider mb-0.5" data-translate="didYouKnow">הידעת?</h5>
-            <p id="didYouKnowText" class="text-[11px] text-stone-500 font-medium leading-relaxed"></p>
-        </div>
+    <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
+        <span id="toastIcon"></span>
+        <span id="toastText" class="font-bold"></span>
     </div>
 
     <footer class="bg-[#1e3e30] text-stone-300 border-t border-stone-900 pt-16 pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <img src="1.png" alt="לוגו" class="w-10 h-10 object-contain" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80'">
+                    <div class="w-10 h-10 rounded-xl bg-white/10 text-[#c39e5c] flex items-center justify-center shrink-0">
+                        <i class="fas fa-home text-lg"></i>
+                    </div>
                     <span class="text-xl font-black text-white" data-translate="logoText">דירות בקליק</span>
                 </div>
                 <p class="text-stone-400 text-xs leading-relaxed max-w-xs mb-4" data-translate="footerDesc">
@@ -1120,6 +1116,17 @@
                     }
                 });
             });
+
+            if (searchInput) {
+                searchInput.addEventListener("input", () => {
+                    if (searchInput.value.trim() !== "") {
+                        if (clearSearchBtn) clearSearchBtn.classList.remove("hidden");
+                    } else {
+                        if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
+                        performSearch();
+                    }
+                });
+            }
         };
 
         if (auth) {
@@ -1341,20 +1348,22 @@
                 const listing = allListings[slideIndex];
                 if (!listing) return;
 
-                sidebarSlideImg.classList.add("opacity-0");
+                if (sidebarSlideImg) sidebarSlideImg.classList.add("opacity-0");
                 
                 setTimeout(() => {
-                    sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
-                    sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
-                    sidebarSlideTitle.textContent = listing.title;
-                    sidebarSlideLocation.textContent = listing.location || "צפון";
-                    sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
+                    if (sidebarSlideImg) {
+                        sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
+                        sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
+                        sidebarSlideTitle.textContent = listing.title;
+                        sidebarSlideLocation.textContent = listing.location || "צפון";
+                        sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
 
-                    sidebarSlideDetailBtn.onclick = () => {
-                        openListingDetail(listing);
-                    };
+                        sidebarSlideDetailBtn.onclick = () => {
+                            openListingDetail(listing);
+                        };
 
-                    sidebarSlideImg.classList.remove("opacity-0");
+                        sidebarSlideImg.classList.remove("opacity-0");
+                    }
                 }, 300);
 
                 slideIndex = (slideIndex + 1) % allListings.length;
@@ -1377,11 +1386,11 @@
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
                 filtered = filtered.filter(item => 
-                    item.title.toLowerCase().includes(query) ||
-                    item.description.toLowerCase().includes(query) ||
-                    (item.location && item.location.toLowerCase().includes(query)) ||
-                    item.sellerName.toLowerCase().includes(query) ||
-                    item.category.toLowerCase().includes(query)
+                    (item.title || '').toLowerCase().includes(query) ||
+                    (item.description || '').toLowerCase().includes(query) ||
+                    (item.location || '').toLowerCase().includes(query) ||
+                    (item.sellerName || '').toLowerCase().includes(query) ||
+                    (item.category || '').toLowerCase().includes(query)
                 );
             }
 
@@ -1467,10 +1476,10 @@
         };
 
         const openListingDetail = (listing) => {
-            if (detailTitle) detailTitle.textContent = listing.title;
-            if (detailCategory) detailCategory.textContent = translateCategory(listing.category, currentLang);
+            if (detailTitle) detailTitle.textContent = listing.title || '';
+            if (detailCategory) detailCategory.textContent = translateCategory(listing.category, currentLang) || '';
             
-            let priceLabel = `₪${listing.price.toLocaleString()}`;
+            let priceLabel = `₪${(listing.price || 0).toLocaleString()}`;
             if (listing.category === "השכרה" || listing.category === "שכירות") {
                 priceLabel += currentLang === "he" ? " / לחודש" : " / month";
             } else if (listing.category === "מכירה" || listing.category === "קניה") {
@@ -1480,23 +1489,23 @@
             }
             if (detailPrice) detailPrice.textContent = priceLabel;
             
-            if (detailDescription) detailDescription.textContent = listing.description;
-            if (detailSellerName) detailSellerName.textContent = listing.sellerName;
+            if (detailDescription) detailDescription.textContent = listing.description || '';
+            if (detailSellerName) detailSellerName.textContent = listing.sellerName || '';
             if (detailEmail) {
-                detailEmail.textContent = listing.email;
-                detailEmail.href = `mailto:${encodeURIComponent(listing.email)}`;
+                detailEmail.textContent = listing.email || '';
+                detailEmail.href = listing.email ? `mailto:${encodeURIComponent(listing.email)}` : '';
             }
             if (detailPhone) {
-                detailPhone.textContent = listing.phone;
-                detailPhone.href = `tel:${encodeURIComponent(listing.phone)}`;
+                detailPhone.textContent = listing.phone || '';
+                detailPhone.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
             }
-            if (callSellerBtn) callSellerBtn.href = `tel:${encodeURIComponent(listing.phone)}`;
+            if (callSellerBtn) callSellerBtn.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
             if (detailLocation) detailLocation.textContent = listing.location || "לא צוין";
-            if (detailDate) detailDate.textContent = (currentLang === 'he' ? 'פורסם בתאריך: ' : 'Published on: ') + new Date(listing.createdAt).toLocaleDateString('he-IL');
+            if (detailDate) detailDate.textContent = (currentLang === 'he' ? 'פורסם בתאריך: ' : 'Published on: ') + (listing.createdAt ? new Date(listing.createdAt).toLocaleDateString('he-IL') : '');
 
             if (detailRoomsVal) detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} ${currentLang === 'he' ? 'חדרים' : 'Rooms'}` : "-";
             if (detailSqMVal) detailSqMVal.textContent = listing.sqm ? `${listing.sqm} ${currentLang === 'he' ? 'מ״ר' : 'Sqm'}` : "-";
-            if (detailTypeVal) detailTypeVal.textContent = translateCategory(listing.category, currentLang);
+            if (detailTypeVal) detailTypeVal.textContent = translateCategory(listing.category, currentLang) || '';
 
             if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
                 if (detailPhoneAlt) {
@@ -1644,19 +1653,12 @@
                 const provider = new GoogleAuthProvider();
                 provider.setCustomParameters({ prompt: 'select_account' });
                 
-                const popupPromise = signInWithPopup(auth, provider);
-                const timeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error("popup-blocked-or-iframe-sandbox")), 4500)
-                );
-                
-                await Promise.race([popupPromise, timeoutPromise]);
+                await signInWithPopup(auth, provider);
                 showToast("התחברת בהצלחה באמצעות גוגל", "success");
             } catch (error) {
                 console.error("שגיאת אימות גוגל:", error);
-                if (error.message === "popup-blocked-or-iframe-sandbox") {
-                    showToast("ההתחברות ממתינה. ייתכן וסביבת התצוגה המקדימה (Iframe) או חוסם פופ-אפים מונעים את פתיחת החלון. פתחו את האתר ישירות בכתובת ה-GitHub שלכם כדי להתחבר!", "error");
-                } else if (error.code === "auth/configuration-not-found") {
-                    showToast("שגיאה: יש להפעיל את Google Sign-In בתוך ה-Firebase Console שלכם תחת Authentication.", "error");
+                if (error.code === "auth/configuration-not-found" || error.code === "auth/unauthorized-domain") {
+                    showToast("שגיאה: יש להוסיף את הדומיין שלכם ל-Authorized Domains ב-Firebase Console שלכם תחת Authentication -> Settings.", "error");
                 } else if (error.code === "auth/popup-blocked") {
                     showToast("שגיאה: חלון ההתחברות נחסם על ידי הדפדפן. אנא אפשרו חלונות קופצים בדפדפן ונסו שוב.", "error");
                 } else {
@@ -1791,9 +1793,7 @@
 
         window.addEventListener("resize", updateNavIndicator);
 
-        window.addEventListener("DOMContentLoaded", () => {
-            initAuth();
-        });
+        initAuth();
     </script>
 </body>
 </html>
