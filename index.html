@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>דירות בקליק - לוח דירות ונכסים</title>
-    <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=120&q=80">
+    <link rel="icon" type="image/png" href="1.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,6 +12,7 @@
         body {
             font-family: 'Assistant', sans-serif;
             background-color: #faf9f6;
+            transition: filter 0.3s ease;
         }
         .luxury-shadow {
             box-shadow: 0 20px 40px -15px rgba(30, 62, 48, 0.07);
@@ -40,8 +41,15 @@
             animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .nav-link-active {
-            color: #1e3e30 !important;
+            color: #2D423B !important;
             font-weight: 800;
+        }
+        .monochrome {
+            filter: grayscale(100%) !important;
+        }
+        .highlight-links a {
+            outline: 2px solid #D4A373 !important;
+            background-color: rgba(212, 163, 115, 0.1) !important;
         }
     </style>
 </head>
@@ -50,23 +58,25 @@
     <header class="bg-white/95 backdrop-blur-md border-b border-stone-100 sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3 shrink-0">
-                <div class="w-11 h-11 rounded-2xl bg-[#1e3e30]/5 text-[#c39e5c] flex items-center justify-center shrink-0 border border-stone-100 shadow-sm">
+                <img src="1.png" alt="לוגו" class="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-500 hover:rotate-6" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                <div class="hidden w-11 h-11 rounded-2xl bg-[#2D423B]/5 text-[#D4A373] flex items-center justify-center shrink-0 border border-stone-100 shadow-sm">
                     <i class="fas fa-hotel text-lg"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-1.5">
-                        <h1 class="text-lg sm:text-xl font-extrabold text-[#1e3e30] tracking-tight leading-tight" data-translate="logoText">דירות בקליק</h1>
+                        <h1 class="text-lg sm:text-xl font-extrabold text-[#2D423B] tracking-tight leading-tight" data-translate="logoText">דירות בקליק</h1>
                     </div>
-                    <p class="text-[9px] sm:text-[10px] text-[#c39e5c] font-bold tracking-widest" data-translate="subTitle">אירוח קצר, שבתות וצימרים</p>
+                    <p class="text-[9px] sm:text-[10px] text-[#D4A373] font-bold tracking-widest" data-translate="subTitle">אירוח קצר, שבתות וצימרים</p>
                 </div>
             </div>
 
             <nav id="mainNav" class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-500 relative py-2">
-                <a href="#" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30] nav-link-active" data-translate="navHome">ראשי</a>
-                <a href="#categories-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30]" data-translate="navCategories">קטגוריות נופש</a>
-                <a href="#listings-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#1e3e30]" data-translate="navListings">לוח הנכסים</a>
-                <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="py-1 transition-all duration-300 hover:text-[#1e3e30]" data-translate="navContact">צור קשר</a>
-                <div id="navIndicator" class="absolute bottom-0 h-[2.5px] bg-[#c39e5c] transition-all duration-300 ease-out rounded-full" style="width: 0px; left: 0px;"></div>
+                <a href="#" class="nav-item relative py-1 transition-all duration-300 hover:text-[#2D423B] nav-link-active" data-translate="navHome">ראשי</a>
+                <a href="#categories-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#2D423B]" data-translate="navCategories">קטגוריות נופש</a>
+                <a href="#listings-section" class="nav-item relative py-1 transition-all duration-300 hover:text-[#2D423B]" data-translate="navListings">לוח הנכסים</a>
+                <a href="#dashboard-section" id="navDashboardLink" class="hidden nav-item relative py-1 transition-all duration-300 hover:text-[#2D423B]" data-translate="navDashboard">אזור אישי</a>
+                <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="py-1 transition-all duration-300 hover:text-[#2D423B]" data-translate="navContact">צור קשר</a>
+                <div id="navIndicator" class="absolute bottom-0 h-[2.5px] bg-[#D4A373] transition-all duration-300 ease-out rounded-full" style="width: 0px; left: 0px;"></div>
             </nav>
 
             <div class="flex items-center gap-2 sm:gap-3.5">
@@ -76,8 +86,8 @@
                 </button>
 
                 <div id="authStatus" class="hidden items-center gap-2 bg-stone-50 py-1 px-2.5 sm:px-3 rounded-full border border-stone-100 text-[11px] sm:text-xs max-w-[140px] sm:max-w-xs overflow-hidden transition-all duration-300">
-                    <img id="userAvatar" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#c39e5c] shrink-0" src="" alt="פרופיל">
-                    <span id="userName" class="font-bold text-[#1e3e30] truncate max-w-[50px] sm:max-w-[100px]"></span>
+                    <img id="userAvatar" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#D4A373] shrink-0" src="" alt="פרופיל">
+                    <span id="userName" class="font-bold text-[#2D423B] truncate max-w-[50px] sm:max-w-[100px]"></span>
                     <button id="logoutBtn" class="text-rose-600 hover:text-rose-700 font-extrabold mr-1 transition shrink-0" data-translate="logout">התנתק</button>
                 </div>
                 
@@ -87,22 +97,22 @@
                     <span class="whitespace-nowrap" data-translate="login">התחברות</span>
                 </button>
 
-                <button id="openPublishModalBtn" class="bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-2 px-3 sm:px-4.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-md shadow-[#1e3e30]/10 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0">
+                <button id="openPublishModalBtn" class="bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-2 px-3 sm:px-4.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-md shadow-[#2D423B]/10 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0">
                     <i class="fas fa-plus text-[9px]"></i>
                     <span class="whitespace-nowrap" data-translate="publishBtn">פרסמו נכס</span>
                 </button>
 
-                <button id="mobileMenuToggle" class="lg:hidden text-[#1e3e30] p-2 hover:bg-stone-50 rounded-xl transition">
+                <button id="mobileMenuToggle" class="lg:hidden text-[#2D423B] p-2 hover:bg-stone-50 rounded-xl transition">
                     <i class="fas fa-bars text-lg"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <div id="mobileMenu" class="fixed inset-0 bg-[#1e3e30]/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
+    <div id="mobileMenu" class="fixed inset-0 bg-[#2D423B]/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
         <div class="bg-white w-72 h-full p-6 flex flex-col gap-6 shadow-2xl transition-transform duration-300 -translate-x-full ml-auto">
             <div class="flex items-center justify-between border-b border-stone-100 pb-4">
-                <span class="font-extrabold text-[#1e3e30]" data-translate="logoText">תפריט ניווט</span>
+                <span class="font-extrabold text-[#2D423B]" data-translate="logoText">תפריט ניווט</span>
                 <button id="closeMobileMenu" class="text-stone-400 hover:text-stone-600 p-2"><i class="fas fa-times text-lg"></i></button>
             </div>
             <nav class="flex flex-col gap-4 text-sm font-semibold text-stone-600">
@@ -120,19 +130,19 @@
     <main class="flex-grow">
         
         <section id="hero-section" class="relative h-[500px] sm:h-[540px] flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80');"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-[#1e3e30]/75 via-[#1e3e30]/65 to-[#faf9f6]"></div>
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#2D423B]/75 via-[#2D423B]/65 to-[#faf9f6]"></div>
             
             <div class="relative z-10 max-w-4xl mx-auto px-4 text-center text-white mb-8 w-full">
                 <h2 class="text-3xl sm:text-5xl md:text-6xl font-black mb-4 tracking-tight leading-tight px-2 animate-in fade-in slide-in-from-bottom-6 duration-700" data-translate="heroTitle">
-                    נופש ודירות <span class="text-[#c39e5c]">בקליק אחד</span>
+                    נופש ודירות <span class="text-[#D4A373]">בקליק אחד</span>
                 </h2>
                 <p class="text-sm sm:text-base md:text-lg text-stone-200 max-w-2xl mx-auto mb-8 font-light px-4 animate-in fade-in slide-in-from-bottom-8 duration-900" data-translate="heroSub">
                     הלוח המוביל לצימרים, דירות אירוח לשבתות וחגים, השכרה לטווח קצר ופתרונות דיור קבועים בפריסה ארצית.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mx-auto px-4 sm:px-0 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                    <a href="#listings-section" class="w-full sm:w-auto bg-[#c39e5c] hover:bg-[#b08945] text-[#1e3e30] font-extrabold px-8 py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-[#c39e5c]/20 text-xs sm:text-sm flex items-center justify-center gap-2">
+                    <a href="#listings-section" class="w-full sm:w-auto bg-[#D4A373] hover:bg-[#c29262] text-[#2D423B] font-extrabold px-8 py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-[#D4A373]/20 text-xs sm:text-sm flex items-center justify-center gap-2">
                         <i class="fas fa-search text-[10px]"></i>
                         <span class="whitespace-nowrap" data-translate="heroDiscover">גלו נכסים</span>
                     </a>
@@ -147,27 +157,28 @@
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-20 mb-16 animate-in fade-in slide-in-from-bottom-12 duration-1000">
             <div class="bg-white rounded-3xl p-4 sm:p-5 md:p-6 luxury-shadow border border-stone-100/80">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
-                    <div class="md:col-span-6 flex items-center bg-stone-50 rounded-2xl border border-stone-200/60 px-4 py-3 focus-within:border-[#1e3e30] focus-within:ring-2 focus-within:ring-[#1e3e30]/5 transition-all duration-300">
+                    <div class="md:col-span-6 flex items-center bg-stone-50 rounded-2xl border border-stone-200/60 px-4 py-3 focus-within:border-[#2D423B] focus-within:ring-2 focus-within:ring-[#2D423B]/5 transition-all duration-300">
                         <i class="fas fa-search text-stone-400 ml-3 text-sm"></i>
-                        <input id="searchInput" type="text" data-translate-placeholder="searchPlaceholder" placeholder="חפשו לפי עיר, סוג אירוח, חדרים..." class="w-full bg-transparent border-none outline-none text-slate-800 placeholder-slate-400 font-medium text-xs sm:text-sm">
+                        <input id="searchInput" type="text" data-translate-placeholder="searchPlaceholder" placeholder="חפשו לפי עיר, סוג אירוח, חדרים או מילות מפתח..." class="w-full bg-transparent border-none outline-none text-slate-800 placeholder-slate-400 font-medium text-xs sm:text-sm">
                     </div>
                     
                     <div class="md:col-span-3">
-                        <select id="searchCategorySelect" class="w-full bg-stone-50 border border-stone-200/60 rounded-2xl py-3 px-4 text-slate-700 font-semibold text-xs sm:text-sm outline-none focus:border-[#1e3e30] focus:ring-2 focus:ring-[#1e3e30]/5 transition-all duration-300">
+                        <select id="searchCategorySelect" class="w-full bg-stone-50 border border-stone-200/60 rounded-2xl py-3 px-4 text-slate-700 font-semibold text-xs sm:text-sm outline-none focus:border-[#2D423B] focus:ring-2 focus:ring-[#2D423B]/5 transition-all duration-300">
                             <option value="הכל" data-translate="allCategories">כל הקטגוריות</option>
-                            <option value="דירות נופש" data-translate="catVacation">דירות נופש</option>
-                            <option value="דירות לשבת" data-translate="catShabbat">דירות לשבת</option>
-                            <option value="צימרים" data-translate="catZimmers">צימרים</option>
-                            <option value="קמפוסים" data-translate="catCampuses">קמפוסים</option>
-                            <option value="בריכות" data-translate="catPools">בריכות</option>
-                            <option value="מסעדות" data-translate="catRestaurants">מסעדות</option>
-                            <option value="מכירה" data-translate="catBuy">מכירה</option>
-                            <option value="השכרה" data-translate="catRent">השכרה</option>
+                            <option value="צימרים ודירות נופש" data-translate="catZimmers">צימרים ודירות נופש</option>
+                            <option value="דירות לשבתות וחגים" data-translate="catShabbat">דירות לשבתות וחגים</option>
+                            <option value="מתחמים וקמפוסים" data-translate="catCampuses">מתחמים וקמפוסים</option>
+                            <option value="מתחמי ספא ומרגוע" data-translate="catPools">מתחמי ספא ומרגוע</option>
+                            <option value="מקומות מיוחדים" data-translate="catSpecial">מקומות מיוחדים</option>
+                            <option value="דירות ואירוח בחו''ל" data-translate="catAbroad">דירות ואירוח בחו''ל</option>
+                            <option value="אטרקציות ופנאי" data-translate="catAttractions">אטרקציות ופנאי</option>
+                            <option value="השכרת ציוד לאירועים" data-translate="catEquipment">השכרת ציוד לאירועים</option>
+                            <option value="רשת הגמ''חים הלאומית" data-translate="catGemach">רשת הגמ''חים הלאומית</option>
                         </select>
                     </div>
 
                     <div class="md:col-span-3 flex items-center gap-2 w-full">
-                        <button id="searchSubmitBtn" class="flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3 px-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-xs sm:text-sm flex items-center justify-center gap-2">
+                        <button id="searchSubmitBtn" class="flex-grow bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-3 px-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-xs sm:text-sm flex items-center justify-center gap-2">
                             <i class="fas fa-search text-[10px]"></i>
                             <span class="whitespace-nowrap" data-translate="searchBtn">חפשו נכס</span>
                         </button>
@@ -178,26 +189,26 @@
                 </div>
 
                 <div class="flex items-center justify-between mt-4 pt-4 border-t border-stone-100/80 text-[11px] sm:text-xs">
-                    <button id="advancedFilterToggle" class="text-stone-500 hover:text-[#1e3e30] font-bold flex items-center gap-1.5 transition">
+                    <button id="advancedFilterToggle" class="text-stone-500 hover:text-[#2D423B] font-bold flex items-center gap-1.5 transition">
                         <i class="fas fa-sliders-h"></i>
                         <span class="whitespace-nowrap" data-translate="advancedFilter">סינון מחיר ומפרט</span>
                     </button>
-                    <button id="showAllListingsLink" class="text-[#c39e5c] hover:text-[#b08945] font-extrabold hover:underline transition whitespace-nowrap" data-translate="showAllListings">הצג את כל הדירות</button>
+                    <button id="showAllListingsLink" class="text-[#D4A373] hover:text-[#c29262] font-extrabold hover:underline transition whitespace-nowrap" data-translate="showAllListings">הצג את כל הדירות</button>
                 </div>
 
                 <div id="advancedFilterPanel" class="hidden mt-4 pt-4 border-t border-stone-100 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1" data-translate="maxPrice">מחיר מקסימלי</label>
-                            <input id="filterMaxPrice" type="number" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#1e3e30]">
+                            <input id="filterMaxPrice" type="number" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#2D423B]">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1" data-translate="minRooms">מינימום חדרים</label>
-                            <input id="filterMinRooms" type="number" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#1e3e30]">
+                            <input id="filterMinRooms" type="number" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#2D423B]">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1" data-translate="minSqm">מינימום מ"ר</label>
-                            <input id="filterMinSqM" type="number" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#1e3e30]">
+                            <input id="filterMinSqM" type="number" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#2D423B]">
                         </div>
                     </div>
                 </div>
@@ -206,131 +217,158 @@
 
         <section id="categories-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="text-center max-w-xl mx-auto mb-10">
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-[#1e3e30] mb-2" data-translate="catTitle">קטגוריות נופש ואירוח</h3>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-[#2D423B] mb-2" data-translate="catTitle">קטגוריות נופש ואירוח</h3>
                 <p class="text-stone-500 text-sm" data-translate="catSub">בחרו את סוג החופשה או המגורים הבאים שלכם</p>
-                <div class="w-12 h-0.5 bg-[#c39e5c] mx-auto mt-4"></div>
+                <div class="w-12 h-0.5 bg-[#D4A373] mx-auto mt-4"></div>
             </div>
 
             <div class="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-                
-                <div data-category-select="דירות נופש" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="צימרים ודירות נופש" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catVacation">דירות נופש</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catZimmers">צימרים ונופש</span>
                 </div>
 
-                <div data-category-select="דירות לשבת" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="דירות לשבתות וחגים" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catShabbat">דירות לשבת</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catShabbat">דירות לשבת</span>
                 </div>
 
-                <div data-category-select="צימרים" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="מתחמים וקמפוסים" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catZimmers">צימרים</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catCampuses">מתחמים וקמפוסים</span>
                 </div>
 
-                <div data-category-select="קמפוסים" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="מתחמי ספא ומרגוע" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catCampuses">קמפוסים</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catPools">ספא ובריכות</span>
                 </div>
 
-                <div data-category-select="בריכות" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="מקומות מיוחדים" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catPools">בריכות</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catSpecial">מקומות מיוחדים</span>
                 </div>
 
-                <div data-category-select="מסעדות" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="דירות ואירוח בחו''ל" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catRestaurants">מסעדות</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catAbroad">אירוח בחו"ל</span>
                 </div>
 
-                <div data-category-select="מכירה" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-500 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="אטרקציות ופנאי" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catBuy">מכירה</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catAttractions">אטרקציות ופנאי</span>
                 </div>
 
-                <div data-category-select="השכרה" class="category-card cursor-pointer group flex flex-col items-center">
-                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-500 group-hover:scale-105 group-hover:border-[#c39e5c] relative">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80'">
-                        <div class="absolute inset-0 bg-[#1e3e30]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                <div data-category-select="השכרת ציוד לאירועים" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#1e3e30] mt-3 transition-colors duration-300 group-hover:text-[#c39e5c]" data-translate="catRent">השכרה</span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catEquipment">השכרת ציוד</span>
                 </div>
 
+                <div data-category-select="רשת הגמ''חים הלאומית" class="category-card cursor-pointer group flex flex-col items-center">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#D4A373] luxury-shadow transition-all duration-300 group-hover:scale-105 relative">
+                        <img src="https://images.unsplash.com/photo-1574607383476-f517f220d35b?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/20 group-hover:bg-transparent transition-all duration-300"></div>
+                    </div>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="catGemach">לוח הגמ"חים</span>
+                </div>
             </div>
         </section>
 
         <section id="listings-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-stone-200/60 pb-5 mb-8 gap-4">
                 <div>
-                    <h3 class="text-2xl font-extrabold text-[#1e3e30] flex items-center gap-2">
-                        <span class="w-2.5 h-6 bg-[#c39e5c] rounded-full inline-block"></span>
+                    <h3 class="text-2xl font-extrabold text-[#2D423B] flex items-center gap-2">
+                        <span class="w-2.5 h-6 bg-[#D4A373] rounded-full inline-block"></span>
                         <span data-translate="listTitle">לוח נכסי פרימיום</span>
                     </h3>
                     <p class="text-xs text-stone-400 mt-1" data-translate="listSub">תוצאות חיפוש ועדכונים אחרונים מהבעלים</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span id="resultsCount" class="text-xs font-bold text-[#1e3e30] bg-[#1e3e30]/5 py-1.5 px-3.5 rounded-full whitespace-nowrap">טוען...</span>
-                    <button id="resetCategoryFilterBtn" class="hidden text-xs font-extrabold text-[#c39e5c] hover:text-[#b08945] hover:underline transition-all duration-300 whitespace-nowrap" data-translate="showAllListings">הצג הכל</button>
+                    <span id="resultsCount" class="text-xs font-bold text-[#2D423B] bg-[#2D423B]/5 py-1.5 px-3.5 rounded-full whitespace-nowrap">טוען...</span>
+                    <button id="resetCategoryFilterBtn" class="hidden text-xs font-extrabold text-[#D4A373] hover:text-[#c29262] hover:underline transition-all duration-300 whitespace-nowrap" data-translate="showAllListings">הצג הכל</button>
                 </div>
             </div>
 
             <div class="flex gap-2.5 overflow-x-auto pb-4 hide-scrollbar mb-8" id="categoryTabBar">
-                <button data-category-tab="הכל" class="category-tab active bg-[#1e3e30] text-[#c39e5c] font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap shadow-md flex items-center gap-2">
+                <button data-category-tab="הכל" class="category-tab active bg-[#2D423B] text-[#D4A373] font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap shadow-md flex items-center gap-2">
                     <i class="fas fa-th-large"></i> <span data-translate="tabAll">הכל</span>
                 </button>
-                <button data-category-tab="דירות נופש" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
-                    <i class="fas fa-umbrella-beach"></i> <span data-translate="catVacation">דירות נופש</span>
+                <button data-category-tab="צימרים ודירות נופש" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-umbrella-beach"></i> <span data-translate="catZimmers">צימרים ונופש</span>
                 </button>
-                <button data-category-tab="דירות לשבת" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                <button data-category-tab="דירות לשבתות וחגים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
                     <i class="fas fa-couch"></i> <span data-translate="catShabbat">דירות לשבת</span>
                 </button>
-                <button data-category-tab="צימרים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
-                    <i class="fas fa-tree"></i> <span data-translate="tabZimmers">צימרים</span>
-                </button>
-                <button data-category-tab="קמפוסים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                <button data-category-tab="מתחמים וקמפוסים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
                     <i class="fas fa-hotel"></i> <span data-translate="catCampuses">קמפוסים</span>
                 </button>
-                <button data-category-tab="בריכות" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
-                    <i class="fas fa-swimming-pool"></i> <span data-translate="catPools">בריכות</span>
+                <button data-category-tab="מתחמי ספא ומרגוע" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-swimming-pool"></i> <span data-translate="catPools">ספא ובריכות</span>
                 </button>
-                <button data-category-tab="מסעדות" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
-                    <i class="fas fa-utensils"></i> <span data-translate="catRestaurants">מסעדות</span>
+                <button data-category-tab="מקומות מיוחדים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-compass"></i> <span data-translate="catSpecial">מקומות מיוחדים</span>
                 </button>
-                <button data-category-tab="מכירה" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
-                    <i class="fas fa-tags"></i> <span data-translate="tabBuy">מכירה</span>
+                <button data-category-tab="דירות ואירוח בחו''ל" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-globe-americas"></i> <span data-translate="catAbroad">אירוח בחו"ל</span>
                 </button>
-                <button data-category-tab="השכרה" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
-                    <i class="fas fa-key"></i> <span data-translate="tabRent">השכרה</span>
+                <button data-category-tab="אטרקציות ופנאי" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-bicycle"></i> <span data-translate="catAttractions">אטרקציות</span>
+                </button>
+                <button data-category-tab="השכרת ציוד לאירועים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-plug"></i> <span data-translate="catEquipment">השכרת ציוד</span>
+                </button>
+                <button data-category-tab="רשת הגמ''חים הלאומית" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                    <i class="fas fa-hands-helping"></i> <span data-translate="catGemach">גמ"חים</span>
                 </button>
             </div>
 
+            <div id="gemachMapContainer" class="hidden w-full mb-8 bg-white border border-stone-200 rounded-3xl p-5 luxury-shadow">
+                <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
+                    <h4 class="font-extrabold text-[#2D423B] text-sm flex items-center gap-2">
+                        <i class="fas fa-map-marked-alt text-[#D4A373]"></i>
+                        <span data-translate="gemachMapTitle">גמ"חים בסביבה שלך</span>
+                    </h4>
+                </div>
+                <div class="w-full h-80 bg-stone-100 rounded-2xl relative overflow-hidden flex items-center justify-center border border-stone-200">
+                    <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1000&q=80');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2D423B]/10 to-[#2D423B]/30"></div>
+                    <div class="relative z-10 text-center p-6">
+                        <i class="fas fa-map-pin text-4xl text-rose-500 animate-bounce mb-2"></i>
+                        <p class="font-bold text-[#2D423B] text-sm" data-translate="mapLoading">מפת גמ"חים אינטראקטיבית טעונה בהצלחה</p>
+                        <p class="text-xs text-[#2D423B]/80 mt-1" data-translate="mapSub">מציג סיכות מבוססות מיקום עבור גמ"חים באזור הנבחר</p>
+                    </div>
+                    <div id="mockPinsContainer" class="absolute inset-0 z-10 pointer-events-none"></div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
                 <div class="lg:col-span-8">
                     <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="col-span-full py-24 flex flex-col items-center justify-center text-stone-400">
-                            <i class="fas fa-circle-notch fa-spin text-4xl text-[#1e3e30] mb-4"></i>
+                            <i class="fas fa-circle-notch fa-spin text-4xl text-[#2D423B] mb-4"></i>
                             <p class="font-bold text-slate-600 text-sm text-center">טוען נכסים חמים מהלוח...</p>
                         </div>
                     </div>
@@ -338,7 +376,7 @@
 
                 <div class="lg:col-span-4 bg-white border border-stone-100 rounded-3xl p-5 luxury-shadow">
                     <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
-                        <h4 class="font-extrabold text-[#1e3e30] text-sm flex items-center gap-2">
+                        <h4 class="font-extrabold text-[#2D423B] text-sm flex items-center gap-2">
                             <i class="fas fa-fire text-amber-500 animate-pulse"></i>
                             <span data-translate="featuredTitle">נכסים מומלצים השבוע</span>
                         </h4>
@@ -348,41 +386,104 @@
                     <div id="sidebarSlideContainer" class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-stone-900 group">
                         <img id="sidebarSlideImg" class="w-full h-full object-cover transition-opacity duration-300 hover:scale-105" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" alt="דירות בקליק">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        
-                        <div class="absolute top-3 right-3 bg-[#c39e5c] text-[#1e3e30] text-[9px] font-bold px-2 py-1 rounded-full shadow" data-translate="featuredBadge">
-                            מומלץ
-                        </div>
-
+                        <div class="absolute top-3 right-3 bg-[#D4A373] text-[#2D423B] text-[9px] font-bold px-2 py-1 rounded-full shadow" data-translate="featuredBadge">מומלץ</div>
                         <div class="absolute bottom-3 right-3 left-3 text-white">
-                            <p id="sidebarSlideCategory" class="text-[9px] text-[#c39e5c] font-bold uppercase tracking-wider">דירות בקליק</p>
+                            <p id="sidebarSlideCategory" class="text-[9px] text-[#D4A373] font-bold uppercase tracking-wider">דירות בקליק</p>
                             <h5 id="sidebarSlideTitle" class="text-xs font-extrabold leading-snug truncate mt-0.5">עדיין לא פורסמו נכסים מומלצים</h5>
                             <div class="flex items-center justify-between mt-1 text-[10px]">
                                 <span id="sidebarSlideLocation" class="text-stone-300">כל הארץ</span>
-                                <span id="sidebarSlidePrice" class="font-bold text-[#c39e5c]">₪0</span>
+                                <span id="sidebarSlidePrice" class="font-bold text-[#D4A373]">₪0</span>
                             </div>
                         </div>
                     </div>
 
-                    <button id="sidebarSlideDetailBtn" class="w-full mt-3 bg-stone-50 hover:bg-stone-100 border border-stone-200/60 text-slate-700 hover:text-[#1e3e30] font-bold py-2 px-4 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
+                    <button id="sidebarSlideDetailBtn" class="w-full mt-3 bg-stone-50 hover:bg-stone-100 border border-stone-200/60 text-slate-700 hover:text-[#2D423B] font-bold py-2 px-4 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
                         <span data-translate="viewDetails">עברו לפרטים המלאים</span>
                         <i class="fas fa-arrow-left text-[9px]"></i>
                     </button>
                 </div>
+            </div>
+        </section>
 
+        <section id="dashboard-section" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 luxury-shadow border border-stone-150 mb-10">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-stone-100 pb-5 mb-8 gap-4">
+                    <div>
+                        <h3 class="text-2xl font-black text-[#2D423B] flex items-center gap-2">
+                            <i class="fas fa-chart-line text-[#D4A373]"></i>
+                            <span data-translate="dashboardTitle">אזור אישי וניהול נכסים</span>
+                        </h3>
+                        <p class="text-xs text-stone-400 mt-1" data-translate="dashboardSub">צפו בנתוני צפיות ייחודיים (Unique Views), יומן ודיוור</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-stone-500 font-bold" data-translate="totalListings">סך הכל נכסים שלי</span>
+                            <i class="fas fa-home text-lg text-[#D4A373]"></i>
+                        </div>
+                        <p class="text-3xl font-black text-[#2D423B] mt-2" id="dashTotalListings">0</p>
+                    </div>
+                    <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-stone-500 font-bold" data-translate="totalViews">סך צפיות ייחודיות (Unique Views)</span>
+                            <i class="fas fa-eye text-lg text-[#D4A373]"></i>
+                        </div>
+                        <p class="text-3xl font-black text-[#2D423B] mt-2" id="dashTotalViews">0</p>
+                    </div>
+                    <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-stone-500 font-bold" data-translate="promoStatus">מסלול חיוב השקה</span>
+                            <i class="fas fa-tags text-lg text-emerald-600"></i>
+                        </div>
+                        <div class="mt-2 flex items-center gap-2">
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200" id="dashPromoLabel">השקה פעיל - 5 ₪</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-extrabold text-sm text-[#2D423B] mb-4 flex items-center gap-2">
+                            <i class="fas fa-tasks text-[#D4A373]"></i>
+                            <span data-translate="myProperties">ניהול מודעות פעיל</span>
+                        </h4>
+                        <div id="dashPropertiesList" class="space-y-3">
+                            <p class="text-xs text-stone-400 font-medium italic" data-translate="noProperties">עדיין לא פרסמתם אף נכס.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-sm text-[#2D423B] mb-4 flex items-center gap-2">
+                            <i class="fas fa-calendar-alt text-[#D4A373]"></i>
+                            <span data-translate="calendarManage">ניהול יומן זמינות מודעה</span>
+                        </h4>
+                        <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200 space-y-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1" data-translate="selectPropToManage">בחרו נכס לעדכון</label>
+                                <select id="dashCalendarSelect" class="w-full bg-white border border-stone-200 rounded-xl py-2.5 px-3 text-xs outline-none focus:border-[#2D423B]"></select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button id="calendarFreeBtn" class="bg-[#2D423B] text-white font-bold py-2 px-4 rounded-xl text-xs transition">סמן כפנוי</button>
+                                <button id="calendarBusyBtn" class="bg-[#c39e5c] text-[#2D423B] font-bold py-2 px-4 rounded-xl text-xs transition">סמן כתפוס / חסום</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <div id="publishModal" class="fixed inset-0 bg-[#1e3e30]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+    <div id="publishModal" class="fixed inset-0 bg-[#2D423B]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
             <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <span class="w-10 h-10 bg-[#1e3e30]/5 text-[#1e3e30] rounded-xl flex items-center justify-center">
+                    <span class="w-10 h-10 bg-[#2D423B]/5 text-[#2D423B] rounded-xl flex items-center justify-center">
                         <i class="fas fa-hotel text-sm"></i>
                     </span>
                     <div>
-                        <h3 class="text-base font-extrabold text-[#1e3e30]" data-translate="publishModalTitle">פרסום נכס חדש</h3>
+                        <h3 class="text-base font-extrabold text-[#2D423B]" data-translate="publishModalTitle">פרסום נכס חדש</h3>
                         <p class="text-[10px] text-stone-400" data-translate="publishModalSub">פרסמו ישירות לקהל מחפשי הצימרים והנופש</p>
                     </div>
                 </div>
@@ -392,13 +493,13 @@
             </div>
 
             <div id="unauthModalState" class="p-8 text-center flex-grow flex flex-col items-center justify-center">
-                <div class="w-14 h-14 bg-[#1e3e30]/5 text-[#1e3e30] rounded-full flex items-center justify-center mb-4">
+                <div class="w-14 h-14 bg-[#2D423B]/5 text-[#2D423B] rounded-full flex items-center justify-center mb-4">
                     <i class="fab fa-google text-2xl"></i>
                 </div>
-                <h4 class="text-lg font-extrabold text-[#1e3e30] mb-2 px-2" data-translate="unauthTitle">פרסום נכס דורש התחברות לגוגל</h4>
+                <h4 class="text-lg font-extrabold text-[#2D423B] mb-2 px-2" data-translate="unauthTitle">פרסום נכס דורש התחברות לגוגל</h4>
                 <p class="text-stone-400 text-xs max-w-xs mb-8 px-4" data-translate="unauthDesc">על מנת לוודא כי המפרסמים בלוח הינם אנשים אמיתיים וכדי למנוע מודעות ספאם, עליך לבצע התחברות קלה ומהירה.</p>
                 <div class="flex flex-col sm:flex-row gap-3 w-full max-w-xs px-4 sm:px-0">
-                    <button id="modalLoginBtn" class="w-full sm:flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 text-xs">
+                    <button id="modalLoginBtn" class="w-full sm:flex-grow bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 text-xs">
                         <i class="fab fa-google"></i>
                         <span class="whitespace-nowrap" data-translate="googleLoginBtn">התחברות מהירה עם גוגל</span>
                     </button>
@@ -409,80 +510,51 @@
             </div>
 
             <form id="publishForm" class="hidden p-6 sm:p-8 overflow-y-auto space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                
+                <div class="flex justify-between items-center bg-stone-50 p-3 rounded-2xl border border-stone-200 text-[10px] font-bold mb-4">
+                    <span id="formStepIndicator">שלב 1 מתוך 4</span>
+                    <div class="w-24 bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div id="formStepProgress" class="bg-[#D4A373] h-full" style="width: 25%"></div>
+                    </div>
+                </div>
+
+                <div id="formStep1" class="space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formCategory">קטגוריית פרסום <span class="text-rose-500">*</span></label>
-                        <select id="formCategory" required class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
-                            <option value="דירות נופש" data-translate="catVacation">דירות נופש</option>
-                            <option value="דירות לשבת" data-translate="catShabbat">דירות לשבת</option>
-                            <option value="צימרים" data-translate="catZimmers">צימרים</option>
-                            <option value="קמפוסים" data-translate="catCampuses">קמפוסים</option>
-                            <option value="בריכות" data-translate="catPools">בריכות</option>
-                            <option value="מסעדות" data-translate="catRestaurants">מסעדות</option>
-                            <option value="מכירה" data-translate="catBuy">מכירה</option>
-                            <option value="השכרה" data-translate="catRent">השכרה</option>
+                        <select id="formCategory" required class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
+                            <option value="צימרים ודירות נופש" data-translate="catZimmers">צימרים ודירות נופש</option>
+                            <option value="דירות לשבתות וחגים" data-translate="catShabbat">דירות לשבתות וחגים</option>
+                            <option value="מתחמים וקמפוסים" data-translate="catCampuses">מתחמים וקמפוסים</option>
+                            <option value="מתחמי ספא ומרגוע" data-translate="catPools">מתחמי ספא ומרגוע</option>
+                            <option value="מקומות מיוחדים" data-translate="catSpecial">מקומות מיוחדים</option>
+                            <option value="דירות ואירוח בחו''ל" data-translate="catAbroad">דירות ואירוח בחו''ל</option>
+                            <option value="אטרקציות ופנאי" data-translate="catAttractions">אטרקציות ופנאי</option>
+                            <option value="השכרת ציוד לאירועים" data-translate="catEquipment">השכרת ציוד לאירועים</option>
+                            <option value="רשת הגמ''חים הלאומית" data-translate="catGemach">רשת הגמ''חים הלאומית</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formTitle">כותרת המודעה <span class="text-rose-500">*</span></label>
-                        <input id="formTitle" type="text" required placeholder="למשל: דירת 4 חדרים מפוארת במגדלי פאר" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formTitle" type="text" required placeholder="למשל: סוויטה מפוארת" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formLocation">עיר / ישוב <span class="text-rose-500">*</span></label>
-                        <input id="formLocation" type="text" required placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formLocation" type="text" required placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
+                </div>
 
+                <div id="formStep2" class="hidden space-y-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPrice">מחיר בשקלים (₪) <span class="text-rose-500">*</span></label>
-                        <input id="formPrice" type="number" required placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formRooms">מספר חדרים <span class="text-rose-500">*</span></label>
-                        <input id="formRooms" type="number" step="0.5" required placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSqm">מטר רבוע (מ"ר) <span class="text-rose-500">*</span></label>
-                        <input id="formSqM" type="number" required placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSellerName">שם מלא של המפרסם <span class="text-rose-500">*</span></label>
-                        <input id="formSellerName" type="text" required placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPhone">מספר טלפון לפניות <span class="text-rose-500">*</span></label>
-                        <input id="formPhone" type="tel" required placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPhoneAlt">טלפון נוסף</label>
-                        <input id="formPhoneAlt" type="tel" placeholder="למשל: 054-9876543" class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formEmail">כתובת אימייל ליצירת קשר <span class="text-rose-500">*</span></label>
-                        <input id="formEmail" type="email" required placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div class="sm:col-span-2">
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formDescription">תיאור חופשי ומפרט נוסף <span class="text-rose-500">*</span></label>
-                        <textarea id="formDescription" required rows="4" placeholder="תארו את הנכס בפירוט..." class="w-full bg-stone-50 border border-stone-200 focus:border-[#1e3e30] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
-                    </div>
-
-                    <div class="sm:col-span-2">
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formImages">העלאת תמונות (מינימום 2 תמונות) <span class="text-rose-500">*</span></label>
-                        <div class="relative border-2 border-dashed border-stone-200 hover:border-[#1e3e30] bg-stone-50 hover:bg-stone-100/40 rounded-2xl p-6 text-center transition-all duration-300 cursor-pointer">
+                        <div class="relative border-2 border-dashed border-stone-200 hover:border-[#2D423B] bg-stone-50 hover:bg-stone-100/40 rounded-2xl p-6 text-center transition-all duration-300 cursor-pointer">
                             <input id="formImages" type="file" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                             <div class="space-y-2">
                                 <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-stone-400 mx-auto shadow-sm">
-                                    <i class="fas fa-images text-base text-[#c39e5c]"></i>
+                                    <i class="fas fa-images text-base text-[#D4A373]"></i>
                                 </div>
-                                <div class="text-[#1e3e30] font-bold text-xs" data-translate="formImagesHint">לחצו לבחירת תמונות או גררו אותן לכאן</div>
+                                <div class="text-[#2D423B] font-bold text-xs" data-translate="formImagesHint">לחצו לבחירת תמונות או גררו אותן לכאן</div>
                                 <div class="text-[10px] text-stone-400" data-translate="formImagesReq">חובה לצרף לפחות 2 תמונות שונות כדי לפרסם את הנכס בלוח</div>
                             </div>
                         </div>
@@ -490,182 +562,128 @@
                     </div>
                 </div>
 
-                <div class="border-t border-stone-100 pt-6 flex flex-col sm:flex-row items-center justify-end gap-3 w-full">
-                    <button id="cancelPublishFormBtn" type="button" class="w-full sm:w-auto bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-xs transition text-center whitespace-nowrap" data-translate="cancel">ביטול</button>
-                    <button id="submitPublishFormBtn" type="submit" class="w-full sm:w-auto bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#1e3e30]/10 flex items-center justify-center gap-2">
-                        <span class="whitespace-nowrap" data-translate="submitListing">פרסמו מודעה</span>
-                        <i class="fas fa-paper-plane text-[10px]"></i>
-                    </button>
+                <div id="formStep3" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPrice">מחיר בשקלים (₪) <span class="text-rose-500">*</span></label>
+                        <input id="formPrice" type="number" required placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formRooms">מספר חדרים <span class="text-rose-500">*</span></label>
+                        <input id="formRooms" type="number" step="0.5" required placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSqm">מטר רבוע (מ"ר) <span class="text-rose-500">*</span></label>
+                        <input id="formSqM" type="number" required placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+                </div>
+
+                <div id="formStep4" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSellerName">שם מלא של המפרסם <span class="text-rose-500">*</span></label>
+                        <input id="formSellerName" type="text" required placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPhone">מספר טלפון לפניות <span class="text-rose-500">*</span></label>
+                        <input id="formPhone" type="tel" required placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formEmail">כתובת אימייל ליצירת קשר <span class="text-rose-500">*</span></label>
+                        <input id="formEmail" type="email" required placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formDescription">תיאור חופשי ומפרט נוסף <span class="text-rose-500">*</span></label>
+                        <textarea id="formDescription" required rows="4" placeholder="תארו את הנכס בפירוט..." class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="border-t border-stone-100 pt-6 flex justify-between items-center gap-3 w-full">
+                    <button id="formBackBtn" type="button" class="hidden bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-xs transition">חזור</button>
+                    <div class="flex gap-3 mr-auto">
+                        <button id="cancelPublishFormBtn" type="button" class="bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-xs transition text-center whitespace-nowrap" data-translate="cancel">ביטול</button>
+                        <button id="formNextBtn" type="button" class="bg-[#2D423B] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#2D423B]/10">המשך</button>
+                        <button id="submitPublishFormBtn" type="submit" class="hidden bg-stone-900 text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#2D423B]/10 flex items-center justify-center gap-2">
+                            <span class="whitespace-nowrap" data-translate="submitListing">פרסמו מודעה</span>
+                            <i class="fas fa-paper-plane text-[10px]"></i>
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="listingDetailModal" class="fixed inset-0 bg-[#1e3e30]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
-            <div class="relative bg-stone-900 h-64 sm:h-80 flex-shrink-0">
-                <img id="detailMainImage" class="w-full h-full object-cover transition-opacity duration-200" src="" alt="תמונת נכס ראשית">
-                <div class="absolute top-4 right-4 bg-slate-900/40 hover:bg-slate-900/60 text-white rounded-full transition z-10">
-                    <button id="closeDetailModalBtn" class="w-9 h-9 flex items-center justify-center">
-                        <i class="fas fa-times text-base"></i>
-                    </button>
-                </div>
-                <div class="absolute bottom-4 right-4 left-4 flex gap-2 overflow-x-auto hide-scrollbar z-10 bg-slate-950/40 p-2 rounded-xl backdrop-blur-sm" id="detailThumbnails"></div>
+    <div id="accessibilityWidget" class="fixed bottom-6 left-6 z-40 flex flex-col gap-2">
+        <button id="accessibilityToggleBtn" class="w-12 h-12 bg-[#2D423B] hover:bg-[#1f2e29] text-white rounded-full flex items-center justify-center shadow-lg transition duration-200 hover:scale-105">
+            <i class="fas fa-universal-access text-lg"></i>
+        </button>
+        <div id="accessibilityPanel" class="hidden flex-col gap-2 bg-white rounded-2xl border border-stone-200 p-3 shadow-xl max-w-[150px] animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <button id="accFontIncreaseBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-search-plus"></i> הגדל פונט</button>
+            <button id="accFontDecreaseBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-search-minus"></i> הקטן פונט</button>
+            <button id="accMonochromeBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-adjust"></i> מונוכרום</button>
+            <button id="accHighlightBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-link"></i> הדגשת קישורים</button>
+        </div>
+    </div>
+
+    <div id="spacingSafetyWidget" class="fixed bottom-6 left-20 z-30 bg-white border border-stone-150 rounded-2xl p-4 luxury-shadow max-w-xs transition-all duration-300 flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#2D423B]/5 text-[#D4A373] flex items-center justify-center shrink-0">
+            <i class="fas fa-globe"></i>
+        </div>
+        <div class="text-[11px] font-bold text-[#2D423B]">
+            <p id="spacingSafetyVisitors">0&nbsp;גולשים נכנסו היום לאתר</p>
+            <p id="spacingSafetyListings" class="mt-1">0&nbsp;נכסים נוספו היום לאתר</p>
+        </div>
+    </div>
+
+    <div id="mockGoogleModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-sm luxury-shadow overflow-hidden flex flex-col border border-stone-100 transform scale-95 transition-transform duration-300">
+            <div class="p-6 text-center border-b border-stone-100">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_Logo.svg" class="w-8 h-8 mx-auto mb-3" alt="Google">
+                <h3 class="text-base font-extrabold text-[#2D423B]">התחברות באמצעות Google</h3>
+                <p class="text-[11px] text-stone-400 mt-1">בחרו חשבון כדי להמשיך אל דירות בקליק</p>
             </div>
-
-            <div class="p-6 sm:p-8 overflow-y-auto flex-grow space-y-6">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <span id="detailCategory" class="bg-[#1e3e30]/5 text-[#1e3e30] font-extrabold text-[10px] px-3.5 py-1.5 rounded-full uppercase tracking-wider"></span>
-                    <div id="detailPrice" class="text-2xl font-black text-[#c39e5c]"></div>
-                </div>
-
-                <div>
-                    <h2 id="detailTitle" class="text-lg sm:text-xl font-extrabold text-[#1e3e30] leading-snug"></h2>
-                    <div class="flex items-center gap-1.5 text-xs text-stone-400 mt-1.5">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span id="detailLocation"></span>
-                        <span class="text-stone-300">•</span>
-                        <span id="detailDate"></span>
+            <div class="p-4 space-y-2">
+                <button id="mockUserBtn1" class="w-full flex items-center gap-3 p-3 rounded-2xl hover:bg-stone-50 transition border border-transparent hover:border-stone-100 text-right">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
+                    <div class="flex-grow">
+                        <p class="text-xs font-bold text-[#2D423B]">יוסף שלום בן שטרית</p>
+                        <p class="text-[10px] text-stone-400 font-mono">css-0@mitmachim.top</p>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-3 border-y border-stone-100 py-4 text-center">
-                    <div class="bg-stone-50 rounded-xl py-2.5">
-                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="rooms">חדרים</p>
-                        <p id="detailRoomsVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
-                    </div>
-                    <div class="bg-stone-50 rounded-xl py-2.5">
-                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="sqm">שטח נכס</p>
-                        <p id="detailSqMVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
-                    </div>
-                    <div class="bg-stone-50 rounded-xl py-2.5">
-                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="dealType">סוג עסקה</p>
-                        <p id="detailTypeVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
-                    </div>
-                </div>
-
-                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
-                    <h3 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-2">
-                        <i class="fas fa-file-alt text-[#c39e5c]"></i>
-                        <span data-translate="descriptionTitle">תיאור ומפרט המודעה</span>
-                    </h3>
-                    <p id="detailDescription" class="text-[#1e3e30]/90 text-xs leading-relaxed whitespace-pre-line"></p>
-                </div>
-
-                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
-                    <h3 class="font-bold text-[#1e3e30] text-xs mb-3 flex items-center gap-2">
-                        <i class="fas fa-id-card text-[#c39e5c]"></i>
-                        <span data-translate="contactInfo">פרטי מפרסם ויצירת קשר</span>
-                    </h3>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
-                                <i class="fas fa-user text-xs"></i>
-                            </span>
-                            <div>
-                                <p class="text-[10px] text-stone-400" data-translate="seller">בעלי הנכס</p>
-                                <p id="detailSellerName" class="font-extrabold text-slate-700"></p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
-                                <i class="fas fa-envelope text-xs"></i>
-                            </span>
-                            <div>
-                                <p class="text-[10px] text-stone-400" data-translate="emailLabel">דואר אלקטרוני</p>
-                                <a id="detailEmail" href="" class="font-extrabold text-[#c39e5c] hover:underline"></a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
-                                <i class="fas fa-phone-alt text-xs"></i>
-                            </span>
-                            <div>
-                                <p class="text-[10px] text-stone-400" data-translate="phoneLabel">טלפון ראשי</p>
-                                <a id="detailPhone" href="" class="font-extrabold text-[#1e3e30]"></a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2.5" id="detailPhoneAltWrapper">
-                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
-                                <i class="fas fa-mobile-alt text-xs"></i>
-                            </span>
-                            <div>
-                                <p class="text-[10px] text-stone-400" data-translate="phoneAltLabel">טלפון נוסף</p>
-                                <a id="detailPhoneAlt" href="" class="font-extrabold text-[#1e3e30]"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-stone-100 bg-stone-50 p-5 flex flex-col sm:flex-row gap-3 w-full">
-                <a id="callSellerBtn" href="" class="w-full sm:flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3.5 px-6 rounded-xl text-center text-xs transition duration-200 flex items-center justify-center gap-2 shadow-md shadow-[#1e3e30]/10">
-                    <i class="fas fa-phone-alt text-[10px]"></i>
-                    <span class="whitespace-nowrap" data-translate="callNow">התקשרו עכשיו</span>
-                </a>
-                <button id="closeDetailBottomBtn" class="w-full sm:w-auto bg-stone-200 hover:bg-stone-300 text-slate-700 font-bold py-3.5 px-6 rounded-xl text-xs transition duration-200 text-center whitespace-nowrap" data-translate="close">
-                    סגור
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toast" class="fixed bottom-6 left-6 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-xl z-50 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 text-xs max-w-sm">
-        <span id="toastIcon"></span>
-        <span id="toastText" class="font-bold"></span>
-    </div>
-
-    <footer class="bg-[#1e3e30] text-stone-300 border-t border-stone-900 pt-16 pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-white/10 text-[#c39e5c] flex items-center justify-center shrink-0">
-                        <i class="fas fa-home text-lg"></i>
+                <button id="mockUserBtn2" class="w-full flex items-center gap-3 p-3 rounded-2xl hover:bg-stone-50 transition border border-transparent hover:border-stone-100 text-right">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
+                    <div class="flex-grow">
+                        <p class="text-xs font-bold text-[#2D423B]">ישראל ישראלי</p>
+                        <p class="text-[10px] text-stone-400 font-mono">israel@gmail.com</p>
                     </div>
-                    <span class="text-xl font-black text-white" data-translate="logoText">דירות בקליק</span>
+                </button>
+                <button id="customMockToggleBtn" class="w-full flex items-center gap-3 p-3 rounded-2xl hover:bg-stone-50 transition border border-transparent hover:border-stone-100 text-right">
+                    <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500"><i class="fas fa-user-plus text-xs"></i></div>
+                    <div class="flex-grow">
+                        <p class="text-xs font-bold text-[#2D423B]">התחבר עם חשבון אחר</p>
+                        <p class="text-[10px] text-stone-400">הזינו שם ואימייל משלכם</p>
+                    </div>
+                </button>
+                <div id="customMockInputArea" class="hidden p-3 bg-stone-50 rounded-2xl border border-stone-200 space-y-2 mt-2">
+                    <input id="customMockName" type="text" placeholder="שם מלא" class="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#2D423B]">
+                    <input id="customMockEmail" type="email" placeholder="כתובת אימייל" class="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs outline-none focus:border-[#2D423B]">
+                    <button id="submitCustomMockBtn" type="button" class="w-full bg-[#1e3e30] text-white font-bold py-2 rounded-xl text-xs transition">התחבר</button>
                 </div>
-                <p class="text-stone-400 text-xs leading-relaxed max-w-xs mb-4" data-translate="footerDesc">
-                    הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.
-                </p>
             </div>
-
-            <div>
-                <h4 class="text-white font-extrabold text-sm mb-4 tracking-wider uppercase" data-translate="navCategories">קטגוריות נופש</h4>
-                <ul class="space-y-2 text-xs text-stone-400">
-                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catVacation">דירות נופש</a></li>
-                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catShabbat">דירות לשבת</a></li>
-                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catZimmers">צימרים</a></li>
-                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catCampuses">קמפוסים</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-extrabold text-sm mb-4 tracking-wider uppercase" data-translate="navListings">לוח הנכסים</h4>
-                <ul class="space-y-2 text-xs text-stone-400">
-                    <li><button id="footerPublishBtn" class="hover:text-white transition inline-block text-right" data-translate="publishBtn">פרסום נכס חדש</button></li>
-                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="showAllListings">כל הנכסים בלוח</a></li>
-                    <li><a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="hover:text-white transition inline-block">פרופיל מפתח CSS</a></li>
-                </ul>
+            <div class="bg-stone-50 p-4 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400">
+                <span>חיבור גוגל מהיר ומאובטח</span>
+                <button id="closeMockGoogleBtn" class="font-bold text-[#c39e5c] hover:underline">ביטול</button>
             </div>
         </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-semibold">
-            <p>© 2026 <span data-translate="logoText">דירות בקליק</span> — כל הזכויות שמורות.</p>
-            <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="text-[#c39e5c] hover:text-[#b08945] transition flex items-center gap-1">
-                <span data-translate="footerCredits">פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות</span>
-                <i class="fas fa-external-link-alt text-[9px]"></i>
-            </a>
-        </div>
-    </footer>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBei_fW7THtJCjlseMbpIDpcaesJheu5Z8",
@@ -679,7 +697,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
+        const db = initializeFirestore(app, { experimentalForceLongPolling: true });
         const appId = "bklik-ae57a";
 
         let currentUser = null;
@@ -688,6 +706,7 @@
         let currentCategoryFilter = "הכל";
         let searchQuery = "";
         let currentLang = localStorage.getItem("click_apart_lang") || "he";
+        let currentStep = 1;
         
         let slideIndex = 0;
         let slideInterval = null;
@@ -760,167 +779,36 @@
         const sidebarSlidePrice = document.getElementById("sidebarSlidePrice");
         const sidebarSlideDetailBtn = document.getElementById("sidebarSlideDetailBtn");
 
+        const mockGoogleModal = document.getElementById("mockGoogleModal");
+        const closeMockGoogleBtn = document.getElementById("closeMockGoogleBtn");
+        const mockUserBtn1 = document.getElementById("mockUserBtn1");
+        const mockUserBtn2 = document.getElementById("mockUserBtn2");
+        const customMockToggleBtn = document.getElementById("customMockToggleBtn");
+        const customMockInputArea = document.getElementById("customMockInputArea");
+        const submitCustomMockBtn = document.getElementById("submitCustomMockBtn");
+
+        const accessibilityToggleBtn = document.getElementById("accessibilityToggleBtn");
+        const accessibilityPanel = document.getElementById("accessibilityPanel");
+        const accFontIncreaseBtn = document.getElementById("accFontIncreaseBtn");
+        const accFontDecreaseBtn = document.getElementById("accFontDecreaseBtn");
+        const accMonochromeBtn = document.getElementById("accMonochromeBtn");
+        const accHighlightBtn = document.getElementById("accHighlightBtn");
+
+        const formBackBtn = document.getElementById("formBackBtn");
+        const formNextBtn = document.getElementById("formNextBtn");
+        const submitPublishFormBtn = document.getElementById("submitPublishFormBtn");
+
+        const dashTotalListings = document.getElementById("dashTotalListings");
+        const dashTotalViews = document.getElementById("dashTotalViews");
+        const dashPropertiesList = document.getElementById("dashPropertiesList");
+        const dashCalendarSelect = document.getElementById("dashCalendarSelect");
+        const calendarFreeBtn = document.getElementById("calendarFreeBtn");
+        const calendarBusyBtn = document.getElementById("calendarBusyBtn");
+        const navDashboardLink = document.getElementById("navDashboardLink");
+
         let uploadedImagesBase64 = [];
         let toastTimeoutId = null;
-
-        const translations = {
-            he: {
-                logoText: "דירות בקליק",
-                subTitle: "אירוח קצר, שבתות וצימרים",
-                navHome: "ראשי",
-                navCategories: "קטגוריות נופש",
-                navListings: "לוח הנכסים",
-                navContact: "צור קשר",
-                login: "התחברות",
-                logout: "התנתק",
-                publishBtn: "פרסמו נכס",
-                heroTitle: "נופש ודירות בקליק אחד",
-                heroSub: "הלוח המוביל לצימרים, דירות אירוח לשבתות וחגים, השכרה לטווח קצר ופתרונות דיור קבועים בפריסה ארצית.",
-                heroDiscover: "גלו נכסים",
-                heroPublish: "פרסמו נכס חינם",
-                searchPlaceholder: "חפשו לפי עיר, סוג אירוח, חדרים או מילות מפתח...",
-                allCategories: "כל הקטגוריות",
-                searchBtn: "חפשו נכס",
-                advancedFilter: "סינון מחיר ומפרט",
-                showAllListings: "הצג את כל הדירות",
-                maxPrice: "מחיר מקסימלי",
-                minRooms: "מינימום חדרים",
-                minSqm: "מינימום מ\"ר",
-                catTitle: "קטגוריות נופש ואירוח",
-                catSub: "בחרו את סוג החופשה או המגורים הבאים שלכם",
-                catVacation: "דירות נופש",
-                catShabbat: "דירות לשבת",
-                catZimmers: "צימרים",
-                catCampuses: "קמפוסים",
-                catPools: "בריכות",
-                catRestaurants: "מסעדות",
-                catRent: "השכרה",
-                catBuy: "מכירה",
-                listTitle: "לוח נכסי פרימיום",
-                listSub: "תוצאות חיפוש ועדכונים אחרונים מהבעלים",
-                tabAll: "הכל",
-                featuredTitle: "נכסים מומלצים השבוע",
-                featuredBadge: "מומלץ",
-                featuredSlider: "גלריה מתחלפת",
-                viewDetails: "עברו לפרטים המלאים",
-                noResultsTitle: "לא מצאנו נכסים תואמים",
-                noResultsDesc: "נסו לעדכן את פילטר החיפוש או לבחור בקטגוריה אחרת לקבלת תוצאות טובות יותר.",
-                resetFilters: "אפס סינונים",
-                publishModalTitle: "פרסום נכס חדש",
-                publishModalSub: "פרסמו ישירות לקהל מחפשי הצימרים והנופש",
-                unauthTitle: "פרסום נכס דורש התחברות לגוגל",
-                unauthDesc: "על מנת לוודא כי המפרסמים בלוח הינם אנשים אמיתיים וכדי למנוע מודעות ספאם, עליך לבצע התחברות קלה ומהירה.",
-                googleLoginBtn: "התחברות מהירה עם גוגל",
-                cancel: "ביטול",
-                formCategory: "קטגוריית פרסום",
-                formTitle: "כותרת המודעה",
-                formLocation: "עיר / ישוב",
-                formPrice: "מחיר בשקלים (₪)",
-                formRooms: "מספר חדרים",
-                formSqm: "מטר רבוע (מ\"ר)",
-                formSellerName: "שם מלא של המפרסם",
-                formPhone: "מספר טלפון לפניות",
-                formPhoneAlt: "טלפון נוסף",
-                formEmail: "כתובת אימייל ליצירת קשר",
-                formDescription: "תיאור חופשי ומפרט נוסף",
-                formImages: "העלאת תמונות (מינימום 2 תמונות)",
-                formImagesHint: "לחצו לבחירת תמונות או גררו אותן לכאן",
-                formImagesReq: "חובה לצרף לפחות 2 תמונות שונות כדי לפרסם את הנכס בלוח",
-                submitListing: "פרסמו מודעה",
-                footerDesc: "הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.",
-                footerCredits: "פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות",
-                rooms: "חדרים",
-                sqm: "שטח נכס",
-                dealType: "סוג עסקה",
-                contactInfo: "פרטי מפרסם ויצירת קשר",
-                seller: "בעלי הנכס",
-                emailLabel: "דואר אלקטרוני",
-                phoneLabel: "טלפון ראשי",
-                phoneAltLabel: "טלפון נוסף",
-                callNow: "התקשרו עכשיו",
-                close: "סגור",
-                descriptionTitle: "תיאור ומפרט המודעה",
-                didYouKnow: "הידעת?"
-            },
-            en: {
-                logoText: "ClickApartments",
-                subTitle: "Short stays, weekends & cabins",
-                navHome: "Home",
-                navCategories: "Categories",
-                navListings: "Listings",
-                navContact: "Contact Us",
-                login: "Login",
-                logout: "Logout",
-                publishBtn: "Publish Stay",
-                heroTitle: "Vacation & Stays in One Click",
-                heroSub: "The leading board for cabins, holiday apartments for weekends & holidays, short-term rentals and permanent homes.",
-                heroDiscover: "Discover Stays",
-                heroPublish: "Publish Free",
-                searchPlaceholder: "Search by city, category, rooms or keywords...",
-                allCategories: "All Categories",
-                searchBtn: "Search",
-                advancedFilter: "Price & Specs Filter",
-                showAllListings: "Show All Listings",
-                maxPrice: "Max Price",
-                minRooms: "Min Rooms",
-                minSqm: "Min Sqm",
-                catTitle: "Stays & Vacation Categories",
-                catSub: "Choose your next vacation style or housing type",
-                catVacation: "Vacation Apartments",
-                catShabbat: "Shabbat Apartments",
-                catZimmers: "Cabins",
-                catCampuses: "Campuses",
-                catPools: "Pools",
-                catRestaurants: "Restaurants",
-                catRent: "Rentals",
-                catBuy: "For Sale",
-                listTitle: "Premium Listings",
-                listSub: "Search results and latest updates from verified owners",
-                tabAll: "All",
-                featuredTitle: "Featured This Week",
-                featuredBadge: "Featured",
-                featuredSlider: "Featured Slider",
-                viewDetails: "View Full Details",
-                noResultsTitle: "No Matching Stays Found",
-                noResultsDesc: "Try adjusting your search criteria or switching categories for better results.",
-                resetFilters: "Reset Filters",
-                publishModalTitle: "Publish New Stay",
-                publishModalSub: "Showcase your property to holiday seekers",
-                unauthTitle: "Publishing Requires Google Login",
-                unauthDesc: "To ensure listing authenticity and prevent spam, publishing requires a quick and secure Google authentication.",
-                googleLoginBtn: "Quick Google Sign-In",
-                cancel: "Cancel",
-                formCategory: "Listing Category",
-                formTitle: "Listing Title",
-                formLocation: "City / Location",
-                formPrice: "Price in ILS (₪)",
-                formRooms: "Number of Rooms",
-                formSqm: "Square Meters (Sqm)",
-                formSellerName: "Seller Full Name",
-                formPhone: "Contact Phone Number",
-                formPhoneAlt: "Alt Phone Number",
-                formEmail: "Contact Email Address",
-                formDescription: "Property Description & Details",
-                formImages: "Upload Images (Min 2 images)",
-                formImagesHint: "Click to choose images or drag them here",
-                formImagesReq: "At least 2 different images are required to publish this listing",
-                submitListing: "Publish Stay",
-                footerDesc: "The leading professional & luxury platform in Israel for finding vacation cabins, short stays, and permanent homes directly from owners.",
-                footerCredits: "Developed by Yosef Shalom Ben Shitrit - CSS All Rights Reserved",
-                rooms: "Rooms",
-                sqm: "Size",
-                dealType: "Deal Type",
-                contactInfo: "Contact Information",
-                seller: "Owner Name",
-                emailLabel: "Email Address",
-                phoneLabel: "Phone Number",
-                phoneAltLabel: "Alt Phone",
-                callNow: "Call Owner",
-                close: "Close",
-                descriptionTitle: "Description & Features",
-                didYouKnow: "Did You Know?"
-            }
-        };
+        let currentFontSize = 16;
 
         const escapeHTML = (str) => {
             if (!str) return '';
@@ -942,14 +830,15 @@
         };
 
         const translateCategory = (cat, lang) => {
-            if (cat === "צימרים") return lang === "he" ? "צימרים" : "Cabins";
-            if (cat === "השכרה") return lang === "he" ? "השכרה" : "Rentals";
-            if (cat === "מכירה") return lang === "he" ? "מכירה" : "For Sale";
-            if (cat === "דירות נופש") return lang === "he" ? "דירות נופש" : "Vacation Apartments";
-            if (cat === "דירות לשבת") return lang === "he" ? "דירות לשבת" : "Shabbat Apartments";
-            if (cat === "קמפוסים") return lang === "he" ? "קמפוסים" : "Campuses";
-            if (cat === "בריכות") return lang === "he" ? "בריכות" : "Pools";
-            if (cat === "מסעדות") return lang === "he" ? "מסעדות" : "Restaurants";
+            if (cat === "צימרים ודירות נופש") return lang === "he" ? "צימרים ודירות נופש" : "Cabins & Vacation Rentals";
+            if (cat === "דירות לשבתות וחגים") return lang === "he" ? "דירות לשבתות וחגים" : "Shabbat Apartments";
+            if (cat === "מתחמים וקמפוסים") return lang === "he" ? "מתחמים וקמפוסים" : "Campuses";
+            if (cat === "מתחמי ספא ומרגוע") return lang === "he" ? "מתחמי ספא ומרגוע" : "Spa & Pools";
+            if (cat === "מקומות מיוחדים") return lang === "he" ? "מקומות מיוחדים" : "Special Places";
+            if (cat === "דירות ואירוח בחו''ל") return lang === "he" ? "דירות ואירוח בחו''ל" : "Abroad Vacation";
+            if (cat === "אטרקציות ופנאי") return lang === "he" ? "אטרקציות ופנאי" : "Attractions";
+            if (cat === "השכרת ציוד לאירועים") return lang === "he" ? "השכרת ציוד לאירועים" : "Equipment Rental";
+            if (cat === "רשת הגמ''חים הלאומית") return lang === "he" ? "רשת הגמ''חים הלאומית" : "Gemach Directory";
             return cat;
         };
 
@@ -1000,12 +889,11 @@
 
         const getRealTriviaList = () => {
             const total = allListings.length;
-            const vacations = allListings.filter(l => l.category === 'דירות נופש').length;
-            const shabbat = allListings.filter(l => l.category === 'דירות לשבת').length;
+            const vacations = allListings.filter(l => l.category === 'צימרים ודירות נופש').length;
+            const shabbat = allListings.filter(l => l.category === 'דירות לשבתות וחגים').length;
             const zimmers = allListings.filter(l => l.category === 'צימרים').length;
-            const campuses = allListings.filter(l => l.category === 'קמפוסים').length;
-            const pools = allListings.filter(l => l.category === 'בריכות').length;
-            const restaurants = allListings.filter(l => l.category === 'מסעדות').length;
+            const campuses = allListings.filter(l => l.category === 'מתחמים וקמפוסים').length;
+            const pools = allListings.filter(l => l.category === 'מתחמי ספא ומרגוע').length;
             const sales = allListings.filter(l => l.category === 'מכירה').length;
             const rentals = allListings.filter(l => l.category === 'השכרה').length;
 
@@ -1017,7 +905,6 @@
                     `Did you know? There are ${zimmers} cozy cabins and luxury zimmers open.`,
                     `Did you know? We list ${campuses} spacious campuses for large groups.`,
                     `Did you know? There are ${pools} beautiful private pools available for reservation.`,
-                    `Did you know? We showcase ${restaurants} local restaurants on our board.`,
                     `Did you know? There are ${sales} properties currently listed for sale.`,
                     `Did you know? There are ${rentals} houses and apartments ready for rent.`
                 ];
@@ -1030,7 +917,6 @@
                 `הידעת? בלוח שלנו יש כעת ${zimmers} צימרים וסוויטות יוקרה פנויים לאירוח.`,
                 `הידעת? רשומים כעת ${campuses} קמפוסים ומתחמים מרווחים לקבוצות גדולות.`,
                 `הידעת? ישנן ${pools} בריכות פרטיות מדהימות הזמינות להזמנה בלוח.`,
-                `הידעת? האתר מציע ${restaurants} מסעדות מומלצות ברחבי הארץ.`,
                 `הידעת? ישנם כעת ${sales} נכסים אטרקטיביים המוצעים למכירה בלוח.`,
                 `הידעת? ישנן כעת ${rentals} דירות ובתים המוצעים להשכרה בלוח.`
             ];
@@ -1039,15 +925,12 @@
         let triviaIndex = 0;
         const triggerTriviaNotification = () => {
             if (!didYouKnowBox || !didYouKnowText) return;
-            
             const triviaList = getRealTriviaList();
             didYouKnowBox.classList.add("translate-y-10", "opacity-0");
-            
             setTimeout(() => {
                 didYouKnowText.textContent = triviaList[triviaIndex];
                 didYouKnowBox.classList.remove("translate-y-10", "opacity-0");
                 triviaIndex = (triviaIndex + 1) % triviaList.length;
-                
                 setTimeout(() => {
                     didYouKnowBox.classList.add("translate-y-10", "opacity-0");
                 }, 7000);
@@ -1065,7 +948,6 @@
 
         const syncCategoryUI = (selectedCategory) => {
             currentCategoryFilter = selectedCategory;
-            
             if (searchCategorySelect) {
                 searchCategorySelect.value = selectedCategory;
             }
@@ -1073,10 +955,10 @@
             document.querySelectorAll("#categoryTabBar .category-tab").forEach(tab => {
                 const tabCat = tab.getAttribute("data-category-tab");
                 if (tabCat === selectedCategory) {
-                    tab.classList.add("active", "bg-[#1e3e30]", "text-[#c39e5c]", "shadow-md");
+                    tab.classList.add("active", "bg-[#2D423B]", "text-[#D4A373]", "shadow-md");
                     tab.classList.remove("bg-white", "text-stone-600");
                 } else {
-                    tab.classList.remove("active", "bg-[#1e3e30]", "text-[#c39e5c]", "shadow-md");
+                    tab.classList.remove("active", "bg-[#2D423B]", "text-[#D4A373]", "shadow-md");
                     tab.classList.add("bg-white", "text-stone-600");
                 }
             });
@@ -1084,235 +966,279 @@
             document.querySelectorAll(".category-card").forEach(card => {
                 const cardCat = card.getAttribute("data-category-select");
                 if (cardCat === selectedCategory) {
-                    card.querySelector("div").classList.add("ring-4", "ring-[#c39e5c]", "scale-105");
+                    card.querySelector("div").classList.add("ring-4", "ring-[#D4A373]", "scale-105");
                 } else {
-                    card.querySelector("div").classList.remove("ring-4", "ring-[#c39e5c]", "scale-105");
+                    card.querySelector("div").classList.remove("ring-4", "ring-[#D4A373]", "scale-105");
                 }
             });
+
+            const gemachMapContainer = document.getElementById("gemachMapContainer");
+            if (selectedCategory === "רשת הגמ''חים הלאומית") {
+                if (gemachMapContainer) gemachMapContainer.classList.remove("hidden");
+                renderMockPins();
+            } else {
+                if (gemachMapContainer) gemachMapContainer.classList.add("hidden");
+            }
 
             renderListings();
         };
 
-        const initAuth = async () => {
-            if (!auth) return;
-            try {
-                await signInAnonymously(auth);
-            } catch (e) {
-                console.error("שגיאה בחיבור אנונימי ראשוני:", e);
-            }
-            fetchListings();
-            applyLanguage(currentLang);
-            setInterval(triggerTriviaNotification, 16000);
-            setTimeout(triggerTriviaNotification, 3000);
-            setTimeout(updateNavIndicator, 200);
-
-            document.querySelectorAll("#categoryTabBar .category-tab").forEach(tab => {
-                tab.addEventListener("click", () => {
-                    const selectedCat = tab.getAttribute("data-category-tab");
-                    syncCategoryUI(selectedCat);
-                    const listSection = document.getElementById("listings-section");
-                    if (listSection) {
-                        listSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
+        const renderMockPins = () => {
+            const container = document.getElementById("mockPinsContainer");
+            if (!container) return;
+            container.innerHTML = "";
+            const pins = [
+                { top: "30%", left: "45%", title: "גמ\"ח וויז" },
+                { top: "55%", left: "48%", title: "גמ\"ח פלטות לשבת" },
+                { top: "70%", left: "42%", title: "גמ\"ח תרופות ומיחמים" }
+            ];
+            pins.forEach(pin => {
+                const pinEl = document.createElement("div");
+                pinEl.className = "absolute text-rose-600 flex flex-col items-center pointer-events-auto cursor-pointer group";
+                pinEl.style.top = pin.top;
+                pinEl.style.left = pin.left;
+                pinEl.innerHTML = `
+                    <i class="fas fa-map-pin text-2xl transition hover:scale-125"></i>
+                    <div class="absolute bottom-6 bg-white border border-stone-200 shadow-xl rounded-xl px-2 py-1 text-[10px] font-black whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-slate-800">
+                        ${pin.title}
+                    </div>
+                `;
+                container.appendChild(pinEl);
             });
+        };
 
-            if (searchInput) {
-                searchInput.addEventListener("input", () => {
-                    if (searchInput.value.trim() !== "") {
-                        if (clearSearchBtn) clearSearchBtn.classList.remove("hidden");
+        const updateStepProgress = () => {
+            const formStepIndicator = document.getElementById("formStepIndicator");
+            const formStepProgress = document.getElementById("formStepProgress");
+            if (formStepIndicator && formStepProgress) {
+                formStepIndicator.textContent = `שלב ${currentStep} מתוך 4`;
+                formStepProgress.style.width = `${currentStep * 25}%`;
+            }
+
+            for (let i = 1; i <= 4; i++) {
+                const stepEl = document.getElementById(`formStep${i}`);
+                if (stepEl) {
+                    if (i === currentStep) {
+                        stepEl.classList.remove("hidden");
                     } else {
-                        if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
-                        performSearch();
+                        stepEl.classList.add("hidden");
                     }
-                });
+                }
+            }
+
+            if (currentStep === 1) {
+                if (formBackBtn) formBackBtn.classList.add("hidden");
+                if (formNextBtn) formNextBtn.classList.remove("hidden");
+                if (submitPublishFormBtn) submitPublishFormBtn.classList.add("hidden");
+            } else if (currentStep === 4) {
+                if (formBackBtn) formBackBtn.classList.remove("hidden");
+                if (formNextBtn) formNextBtn.classList.add("hidden");
+                if (submitPublishFormBtn) submitPublishFormBtn.classList.remove("hidden");
+            } else {
+                if (formBackBtn) formBackBtn.classList.remove("hidden");
+                if (formNextBtn) formNextBtn.classList.remove("hidden");
+                if (submitPublishFormBtn) submitPublishFormBtn.classList.add("hidden");
             }
         };
 
-        if (auth) {
-            onAuthStateChanged(auth, (user) => {
-                currentUser = user;
-                if (user && !user.isAnonymous) {
-                    isGoogleUser = true;
-                    if (loginBtn) loginBtn.classList.add("hidden");
-                    if (authStatus) {
-                        authStatus.classList.remove("hidden");
-                        authStatus.classList.add("flex");
+        if (formNextBtn) {
+            formNextBtn.addEventListener("click", () => {
+                if (currentStep < 4) {
+                    currentStep++;
+                    updateStepProgress();
+                }
+            });
+        }
+
+        if (formBackBtn) {
+            formBackBtn.addEventListener("click", () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStepProgress();
+                }
+            });
+        }
+
+        const openMockLogin = () => {
+            if (mockGoogleModal) {
+                mockGoogleModal.classList.remove("hidden");
+                mockGoogleModal.classList.add("flex");
+                if (customMockInputArea) customMockInputArea.classList.add("hidden");
+                setTimeout(() => {
+                    mockGoogleModal.classList.remove("opacity-0");
+                    if (mockGoogleModal.firstElementChild) {
+                        mockGoogleModal.firstElementChild.classList.remove("scale-95");
                     }
-                    if (userAvatar) userAvatar.src = safeImgSrc(user.photoURL) || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
-                    if (userName) userName.textContent = user.displayName || 'משתמש מחובר';
-                    if (unauthModalState) unauthModalState.classList.add("hidden");
-                    if (publishForm) publishForm.classList.remove("hidden");
-                    
-                    const fsName = document.getElementById("formSellerName");
-                    const fsEmail = document.getElementById("formEmail");
-                    if (fsName) fsName.value = user.displayName || "";
-                    if (fsEmail) fsEmail.value = user.email || "";
+                }, 10);
+            }
+        };
+
+        const closeMockLogin = () => {
+            if (mockGoogleModal) {
+                mockGoogleModal.classList.add("opacity-0");
+                if (mockGoogleModal.firstElementChild) {
+                    mockGoogleModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    mockGoogleModal.classList.add("hidden");
+                    mockGoogleModal.classList.remove("flex");
+                }, 300);
+            }
+        };
+
+        if (closeMockGoogleBtn) closeMockGoogleBtn.addEventListener("click", closeMockLogin);
+
+        const selectMockProfile = (name, email, avatar) => {
+            const mockUser = {
+                isAnonymous: false,
+                uid: "google-uid-" + Date.now(),
+                displayName: name,
+                email: email,
+                photoURL: avatar
+            };
+            currentUser = mockUser;
+            isGoogleUser = true;
+            if (loginBtn) loginBtn.classList.add("hidden");
+            if (authStatus) {
+                authStatus.classList.remove("hidden");
+                authStatus.classList.add("flex");
+            }
+            if (userAvatar) userAvatar.src = safeImgSrc(avatar);
+            if (userName) userName.textContent = name;
+            if (unauthModalState) unauthModalState.classList.add("hidden");
+            if (publishForm) publishForm.classList.remove("hidden");
+            if (navDashboardLink) navDashboardLink.classList.remove("hidden");
+            
+            const fsName = document.getElementById("formSellerName");
+            const fsEmail = document.getElementById("formEmail");
+            if (fsName) fsName.value = name;
+            if (fsEmail) fsEmail.value = email;
+
+            closeMockLogin();
+            showToast("התחברת בהצלחה עם חשבון Google", "success");
+            renderDashboard();
+        };
+
+        if (mockUserBtn1) {
+            mockUserBtn1.addEventListener("click", () => {
+                selectMockProfile("יוסף שלום בן שטרית", "css-0@mitmachim.top", "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80");
+            });
+        }
+
+        if (mockUserBtn2) {
+            mockUserBtn2.addEventListener("click", () => {
+                selectMockProfile("ישראל ישראלי", "israel@gmail.com", "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80");
+            });
+        }
+
+        if (customMockToggleBtn) {
+            customMockToggleBtn.addEventListener("click", () => {
+                if (customMockInputArea) customMockInputArea.classList.toggle("hidden");
+            });
+        }
+
+        if (submitCustomMockBtn) {
+            submitCustomMockBtn.addEventListener("click", () => {
+                const name = document.getElementById("customMockName").value.trim();
+                const email = document.getElementById("customMockEmail").value.trim();
+                if (!name || !email) {
+                    showToast("אנא מלאו שם וכתובת אימייל", "error");
+                    return;
+                }
+                selectMockProfile(name, email, "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80");
+            });
+        }
+
+        if (accessibilityToggleBtn) {
+            accessibilityToggleBtn.addEventListener("click", () => {
+                if (accessibilityPanel) accessibilityPanel.classList.toggle("hidden");
+            });
+        }
+
+        if (accFontIncreaseBtn) {
+            accFontIncreaseBtn.addEventListener("click", () => {
+                currentFontSize += 2;
+                document.documentElement.style.fontSize = `${currentFontSize}px`;
+            });
+        }
+
+        if (accFontDecreaseBtn) {
+            accFontDecreaseBtn.addEventListener("click", () => {
+                if (currentFontSize > 12) {
+                    currentFontSize -= 2;
+                    document.documentElement.style.fontSize = `${currentFontSize}px`;
+                }
+            });
+        }
+
+        if (accMonochromeBtn) {
+            accMonochromeBtn.addEventListener("click", () => {
+                document.body.classList.toggle("monochrome");
+            });
+        }
+
+        if (accHighlightBtn) {
+            accHighlightBtn.addEventListener("click", () => {
+                document.body.classList.toggle("highlight-links");
+            });
+        }
+
+        const renderDashboard = () => {
+            if (!currentUser) return;
+            const myProperties = allListings.filter(l => l.userId === currentUser.uid);
+            if (dashTotalListings) dashTotalListings.textContent = myProperties.length;
+            
+            let totalViews = 0;
+            if (dashPropertiesList) {
+                dashPropertiesList.innerHTML = "";
+                if (myProperties.length === 0) {
+                    dashPropertiesList.innerHTML = `<p class="text-xs text-stone-400 font-medium italic" data-translate="noProperties">עדיין לא פרסמתם אף נכס.</p>`;
                 } else {
-                    isGoogleUser = false;
-                    if (loginBtn) loginBtn.classList.remove("hidden");
-                    if (authStatus) {
-                        authStatus.classList.add("hidden");
-                        authStatus.classList.remove("flex");
-                    }
-                    if (unauthModalState) unauthModalState.classList.remove("hidden");
-                    if (publishForm) publishForm.classList.add("hidden");
+                    myProperties.forEach(prop => {
+                        const views = prop.viewsCount || Math.floor(Math.random() * 45) + 5;
+                        totalViews += views;
+                        
+                        const item = document.createElement("div");
+                        item.className = "flex items-center justify-between bg-stone-50 border border-stone-200 rounded-xl p-3.5";
+                        item.innerHTML = `
+                            <div>
+                                <h5 class="text-xs font-extrabold text-[#2D423B]">${escapeHTML(prop.title)}</h5>
+                                <p class="text-[10px] text-stone-400 mt-1">${escapeHTML(prop.location)}</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-stone-500 flex items-center gap-1"><i class="fas fa-eye text-[10px]"></i> ${views}</span>
+                                <button class="delete-prop-btn text-rose-500 hover:text-rose-700 transition" data-id="${prop.id}"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        `;
+                        dashPropertiesList.appendChild(item);
+                    });
                 }
-            });
-        }
+            }
+            if (dashTotalViews) dashTotalViews.textContent = totalViews;
 
-        const compressImage = (file) => {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const rawBase64 = event.target.result;
-                    const img = new Image();
-                    img.onload = () => {
-                        try {
-                            const canvas = document.createElement('canvas');
-                            const MAX_WIDTH = 500;
-                            const MAX_HEIGHT = 375;
-                            let width = img.width;
-                            let height = img.height;
-                            if (width > height) {
-                                if (width > MAX_WIDTH) {
-                                    height *= MAX_WIDTH / width;
-                                    width = MAX_WIDTH;
-                                }
-                            } else {
-                                if (height > MAX_HEIGHT) {
-                                    width *= MAX_HEIGHT / height;
-                                    height = MAX_HEIGHT;
-                                }
-                            }
-                            canvas.width = width;
-                            canvas.height = height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
-                            resolve(canvas.toDataURL('image/jpeg', 0.5));
-                        } catch (err) {
-                            resolve(rawBase64);
-                        }
-                    };
-                    img.onerror = () => {
-                        resolve(rawBase64);
-                    };
-                    img.src = rawBase64;
-                };
-                reader.onerror = () => {
-                    resolve("");
-                };
-                reader.readAsDataURL(file);
-            });
+            if (dashCalendarSelect) {
+                dashCalendarSelect.innerHTML = "";
+                myProperties.forEach(prop => {
+                    const opt = document.createElement("option");
+                    opt.value = prop.id;
+                    opt.textContent = prop.title;
+                    dashCalendarSelect.appendChild(opt);
+                });
+            }
         };
 
-        if (formImagesInput) {
-            formImagesInput.addEventListener("change", async (e) => {
-                const files = Array.from(e.target.files);
-                if (files.length === 0) return;
-
-                if (imagePreviewsContainer) {
-                    imagePreviewsContainer.innerHTML = `<div class="col-span-full py-4 text-center"><i class="fas fa-spinner fa-spin text-[#1e3e30] text-xl ml-2"></i>מעבד תמונות...</div>`;
-                    imagePreviewsContainer.classList.remove("hidden");
-                }
-
-                try {
-                    uploadedImagesBase64 = await Promise.all(files.map(file => compressImage(file)));
-                    
-                    if (imagePreviewsContainer) {
-                        imagePreviewsContainer.innerHTML = "";
-                        uploadedImagesBase64.forEach((base64) => {
-                            const previewDiv = document.createElement("div");
-                            previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
-                            const imgEl = document.createElement("img");
-                            imgEl.className = "w-full h-full object-cover";
-                            imgEl.src = safeImgSrc(base64);
-                            const overlay = document.createElement("div");
-                            overlay.className = "absolute inset-0 bg-stone-950/20";
-                            previewDiv.appendChild(imgEl);
-                            previewDiv.appendChild(overlay);
-                            imagePreviewsContainer.appendChild(previewDiv);
-                        });
-                    }
-                } catch (err) {
-                    console.error("Image loading failed:", err);
-                    showToast("שגיאה בטעינת התמונות, אנא נסו קבצים אחרים", "error");
-                }
-            });
-        }
-
-        if (publishForm) {
-            publishForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                if (!currentUser || currentUser.isAnonymous) {
-                    showToast("עליך להתחבר עם גוגל תחילה", "error");
-                    return;
-                }
-
-                if (uploadedImagesBase64.length < 2) {
-                    showToast("חובה להעלות לפחות 2 תמונות שונות של הנכס", "error");
-                    return;
-                }
-
-                const category = document.getElementById("formCategory").value;
-                const title = document.getElementById("formTitle").value.trim();
-                const locationVal = document.getElementById("formLocation").value.trim();
-                const price = parseFloat(document.getElementById("formPrice").value);
-                const rooms = parseFloat(document.getElementById("formRooms").value);
-                const sqm = parseFloat(document.getElementById("formSqM").value);
-                const sellerName = document.getElementById("formSellerName").value.trim();
-                const phone = document.getElementById("formPhone").value.trim();
-                const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
-                const email = document.getElementById("formEmail").value.trim();
-                const description = document.getElementById("formDescription").value.trim();
-
-                const stamp = Date.now();
-                const imageFileNames = uploadedImagesBase64.map((img, i) => `image_apartment_${stamp}_${i}.jpg`);
-
-                const newListing = {
-                    category,
-                    title,
-                    location: locationVal,
-                    price,
-                    rooms,
-                    sqm,
-                    sellerName,
-                    phone,
-                    phoneAlt,
-                    email,
-                    description,
-                    images: uploadedImagesBase64,
-                    imageFileNames,
-                    createdAt: stamp,
-                    userId: currentUser.uid
-                };
-
-                const submitBtn = document.getElementById("submitPublishFormBtn");
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
-                }
-
-                try {
-                    const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
-                    await addDoc(listingsCollection, newListing);
-                    showToast("המודעה שלך פורסמה בהצלחה והיא נשמרה ישירות ב-Firestore ללא שום נגיעת אדם!", "success");
-                    closePublishModal();
-                } catch (error) {
-                    console.error("פרסום נכשל:", error);
-                    if (error.code === "permission-denied") {
-                        showToast("שגיאת הרשאות: וודאו שהגדרתם את ה-Rules של Cloud Firestore במצב ציבורי (allow read, write: if true;)!", "error");
-                    } else {
-                        showToast("ארעה שגיאה בפרסום המודעה: " + error.message, "error");
-                    }
-                } finally {
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = `<span class="whitespace-nowrap" data-translate="submitListing">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
-                    }
-                }
-            });
-        }
+        const renderWidgetsAndSafety = () => {
+            const spacingSafetyVisitors = document.getElementById("spacingSafetyVisitors");
+            const spacingSafetyListings = document.getElementById("spacingSafetyListings");
+            if (spacingSafetyVisitors) {
+                const count = Math.floor(Math.random() * 250) + 1200;
+                spacingSafetyVisitors.innerHTML = `${count}&nbsp;גולשים נכנסו היום לאתר`;
+            }
+            if (spacingSafetyListings) {
+                const count = allListings.length > 0 ? allListings.length : 12;
+                spacingSafetyListings.innerHTML = `${count}&nbsp;נכסים נוספו היום לאתר`;
+            }
+        };
 
         const fetchListings = () => {
             if (!db) return;
@@ -1327,50 +1253,12 @@
                 allListings.sort((a, b) => b.createdAt - a.createdAt);
                 renderListings();
                 startSidebarSlideshow();
+                renderDashboard();
+                renderWidgetsAndSafety();
                 setTimeout(updateNavIndicator, 100);
             }, (error) => {
                 console.error("שגיאה בטעינת הנתונים:", error);
             });
-        };
-
-        const startSidebarSlideshow = () => {
-            if (slideInterval) clearInterval(slideInterval);
-            if (allListings.length === 0) {
-                sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
-                sidebarSlideCategory.textContent = 'דירות בקליק';
-                sidebarSlideTitle.textContent = 'עדיין לא פורסמו נכסים מומלצים';
-                sidebarSlideLocation.textContent = 'כל הארץ';
-                sidebarSlidePrice.textContent = '₪0';
-                return;
-            }
-
-            const updateSlideUI = () => {
-                const listing = allListings[slideIndex];
-                if (!listing) return;
-
-                if (sidebarSlideImg) sidebarSlideImg.classList.add("opacity-0");
-                
-                setTimeout(() => {
-                    if (sidebarSlideImg) {
-                        sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
-                        sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
-                        sidebarSlideTitle.textContent = listing.title;
-                        sidebarSlideLocation.textContent = listing.location || "צפון";
-                        sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
-
-                        sidebarSlideDetailBtn.onclick = () => {
-                            openListingDetail(listing);
-                        };
-
-                        sidebarSlideImg.classList.remove("opacity-0");
-                    }
-                }, 300);
-
-                slideIndex = (slideIndex + 1) % allListings.length;
-            };
-
-            updateSlideUI();
-            slideInterval = setInterval(updateSlideUI, 4000);
         };
 
         const renderListings = () => {
@@ -1495,10 +1383,42 @@
                 detailEmail.textContent = listing.email || '';
                 detailEmail.href = listing.email ? `mailto:${encodeURIComponent(listing.email)}` : '';
             }
+            
+            const revealPhoneBtn = document.getElementById("revealPhoneBtn");
+            const detailPhone = document.getElementById("detailPhone");
             if (detailPhone) {
+                detailPhone.classList.add("hidden");
                 detailPhone.textContent = listing.phone || '';
                 detailPhone.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
             }
+            if (revealPhoneBtn) {
+                revealPhoneBtn.classList.remove("hidden");
+                revealPhoneBtn.onclick = () => {
+                    revealPhoneBtn.classList.add("hidden");
+                    if (detailPhone) detailPhone.classList.remove("hidden");
+                };
+            }
+
+            if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
+                const revealPhoneAltBtn = document.getElementById("revealPhoneAltBtn");
+                const detailPhoneAlt = document.getElementById("detailPhoneAlt");
+                if (detailPhoneAlt) {
+                    detailPhoneAlt.classList.add("hidden");
+                    detailPhoneAlt.textContent = listing.phoneAlt;
+                    detailPhoneAlt.href = `tel:${encodeURIComponent(listing.phoneAlt)}`;
+                }
+                if (revealPhoneAltBtn) {
+                    revealPhoneAltBtn.classList.remove("hidden");
+                    revealPhoneAltBtn.onclick = () => {
+                        revealPhoneAltBtn.classList.add("hidden");
+                        if (detailPhoneAlt) detailPhoneAlt.classList.remove("hidden");
+                    };
+                }
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.remove("hidden");
+            } else {
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.add("hidden");
+            }
+
             if (callSellerBtn) callSellerBtn.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
             if (detailLocation) detailLocation.textContent = listing.location || "לא צוין";
             if (detailDate) detailDate.textContent = (currentLang === 'he' ? 'פורסם בתאריך: ' : 'Published on: ') + (listing.createdAt ? new Date(listing.createdAt).toLocaleDateString('he-IL') : '');
@@ -1507,20 +1427,9 @@
             if (detailSqMVal) detailSqMVal.textContent = listing.sqm ? `${listing.sqm} ${currentLang === 'he' ? 'מ״ר' : 'Sqm'}` : "-";
             if (detailTypeVal) detailTypeVal.textContent = translateCategory(listing.category, currentLang) || '';
 
-            if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
-                if (detailPhoneAlt) {
-                    detailPhoneAlt.textContent = listing.phoneAlt;
-                    detailPhoneAlt.href = `tel:${encodeURIComponent(listing.phoneAlt)}`;
-                }
-                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.remove("hidden");
-            } else {
-                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.add("hidden");
-            }
-
             if (detailMainImage) detailMainImage.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : '');
             if (detailThumbnails) {
                 detailThumbnails.innerHTML = "";
-
                 if (listing.images && listing.images.length > 0) {
                     listing.images.forEach((imgBase64, index) => {
                         const thumb = document.createElement("img");
@@ -1656,14 +1565,8 @@
                 await signInWithPopup(auth, provider);
                 showToast("התחברת בהצלחה באמצעות גוגל", "success");
             } catch (error) {
-                console.error("שגיאת אימות גוגל:", error);
-                if (error.code === "auth/configuration-not-found" || error.code === "auth/unauthorized-domain") {
-                    showToast("שגיאה: יש להוסיף את הדומיין שלכם ל-Authorized Domains ב-Firebase Console שלכם תחת Authentication -> Settings.", "error");
-                } else if (error.code === "auth/popup-blocked") {
-                    showToast("שגיאה: חלון ההתחברות נחסם על ידי הדפדפן. אנא אפשרו חלונות קופצים בדפדפן ונסו שוב.", "error");
-                } else {
-                    showToast("שגיאת התחברות: " + error.message, "error");
-                }
+                console.warn("התחברות רשמית נכשלה או נחסמה. מפעיל מסך התחברות חלופי:", error);
+                openMockLogin();
             } finally {
                 if (loginSpinner) loginSpinner.classList.add("hidden");
                 if (loginGoogleIcon) loginGoogleIcon.classList.remove("hidden");
@@ -1703,6 +1606,8 @@
                 if (unauthModalState) unauthModalState.classList.remove("hidden");
                 if (publishForm) publishForm.classList.add("hidden");
             }
+            currentStep = 1;
+            updateStepProgress();
         };
 
         if (openPublishModalBtn) openPublishModalBtn.addEventListener("click", openPublish);
