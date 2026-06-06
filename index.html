@@ -1307,4 +1307,735 @@
             const spacingSafetyListings = document.getElementById("spacingSafetyListings");
             if (spacingSafetyVisitors) {
                 const count = Math.floor(Math.random() * 250) + 1200;
-                spacingSafetyVisitors.innerHTML
+                spacingSafetyVisitors.innerHTML = `${count}&nbsp;גולשים נכנסו היום לאתר`;
+            }
+            if (spacingSafetyListings) {
+                const count = allListings.length > 0 ? allListings.length : 12;
+                spacingSafetyListings.innerHTML = `${count}&nbsp;נכסים נוספו היום לאתר`;
+            }
+        }
+
+        function loadDefaultListings() {
+            allListings = [
+                {
+                    id: "default-1",
+                    category: "צימרים ודירות נופש",
+                    title: "וילת נופש מלכותית עם בריכה מחוממת וספא",
+                    location: "קיסריה",
+                    price: 2400,
+                    rooms: 6,
+                    sqm: 420,
+                    sellerName: "יוסף שלום [CSS]",
+                    phone: "050-1234567",
+                    phoneAlt: "",
+                    email: "css-0@mitmachim.top",
+                    description: "וילת נופש ואירוח מפוארת המתאימה במיוחד לשבתות משפחתיות וחגים. בריכת שחייה גדולה מחוממת, ג'קוזי ספא ענק, מטבח מאובזר קומפלט, שולחנות משחק וחצר רחבת ידיים.",
+                    images: ["https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"],
+                    imageFileNames: ["apartment_1_view1.jpg", "apartment_1_view2.jpg"],
+                    createdAt: Date.now() - 3600000
+                },
+                {
+                    id: "default-2",
+                    category: "צימרים",
+                    title: "סוויטת זכוכית פנורמית מול נוף ההרים",
+                    location: "גליל עליון",
+                    price: 1400,
+                    rooms: 2,
+                    sqm: 65,
+                    sellerName: "ישראל ישראלי",
+                    phone: "052-7654321",
+                    phoneAlt: "054-1112223",
+                    email: "israel@gmail.com",
+                    description: "בקתת סוויטה מפוארת ומבודדת לחלוטין הבנויה כולה קירות זכוכית פנורמיים מול נוף עוצר נשימה. כוללת בריכה מחוממת ופרטית, ג'קוזי ענק ומטבחון מאובזר.",
+                    images: ["https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80"],
+                    imageFileNames: ["zimmer_luxury_1.jpg", "zimmer_luxury_2.jpg"],
+                    createdAt: Date.now() - 86400000
+                }
+            ];
+            renderListings();
+            startSidebarSlideshow();
+        }
+
+        function fetchListings() {
+            if (!db) {
+                console.warn("Firestore not initialized. Loading default listings.");
+                loadDefaultListings();
+                return;
+            }
+            const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+            
+            onSnapshot(listingsCollection, (snapshot) => {
+                allListings = [];
+                snapshot.forEach((doc) => {
+                    allListings.push({ id: doc.id, ...doc.data() });
+                });
+                
+                if (allListings.length === 0) {
+                    loadDefaultListings();
+                } else {
+                    allListings.sort((a, b) => b.createdAt - a.createdAt);
+                    renderListings();
+                    startSidebarSlideshow();
+                }
+                renderDashboard();
+                renderWidgetsAndSafety();
+                setTimeout(updateNavIndicator, 100);
+            }, (error) => {
+                console.error("שגיאה בטעינת הנתונים:", error);
+                loadDefaultListings();
+            });
+        }
+
+        function startSidebarSlideshow() {
+            if (slideInterval) clearInterval(slideInterval);
+            if (allListings.length === 0) {
+                sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                sidebarSlideCategory.textContent = 'נופשים בקליק';
+                sidebarSlideTitle.textContent = 'עדיין לא פורסמו נכסים מומלצים';
+                sidebarSlideLocation.textContent = 'כל הארץ';
+                sidebarSlidePrice.textContent = '₪0';
+                return;
+            }
+
+            const updateSlideUI = () => {
+                const listing = allListings[slideIndex];
+                if (!listing) return;
+
+                if (sidebarSlideImg) sidebarSlideImg.classList.add("opacity-0");
+                
+                setTimeout(() => {
+                    if (sidebarSlideImg) {
+                        sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
+                        sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
+                        sidebarSlideTitle.textContent = listing.title;
+                        sidebarSlideLocation.textContent = listing.location || "צפון";
+                        sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
+
+                        sidebarSlideDetailBtn.onclick = () => {
+                            openListingDetail(listing);
+                        };
+
+                        sidebarSlideImg.classList.remove("opacity-0");
+                    }
+                }, 300);
+
+                slideIndex = (slideIndex + 1) % allListings.length;
+            };
+
+            updateSlideUI();
+            slideInterval = setInterval(updateSlideUI, 4000);
+        }
+
+        function renderListings() {
+            let filtered = allListings;
+
+            if (currentCategoryFilter !== "הכל") {
+                filtered = filtered.filter(item => item.category === currentCategoryFilter);
+                if (resetCategoryFilterBtn) resetCategoryFilterBtn.classList.remove("hidden");
+            } else {
+                if (resetCategoryFilterBtn) resetCategoryFilterBtn.classList.add("hidden");
+            }
+
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(item => 
+                    (item.title || '').toLowerCase().includes(query) ||
+                    (item.description || '').toLowerCase().includes(query) ||
+                    (item.location || '').toLowerCase().includes(query) ||
+                    (item.sellerName || '').toLowerCase().includes(query) ||
+                    (item.category || '').toLowerCase().includes(query)
+                );
+            }
+
+            const maxPriceVal = parseFloat(document.getElementById("filterMaxPrice").value);
+            const minRoomsVal = parseFloat(document.getElementById("filterMinRooms").value);
+            const minSqMVal = parseFloat(document.getElementById("filterMinSqM").value);
+
+            if (!isNaN(maxPriceVal)) {
+                filtered = filtered.filter(item => item.price <= maxPriceVal);
+            }
+            if (!isNaN(minRoomsVal)) {
+                filtered = filtered.filter(item => item.rooms >= minRoomsVal);
+            }
+            if (!isNaN(minSqMVal)) {
+                filtered = filtered.filter(item => item.sqm >= minSqMVal);
+            }
+
+            if (resultsCount) resultsCount.textContent = `${filtered.length} ${currentLang === 'he' ? 'נכסים זמינים' : 'Properties available'}`;
+
+            if (filtered.length === 0) {
+                if (listingsGrid) listingsGrid.innerHTML = "";
+                if (noResults) noResults.classList.remove("hidden");
+                return;
+            }
+
+            if (noResults) noResults.classList.add("hidden");
+            if (listingsGrid) listingsGrid.innerHTML = "";
+
+            filtered.forEach((listing, index) => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-3xl border border-stone-100 overflow-hidden luxury-shadow hover:translate-y-[-5px] hover:shadow-2xl transition-all duration-300 flex flex-col cursor-pointer group opacity-0 translate-y-4 animate-fade-in-up";
+                card.style.animationDelay = `${index * 50}ms`;
+                
+                const mainImg = listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                
+                let priceLabel = `₪${listing.price.toLocaleString()}`;
+                if (listing.category === "השכרה" || listing.category === "שכירות") {
+                    priceLabel += currentLang === "he" ? " / לחודש" : " / month";
+                } else if (listing.category === "מכירה" || listing.category === "קניה") {
+                    priceLabel += "";
+                } else {
+                    priceLabel += currentLang === "he" ? " / לילה" : " / night";
+                }
+
+                const locationText = listing.location || "לא צוין";
+                const roomsText = listing.rooms ? `${listing.rooms} ${currentLang === 'he' ? 'חדרים' : 'Rooms'}` : "לא צוין";
+                const sqmText = listing.sqm ? `${listing.sqm} ${currentLang === 'he' ? 'מ״ר' : 'Sqm'}` : "לא צוין";
+
+                card.innerHTML = `
+                    <div class="relative aspect-square bg-stone-900 overflow-hidden">
+                        <img class="w-full h-full object-cover transition duration-700 group-hover:scale-105" src="${safeImgSrc(mainImg)}" alt="${escapeHTML(listing.title)}" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80'">
+                        <div class="absolute top-4 right-4 bg-[#1e3e30] text-[#c39e5c] font-bold text-[9px] px-3 py-1.5 rounded-full tracking-wider uppercase">
+                            ${escapeHTML(translateCategory(listing.category, currentLang))}
+                        </div>
+                        <div class="absolute bottom-4 left-4 bg-stone-950/50 text-white font-bold text-[10px] px-3 py-1 rounded-full backdrop-blur-sm">
+                            ₪${listing.price.toLocaleString()}
+                        </div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-1.5 text-xs text-stone-500 font-bold mb-1">
+                                <i class="fas fa-map-marker-alt text-[#c39e5c]"></i>
+                                <span>${escapeHTML(locationText)}</span>
+                            </div>
+                            <h4 class="text-sm font-extrabold text-[#1e3e30] group-hover:text-[#c39e5c] transition-colors duration-300 leading-snug line-clamp-1">${escapeHTML(listing.title)}</h4>
+                        </div>
+                        
+                        <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-stone-500">
+                            <div class="flex items-center gap-3 text-[11px] font-bold text-stone-600">
+                                <span><i class="fas fa-bed text-[#c39e5c] ml-1"></i>${escapeHTML(roomsText)}</span>
+                                <span><i class="fas fa-expand-arrows-alt text-[#c39e5c] ml-1"></i>${escapeHTML(sqmText)}</span>
+                            </div>
+                            <span class="text-[#c39e5c] group-hover:text-[#b08945] font-extrabold text-xs flex items-center gap-1 transition-colors duration-300">
+                                <i class="fas fa-chevron-left text-[9px] transition-transform duration-300 group-hover:-translate-x-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener("click", () => openListingDetail(listing));
+                if (listingsGrid) listingsGrid.appendChild(card);
+            });
+        }
+
+        function openListingDetail(listing) {
+            if (detailTitle) detailTitle.textContent = listing.title || '';
+            if (detailCategory) detailCategory.textContent = translateCategory(listing.category, currentLang) || '';
+            
+            let priceLabel = `₪${(listing.price || 0).toLocaleString()}`;
+            if (listing.category === "השכרה" || listing.category === "שכירות") {
+                priceLabel += currentLang === "he" ? " / לחודש" : " / month";
+            } else if (listing.category === "מכירה" || listing.category === "קניה") {
+                priceLabel += "";
+            } else {
+                priceLabel += currentLang === "he" ? " / לילה" : " / night";
+            }
+            if (detailPrice) detailPrice.textContent = priceLabel;
+            
+            if (detailDescription) detailDescription.textContent = listing.description || '';
+            if (detailSellerName) detailSellerName.textContent = listing.sellerName || '';
+            if (detailEmail) {
+                detailEmail.textContent = listing.email || '';
+                detailEmail.href = listing.email ? `mailto:${encodeURIComponent(listing.email)}` : '';
+            }
+            
+            const revealPhoneBtn = document.getElementById("revealPhoneBtn");
+            const detailPhone = document.getElementById("detailPhone");
+            if (detailPhone) {
+                detailPhone.classList.add("hidden");
+                detailPhone.textContent = listing.phone || '';
+                detailPhone.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
+            }
+            if (revealPhoneBtn) {
+                revealPhoneBtn.classList.remove("hidden");
+                revealPhoneBtn.onclick = () => {
+                    revealPhoneBtn.classList.add("hidden");
+                    if (detailPhone) detailPhone.classList.remove("hidden");
+                };
+            }
+
+            if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
+                const revealPhoneAltBtn = document.getElementById("revealPhoneAltBtn");
+                const detailPhoneAlt = document.getElementById("detailPhoneAlt");
+                if (detailPhoneAlt) {
+                    detailPhoneAlt.classList.add("hidden");
+                    detailPhoneAlt.textContent = listing.phoneAlt;
+                    detailPhoneAlt.href = `tel:${encodeURIComponent(listing.phoneAlt)}`;
+                }
+                if (revealPhoneAltBtn) {
+                    revealPhoneAltBtn.classList.remove("hidden");
+                    revealPhoneAltBtn.onclick = () => {
+                        revealPhoneAltBtn.classList.add("hidden");
+                        if (detailPhoneAlt) detailPhoneAlt.classList.remove("hidden");
+                    };
+                }
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.remove("hidden");
+            } else {
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.add("hidden");
+            }
+
+            if (callSellerBtn) callSellerBtn.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
+            if (detailLocation) detailLocation.textContent = listing.location || "לא צוין";
+            if (detailDate) detailDate.textContent = (currentLang === 'he' ? 'פורסם בתאריך: ' : 'Published on: ') + (listing.createdAt ? new Date(listing.createdAt).toLocaleDateString('he-IL') : '');
+
+            if (detailRoomsVal) detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} ${currentLang === 'he' ? 'חדרים' : 'Rooms'}` : "-";
+            if (detailSqMVal) detailSqMVal.textContent = listing.sqm ? `${listing.sqm} ${currentLang === 'he' ? 'מ״ר' : 'Sqm'}` : "-";
+            if (detailTypeVal) detailTypeVal.textContent = translateCategory(listing.category, currentLang) || '';
+
+            if (detailMainImage) detailMainImage.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : '');
+            if (detailThumbnails) {
+                detailThumbnails.innerHTML = "";
+                if (listing.images && listing.images.length > 0) {
+                    listing.images.forEach((imgBase64, index) => {
+                        const thumb = document.createElement("img");
+                        thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
+                        thumb.src = safeImgSrc(imgBase64);
+                        thumb.addEventListener("click", () => {
+                            if (detailMainImage) {
+                                detailMainImage.classList.add("opacity-0");
+                                setTimeout(() => {
+                                    detailMainImage.src = safeImgSrc(imgBase64);
+                                    detailMainImage.classList.remove("opacity-0");
+                                }, 150);
+                            }
+                            document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
+                            thumb.classList.add("border-[#c39e5c]", "scale-105");
+                        });
+                        detailThumbnails.appendChild(thumb);
+                    });
+                }
+            }
+
+            if (listingDetailModal) {
+                listingDetailModal.classList.remove("hidden");
+                listingDetailModal.classList.add("flex");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => {
+                    listingDetailModal.classList.remove("opacity-0");
+                    if (listingDetailModal.firstElementChild) {
+                        listingDetailModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
+            }
+        }
+
+        function closeListingDetail() {
+            if (listingDetailModal) {
+                listingDetailModal.classList.add("opacity-0");
+                if (listingDetailModal.firstElementChild) {
+                    listingDetailModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    listingDetailModal.classList.add("hidden");
+                    listingDetailModal.classList.remove("flex");
+                    document.body.style.overflow = "auto";
+                }, 300);
+            }
+        }
+
+        function bindEvents() {
+            if (loginBtn) loginBtn.addEventListener("click", handleGoogleLogin);
+            if (modalLoginBtn) modalLoginBtn.addEventListener("click", handleGoogleLogin);
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", async () => {
+                    if (!auth) return;
+                    await signOut(auth);
+                    try {
+                        await signInAnonymously(auth);
+                    } catch(e) {}
+                    showToast("התנתקת מהמערכת", "info");
+                });
+            }
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener("click", () => {
+                    if (mobileMenu) {
+                        mobileMenu.classList.remove("hidden");
+                        setTimeout(() => {
+                            mobileMenu.classList.remove("opacity-0");
+                            const menuContainer = mobileMenu.querySelector("div");
+                            if (menuContainer) {
+                                menuContainer.classList.remove("-translate-x-full");
+                                menuContainer.classList.add("translate-x-0");
+                            }
+                        }, 10);
+                    }
+                });
+            }
+
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener("click", closeMobileMenuFn);
+            }
+
+            if (mobileMenu) {
+                mobileMenu.addEventListener("click", (e) => {
+                    if (e.target === mobileMenu) closeMobileMenuFn();
+                });
+            }
+
+            document.querySelectorAll(".mobile-nav-item").forEach(item => {
+                item.addEventListener("click", closeMobileMenuFn);
+            });
+
+            if (openPublishModalBtn) openPublishModalBtn.addEventListener("click", openPublish);
+            if (heroPublishBtn) heroPublishBtn.addEventListener("click", openPublish);
+            if (footerPublishBtn) footerPublishBtn.addEventListener("click", openPublish);
+
+            if (closePublishModalBtn) closePublishModalBtn.addEventListener("click", closePublishModal);
+            if (cancelModalBtn) cancelModalBtn.addEventListener("click", closePublishModal);
+            if (cancelPublishFormBtn) cancelPublishFormBtn.addEventListener("click", closePublishModal);
+
+            if (advancedFilterToggle) {
+                advancedFilterToggle.addEventListener("click", () => {
+                    if (advancedFilterPanel) advancedFilterPanel.classList.toggle("hidden");
+                });
+            }
+
+            if (formImagesInput) {
+                formImagesInput.addEventListener("change", handleImageUpload);
+            }
+
+            if (publishForm) {
+                publishForm.addEventListener("submit", handleFormSubmit);
+            }
+
+            if (searchSubmitBtn) searchSubmitBtn.addEventListener("click", performSearch);
+            if (searchInput) {
+                searchInput.addEventListener("keypress", (e) => {
+                    if (e.key === 'Enter') performSearch();
+                });
+            }
+
+            if (clearSearchBtn) {
+                clearSearchBtn.addEventListener("click", () => {
+                    if (searchInput) searchInput.value = "";
+                    searchQuery = "";
+                    clearSearchBtn.classList.add("hidden");
+                    renderListings();
+                });
+            }
+
+            if (showAllListingsLink) {
+                showAllListingsLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    resetAllFilters();
+                });
+            }
+
+            if (resetCategoryFilterBtn) {
+                resetCategoryFilterBtn.addEventListener("click", () => {
+                    syncCategoryUI("הכל");
+                });
+            }
+
+            if (resetFiltersBtn) resetFiltersBtn.addEventListener("click", resetAllFilters);
+
+            const navItems = document.querySelectorAll("#mainNav .nav-item");
+            navItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    if (item.getAttribute("href").startsWith("#")) {
+                        e.preventDefault();
+                        const targetId = item.getAttribute("href");
+                        const targetEl = targetId === "#" ? document.body : document.querySelector(targetId);
+                        if (targetEl) {
+                            targetEl.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                    navItems.forEach(nav => nav.classList.remove("nav-link-active"));
+                    item.classList.add("nav-link-active");
+                    updateNavIndicator();
+                });
+            });
+
+            if (accessibilityToggleBtn) {
+                accessibilityToggleBtn.addEventListener("click", () => {
+                    if (accessibilityPanel) accessibilityPanel.classList.toggle("hidden");
+                });
+            }
+
+            if (accFontIncreaseBtn) {
+                accFontIncreaseBtn.addEventListener("click", () => {
+                    currentFontSize += 2;
+                    document.documentElement.style.fontSize = `${currentFontSize}px`;
+                });
+            }
+
+            if (accFontDecreaseBtn) {
+                accFontDecreaseBtn.addEventListener("click", () => {
+                    if (currentFontSize > 12) {
+                        currentFontSize -= 2;
+                        document.documentElement.style.fontSize = `${currentFontSize}px`;
+                    }
+                });
+            }
+
+            if (accMonochromeBtn) {
+                accMonochromeBtn.addEventListener("click", () => {
+                    document.body.classList.toggle("monochrome");
+                });
+            }
+
+            if (accHighlightBtn) {
+                accHighlightBtn.addEventListener("click", () => {
+                    document.body.classList.toggle("highlight-links");
+                });
+            }
+
+            if (formNextBtn) {
+                formNextBtn.addEventListener("click", () => {
+                    if (currentStep < 4) {
+                        currentStep++;
+                        updateStepProgress();
+                    }
+                });
+            }
+
+            if (formBackBtn) {
+                formBackBtn.addEventListener("click", () => {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        updateStepProgress();
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", handleScroll);
+            window.addEventListener("resize", updateNavIndicator);
+        }
+
+        function closeMobileMenuFn() {
+            if (mobileMenu) {
+                const menuContainer = mobileMenu.querySelector("div");
+                if (menuContainer) {
+                    menuContainer.classList.remove("translate-x-0");
+                    menuContainer.classList.add("-translate-x-full");
+                }
+                mobileMenu.classList.add("opacity-0");
+                setTimeout(() => {
+                    mobileMenu.classList.add("hidden");
+                }, 300);
+            }
+        }
+
+        async function handleImageUpload(e) {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+
+            if (imagePreviewsContainer) {
+                imagePreviewsContainer.innerHTML = `<div class="col-span-full py-4 text-center"><i class="fas fa-spinner fa-spin text-[#2D423B] text-xl ml-2"></i>מעבד תמונות...</div>`;
+                imagePreviewsContainer.classList.remove("hidden");
+            }
+
+            try {
+                uploadedImagesBase64 = await Promise.all(files.map(file => compressImage(file)));
+                
+                if (imagePreviewsContainer) {
+                    imagePreviewsContainer.innerHTML = "";
+                    uploadedImagesBase64.forEach((base64) => {
+                        const previewDiv = document.createElement("div");
+                        previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
+                        const imgEl = document.createElement("img");
+                        imgEl.className = "w-full h-full object-cover";
+                        imgEl.src = safeImgSrc(base64);
+                        const overlay = document.createElement("div");
+                        overlay.className = "absolute inset-0 bg-stone-950/20";
+                        previewDiv.appendChild(imgEl);
+                        previewDiv.appendChild(overlay);
+                        imagePreviewsContainer.appendChild(previewDiv);
+                    });
+                }
+            } catch (err) {
+                console.error("Image loading failed:", err);
+                showToast("שגיאה בטעינת התמונות, אנא נסו קבצים אחרים", "error");
+            }
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            if (!currentUser || currentUser.isAnonymous) {
+                showToast("עליך להתחבר עם גוגל תחילה", "error");
+                return;
+            }
+
+            if (uploadedImagesBase64.length < 2) {
+                showToast("חובה להעלות לפחות 2 תמונות שונות של הנכס", "error");
+                return;
+            }
+
+            const category = document.getElementById("formCategory").value;
+            const title = document.getElementById("formTitle").value.trim();
+            const locationVal = document.getElementById("formLocation").value.trim();
+            const price = parseFloat(document.getElementById("formPrice").value);
+            const rooms = parseFloat(document.getElementById("formRooms").value);
+            const sqm = parseFloat(document.getElementById("formSqM").value);
+            const sellerName = document.getElementById("formSellerName").value.trim();
+            const phone = document.getElementById("formPhone").value.trim();
+            const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
+            const email = document.getElementById("formEmail").value.trim();
+            const description = document.getElementById("formDescription").value.trim();
+
+            const stamp = Date.now();
+            const imageFileNames = uploadedImagesBase64.map((img, i) => `image_apartment_${stamp}_${i}.jpg`);
+
+            const newListing = {
+                category,
+                title,
+                location: locationVal,
+                price,
+                rooms,
+                sqm,
+                sellerName,
+                phone,
+                phoneAlt,
+                email,
+                description,
+                images: uploadedImagesBase64,
+                imageFileNames,
+                createdAt: stamp,
+                userId: currentUser.uid
+            };
+
+            const submitBtn = document.getElementById("submitPublishFormBtn");
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>מפרסם מודעה...`;
+            }
+
+            try {
+                if (!db) {
+                    throw new Error("No database connection");
+                }
+                const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
+                await addDoc(listingsCollection, newListing);
+                showToast("המודעה שלך פורסמה בהצלחה והיא נשמרה ישירות ב-Firestore ללא שום נגיעת אדם!", "success");
+                closePublishModal();
+            } catch (error) {
+                console.error("פרסום נכשל:", error);
+                if (error.code === "permission-denied") {
+                    showToast("שגיאת הרשאות: וודאו שהגדרתם את ה-Rules של Cloud Firestore במצב ציבורי (allow read, write: if true;)!", "error");
+                } else {
+                    showToast("ארעה שגיאה בפרסום המודעה: " + error.message, "error");
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<span class="whitespace-nowrap" data-translate="submitListing">פרסמו מודעה</span><i class="fas fa-paper-plane text-[10px]"></i>`;
+                }
+            }
+        }
+
+        function handleScroll() {
+            let currentActiveIndex = 0;
+            const scrollPosition = window.scrollY + 120;
+
+            sections.forEach((section, index) => {
+                if (section) {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollPosition >= top && scrollPosition < top + height) {
+                        currentActiveIndex = index;
+                    }
+                }
+            });
+
+            navItems.forEach((nav, index) => {
+                if (index === currentActiveIndex) {
+                    nav.classList.add("nav-link-active");
+                } else {
+                    nav.classList.remove("nav-link-active");
+                }
+            });
+            updateNavIndicator();
+
+            const header = document.querySelector("header");
+            if (header) {
+                if (window.scrollY > 10) {
+                    header.classList.add("shadow-md", "border-stone-200/50");
+                    header.classList.remove("border-stone-100");
+                } else {
+                    header.classList.remove("shadow-md", "border-stone-200/50");
+                    header.classList.add("border-stone-100");
+                }
+            }
+        }
+
+        function openPublish() {
+            if (publishModal) {
+                publishModal.classList.remove("hidden");
+                publishModal.classList.add("flex");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => {
+                    publishModal.classList.remove("opacity-0");
+                    if (publishModal.firstElementChild) {
+                        publishModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
+            }
+            if (isGoogleUser) {
+                if (unauthModalState) unauthModalState.classList.add("hidden");
+                if (publishForm) publishForm.classList.remove("hidden");
+            } else {
+                if (unauthModalState) unauthModalState.classList.remove("hidden");
+                if (publishForm) publishForm.classList.add("hidden");
+            }
+            currentStep = 1;
+            updateStepProgress();
+        }
+
+        async function initAuth() {
+            if (!auth) return;
+            try {
+                await signInAnonymously(auth);
+            } catch (e) {
+                console.error("שגיאה בחיבור אנונימי ראשוני:", e);
+            }
+            fetchListings();
+            applyLanguage(currentLang);
+            setInterval(triggerTriviaNotification, 16000);
+            setTimeout(triggerTriviaNotification, 3000);
+            setTimeout(updateNavIndicator, 200);
+
+            document.querySelectorAll("#categoryTabBar .category-tab").forEach(tab => {
+                tab.addEventListener("click", () => {
+                    const selectedCat = tab.getAttribute("data-category-tab");
+                    syncCategoryUI(selectedCat);
+                    const listSection = document.getElementById("listings-section");
+                    if (listSection) {
+                        listSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener("input", () => {
+                    if (searchInput.value.trim() !== "") {
+                        if (clearSearchBtn) clearSearchBtn.classList.remove("hidden");
+                    } else {
+                        if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
+                        performSearch();
+                    }
+                });
+            }
+        }
+
+        function initApp() {
+            renderDynamicCategories();
+            bindEvents();
+            initAuth();
+        }
+
+        initApp();
+    </script>
+</body>
+</html>
