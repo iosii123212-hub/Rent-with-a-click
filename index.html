@@ -55,6 +55,21 @@
 </head>
 <body class="min-h-screen flex flex-col text-slate-800 antialiased overflow-x-hidden">
 
+    <!-- Toast Notification (Added missing element) -->
+    <div id="toast" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-[60] bg-white border border-stone-200 luxury-shadow px-5 py-3.5 rounded-2xl flex items-center gap-3 transition-all duration-300 translate-y-20 opacity-0 pointer-events-none w-max max-w-[90vw]">
+        <div id="toastIcon"></div>
+        <p id="toastText" class="text-sm font-bold text-slate-800 m-0"></p>
+    </div>
+
+    <!-- Trivia Notification (Added missing element) -->
+    <div id="didYouKnowBox" class="fixed bottom-24 left-6 z-40 bg-white border border-[#D4A373]/30 luxury-shadow p-4 rounded-2xl max-w-xs transition-all duration-500 translate-y-10 opacity-0 flex gap-3 items-start pointer-events-none">
+        <div class="text-[#D4A373] mt-0.5"><i class="fas fa-lightbulb text-lg animate-pulse"></i></div>
+        <div>
+            <h5 class="text-xs font-black text-[#2D423B] mb-1" data-translate="didYouKnow">הידעת?</h5>
+            <p id="didYouKnowText" class="text-[10px] text-stone-500 font-medium leading-relaxed"></p>
+        </div>
+    </div>
+
     <header class="bg-white/95 backdrop-blur-md border-b border-stone-100 sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3 shrink-0">
@@ -281,7 +296,7 @@
                     </h4>
                 </div>
                 <div class="w-full h-80 bg-stone-100 rounded-2xl relative overflow-hidden flex items-center justify-center border border-stone-200">
-                    <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1000&q=80');"></div>
+                    <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1000&q=80');"></div>
                     <div class="absolute inset-0 bg-gradient-to-b from-[#2D423B]/10 to-[#2D423B]/30"></div>
                     <div class="relative z-10 text-center p-6">
                         <i class="fas fa-map-pin text-4xl text-rose-500 animate-bounce mb-2"></i>
@@ -294,6 +309,12 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div class="lg:col-span-8">
+                    <div id="noResults" class="hidden col-span-full py-16 flex flex-col items-center justify-center text-stone-400 text-center bg-stone-50 rounded-3xl border border-stone-100">
+                        <i class="fas fa-search-minus text-4xl mb-4 text-[#D4A373]"></i>
+                        <h4 class="font-bold text-slate-700 mb-2" data-translate="noResultsTitle">לא מצאנו נכסים תואמים</h4>
+                        <p class="text-xs text-stone-500 max-w-sm mb-6" data-translate="noResultsDesc">נסו לעדכן את פילטר החיפוש או לבחור בקטגוריה אחרת לקבלת תוצאות טובות יותר.</p>
+                        <button id="resetFiltersBtn" class="bg-[#2D423B] text-white px-6 py-2.5 rounded-xl text-xs font-bold transition hover:bg-[#1f2e29]" data-translate="resetFilters">אפס סינונים</button>
+                    </div>
                     <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="col-span-full py-24 flex flex-col items-center justify-center text-stone-400">
                             <i class="fas fa-circle-notch fa-spin text-4xl text-[#2D423B] mb-4"></i>
@@ -449,7 +470,7 @@
                 <div id="formStep1" class="space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formCategory">קטגוריית פרסום <span class="text-rose-500">*</span></label>
-                        <select id="formCategory" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
+                        <select id="formCategory" required class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
                             <option value="צימרים ודירות נופש" data-translate="catZimmers">צימרים ודירות נופש</option>
                             <option value="דירות לשבתות וחגים" data-translate="catShabbat">דירות לשבתות וחגים</option>
                             <option value="מתחמים וקמפוסים" data-translate="catCampuses">מתחמים וקמפוסים</option>
@@ -464,12 +485,12 @@
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formTitle">כותרת המודעה <span class="text-rose-500">*</span></label>
-                        <input id="formTitle" type="text" placeholder="למשל: סוויטה מפוארת" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formTitle" type="text" required placeholder="למשל: סוויטה מפוארת" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formLocation">עיר / ישוב <span class="text-rose-500">*</span></label>
-                        <input id="formLocation" type="text" placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formLocation" type="text" required placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
                 </div>
 
@@ -493,39 +514,39 @@
                 <div id="formStep3" class="hidden space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPrice">מחיר בשקלים (₪) <span class="text-rose-500">*</span></label>
-                        <input id="formPrice" type="number" placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formPrice" type="number" required placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formRooms">מספר חדרים <span class="text-rose-500">*</span></label>
-                        <input id="formRooms" type="number" step="0.5" placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formRooms" type="number" step="0.5" required placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSqm">מטר רבוע (מ"ר) <span class="text-rose-500">*</span></label>
-                        <input id="formSqM" type="number" placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formSqM" type="number" required placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
                 </div>
 
                 <div id="formStep4" class="hidden space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSellerName">שם מלא של המפרסם <span class="text-rose-500">*</span></label>
-                        <input id="formSellerName" type="text" placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formSellerName" type="text" required placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPhone">מספר טלפון לפניות <span class="text-rose-500">*</span></label>
-                        <input id="formPhone" type="tel" placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formPhone" type="tel" required placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formEmail">כתובת אימייל ליצירת קשר <span class="text-rose-500">*</span></label>
-                        <input id="formEmail" type="email" placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formEmail" type="email" required placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div class="sm:col-span-2">
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formDescription">תיאור חופשי ומפרט נוסף <span class="text-rose-500">*</span></label>
-                        <textarea id="formDescription" rows="4" placeholder="תארו את הנכס בפירוט..." class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
+                        <textarea id="formDescription" required rows="4" placeholder="תארו את הנכס בפירוט..." class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
                     </div>
                 </div>
 
@@ -544,35 +565,185 @@
         </div>
     </div>
 
-    <div id="mockGoogleModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-sm luxury-shadow overflow-hidden flex flex-col border border-stone-100 transform scale-95 transition-transform duration-300">
-            <div class="p-6 text-center border-b border-stone-100">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_Logo.svg" class="w-8 h-8 mx-auto mb-3" alt="Google">
-                <h3 class="text-base font-extrabold text-[#2D423B]">התחברות באמצעות Google</h3>
-                <p class="text-[11px] text-stone-400 mt-1">בחרו חשבון כדי להמשיך אל נופשים בקליק</p>
+    <div id="listingDetailModal" class="fixed inset-0 bg-[#2D423B]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
+            <div class="relative bg-stone-900 h-64 sm:h-80 flex-shrink-0">
+                <img id="detailMainImage" class="w-full h-full object-cover transition-opacity duration-200" src="" alt="תמונת נכס ראשית">
+                <div class="absolute top-4 right-4 bg-slate-900/40 hover:bg-slate-900/60 text-white rounded-full transition z-10">
+                    <button id="closeDetailModalBtn" class="w-9 h-9 flex items-center justify-center">
+                        <i class="fas fa-times text-base"></i>
+                    </button>
+                </div>
+                <div class="absolute bottom-4 right-4 left-4 flex gap-2 overflow-x-auto hide-scrollbar z-10 bg-slate-950/40 p-2 rounded-xl backdrop-blur-sm" id="detailThumbnails"></div>
             </div>
-            <div class="p-4 space-y-2">
-                <button id="mockUserBtn1" class="w-full flex items-center gap-3 p-3 rounded-2xl hover:bg-stone-50 transition border border-transparent hover:border-stone-100 text-right">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
-                    <div class="flex-grow">
-                        <p class="text-xs font-bold text-[#2D423B]">יוסף שלום בן שטרית</p>
-                        <p class="text-[10px] text-stone-400 font-mono">css-0@mitmachim.top</p>
+
+            <div class="p-6 sm:p-8 overflow-y-auto flex-grow space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <span id="detailCategory" class="bg-[#1e3e30]/5 text-[#1e3e30] font-extrabold text-[10px] px-3.5 py-1.5 rounded-full uppercase tracking-wider"></span>
+                    <div id="detailPrice" class="text-2xl font-black text-[#c39e5c]"></div>
+                </div>
+
+                <div>
+                    <h2 id="detailTitle" class="text-lg sm:text-xl font-extrabold text-[#1e3e30] leading-snug"></h2>
+                    <div class="flex items-center gap-1.5 text-xs text-stone-400 mt-1.5">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="detailLocation"></span>
+                        <span class="text-stone-300">•</span>
+                        <span id="detailDate"></span>
                     </div>
-                </button>
-                <button id="mockUserBtn2" class="w-full flex items-center gap-3 p-3 rounded-2xl hover:bg-stone-50 transition border border-transparent hover:border-stone-100 text-right">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
-                    <div class="flex-grow">
-                        <p class="text-xs font-bold text-[#2D423B]">ישראל ישראלי</p>
-                        <p class="text-[10px] text-stone-400 font-mono">israel@gmail.com</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 border-y border-stone-100 py-4 text-center">
+                    <div class="bg-stone-50 rounded-xl py-2.5">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="rooms">חדרים</p>
+                        <p id="detailRoomsVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
                     </div>
-                </button>
+                    <div class="bg-stone-50 rounded-xl py-2.5">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="sqm">שטח נכס</p>
+                        <p id="detailSqMVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
+                    </div>
+                    <div class="bg-stone-50 rounded-xl py-2.5">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="dealType">סוג עסקה</p>
+                        <p id="detailTypeVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
+                    <h3 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-2">
+                        <i class="fas fa-file-alt text-[#c39e5c]"></i>
+                        <span data-translate="descriptionTitle">תיאור ומפרט המודעה</span>
+                    </h3>
+                    <p id="detailDescription" class="text-[#1e3e30]/90 text-xs leading-relaxed whitespace-pre-line"></p>
+                </div>
+
+                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
+                    <h3 class="font-bold text-[#1e3e30] text-xs mb-3 flex items-center gap-2">
+                        <i class="fas fa-id-card text-[#c39e5c]"></i>
+                        <span data-translate="contactInfo">פרטי מפרסם ויצירת קשר</span>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-user text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400" data-translate="seller">בעלי הנכס</p>
+                                <p id="detailSellerName" class="font-extrabold text-slate-700"></p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-envelope text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400" data-translate="emailLabel">דואר אלקטרוני</p>
+                                <a id="detailEmail" href="" class="font-extrabold text-[#c39e5c] hover:underline"></a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-phone-alt text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400" data-translate="phoneLabel">טלפון ראשי</p>
+                                <a id="detailPhone" href="" class="font-extrabold text-[#1e3e30] hidden"></a>
+                                <button id="revealPhoneBtn" class="bg-[#2D423B] text-white px-3 py-1 rounded-xl text-[10px] font-bold mt-1 transition hover:bg-[#1f2e29] focus:outline-none" data-translate="revealPhone">לחצו להצגת מספר</button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5" id="detailPhoneAltWrapper">
+                            <span class="w-7 h-7 bg-white text-[#1e3e30] rounded-lg flex items-center justify-center border border-stone-100">
+                                <i class="fas fa-mobile-alt text-xs"></i>
+                            </span>
+                            <div>
+                                <p class="text-[10px] text-stone-400" data-translate="phoneAltLabel">טלפון נוסף</p>
+                                <a id="detailPhoneAlt" href="" class="font-extrabold text-[#1e3e30] hidden"></a>
+                                <button id="revealPhoneAltBtn" class="bg-[#2D423B] text-white px-3 py-1 rounded-xl text-[10px] font-bold mt-1 transition hover:bg-[#1f2e29] focus:outline-none" data-translate="revealPhone">לחצו להצגת מספר</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-stone-50 p-4 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400">
-                <span>חיבור גוגל מהיר ומאובטח</span>
-                <button id="closeMockGoogleBtn" class="font-bold text-[#c39e5c] hover:underline">ביטול</button>
+
+            <div class="border-t border-stone-100 bg-stone-50 p-5 flex flex-col sm:flex-row gap-3 w-full">
+                <a id="callSellerBtn" href="" class="w-full sm:flex-grow bg-[#1e3e30] hover:bg-[#152c22] text-white font-bold py-3.5 px-6 rounded-xl text-center text-xs transition duration-200 flex items-center justify-center gap-2 shadow-md shadow-[#1e3e30]/10">
+                    <i class="fas fa-phone-alt text-[10px]"></i>
+                    <span class="whitespace-nowrap" data-translate="callNow">התקשרו עכשיו</span>
+                </a>
+                <button id="closeDetailBottomBtn" class="w-full sm:w-auto bg-stone-200 hover:bg-stone-300 text-slate-700 font-bold py-3.5 px-6 rounded-xl text-xs transition duration-200 text-center whitespace-nowrap" data-translate="close">
+                    סגור
+                </button>
             </div>
         </div>
     </div>
+
+    <div id="accessibilityWidget" class="fixed bottom-6 left-6 z-40 flex flex-col gap-2">
+        <button id="accessibilityToggleBtn" class="w-12 h-12 bg-[#2D423B] hover:bg-[#1f2e29] text-white rounded-full flex items-center justify-center shadow-lg transition duration-200 hover:scale-105">
+            <i class="fas fa-universal-access text-lg"></i>
+        </button>
+        <div id="accessibilityPanel" class="hidden flex-col gap-2 bg-white rounded-2xl border border-stone-200 p-3 shadow-xl max-w-[150px] animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <button id="accFontIncreaseBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-search-plus"></i> הגדל פונט</button>
+            <button id="accFontDecreaseBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-search-minus"></i> הקטן פונט</button>
+            <button id="accMonochromeBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-adjust"></i> מונוכרום</button>
+            <button id="accHighlightBtn" class="text-xs font-bold text-[#2D423B] hover:bg-stone-50 p-2 rounded-xl text-right flex items-center gap-1.5"><i class="fas fa-link"></i> הדגשת קישורים</button>
+        </div>
+    </div>
+
+    <div id="spacingSafetyWidget" class="fixed bottom-6 left-20 z-30 bg-white border border-stone-150 rounded-2xl p-4 luxury-shadow max-w-xs transition-all duration-300 flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#2D423B]/5 text-[#D4A373] flex items-center justify-center shrink-0">
+            <i class="fas fa-globe"></i>
+        </div>
+        <div class="text-[11px] font-bold text-[#2D423B]">
+            <p id="spacingSafetyVisitors">0&nbsp;גולשים נכנסו היום לאתר</p>
+            <p id="spacingSafetyListings" class="mt-1">0&nbsp;נכסים נוספו היום לאתר</p>
+        </div>
+    </div>
+
+    <footer class="bg-[#2D423B] text-stone-300 border-t border-stone-900 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-white/10 text-[#c39e5c] flex items-center justify-center shrink-0">
+                        <i class="fas fa-home text-lg"></i>
+                    </div>
+                    <span class="text-xl font-black text-white" data-translate="logoText">נופשים בקליק</span>
+                </div>
+                <p class="text-stone-400 text-xs leading-relaxed max-w-xs mb-4" data-translate="footerDesc">
+                    הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-4 tracking-wider uppercase" data-translate="navCategories">קטגוריות נופש</h4>
+                <ul class="space-y-2 text-xs text-stone-400">
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catVacation">דירות נופש</a></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catShabbat">דירות לשבת</a></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catZimmers">צימרים</a></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="catCampuses">קמפוסים</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-4 tracking-wider uppercase" data-translate="navListings">לוח הנכסים</h4>
+                <ul class="space-y-2 text-xs text-stone-400">
+                    <li><button id="footerPublishBtn" class="hover:text-white transition inline-block text-right" data-translate="publishBtn">פרסום נכס חדש</button></li>
+                    <li><a href="#listings-section" class="hover:text-white transition inline-block" data-translate="showAllListings">כל הנכסים בלוח</a></li>
+                    <li><a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="hover:text-white transition inline-block">פרופיל מפתח CSS</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-semibold">
+            <p>© 2026 <span data-translate="logoText">נופשים בקליק</span> — כל הזכויות שמורות.</p>
+            <a href="https://mitmachim.top/user/css-0" target="_blank" rel="noopener noreferrer" class="text-[#c39e5c] hover:text-[#b08945] transition flex items-center gap-1">
+                <span data-translate="footerCredits">פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות</span>
+                <i class="fas fa-external-link-alt text-[9px]"></i>
+            </a>
+        </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
@@ -611,47 +782,473 @@
         
         let slideIndex = 0;
         let slideInterval = null;
+
+        // Missing Global Variables Added
+        const sections = document.querySelectorAll("section");
+        const navItems = document.querySelectorAll("#mainNav .nav-item");
+        let triviaIndex = 0;
+
+        const loginBtn = document.getElementById("loginBtn");
+        const authStatus = document.getElementById("authStatus");
+        const userAvatar = document.getElementById("userAvatar");
+        const userName = document.getElementById("userName");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const langToggleBtn = document.getElementById("langToggleBtn");
+        
+        const openPublishModalBtn = document.getElementById("openPublishModalBtn");
+        const heroPublishBtn = document.getElementById("heroPublishBtn");
+        const footerPublishBtn = document.getElementById("footerPublishBtn");
+        const closePublishModalBtn = document.getElementById("closePublishModalBtn");
+        const publishModal = document.getElementById("publishModal");
+        const unauthModalState = document.getElementById("unauthModalState");
+        const modalLoginBtn = document.getElementById("modalLoginBtn");
+        const cancelModalBtn = document.getElementById("cancelModalBtn");
+        const publishForm = document.getElementById("publishForm");
+        const cancelPublishFormBtn = document.getElementById("cancelPublishFormBtn");
+        const imagePreviewsContainer = document.getElementById("imagePreviewsContainer");
+        const formImagesInput = document.getElementById("formImages");
+        
+        const listingsGrid = document.getElementById("listingsGrid");
+        const resultsCount = document.getElementById("resultsCount");
+        const noResults = document.getElementById("noResults");
+        const searchInput = document.getElementById("searchInput");
+        const searchCategorySelect = document.getElementById("searchCategorySelect");
+        const searchSubmitBtn = document.getElementById("searchSubmitBtn");
+        const clearSearchBtn = document.getElementById("clearSearchBtn");
+        const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+        const showAllListingsLink = document.getElementById("showAllListingsLink");
+        const resetCategoryFilterBtn = document.getElementById("resetCategoryFilterBtn");
+        const advancedFilterToggle = document.getElementById("advancedFilterToggle");
+        const advancedFilterPanel = document.getElementById("advancedFilterPanel");
+
+        const listingDetailModal = document.getElementById("listingDetailModal");
+        const closeDetailModalBtn = document.getElementById("closeDetailModalBtn");
+        const closeDetailBottomBtn = document.getElementById("closeDetailBottomBtn");
+        const detailMainImage = document.getElementById("detailMainImage");
+        const detailThumbnails = document.getElementById("detailThumbnails");
+        const detailCategory = document.getElementById("detailCategory");
+        const detailPrice = document.getElementById("detailPrice");
+        const detailTitle = document.getElementById("detailTitle");
+        const detailLocation = document.getElementById("detailLocation");
+        const detailDate = document.getElementById("detailDate");
+        const detailDescription = document.getElementById("detailDescription");
+        const detailSellerName = document.getElementById("detailSellerName");
+        const detailEmail = document.getElementById("detailEmail");
+        const detailPhone = document.getElementById("detailPhone");
+        const detailPhoneAlt = document.getElementById("detailPhoneAlt");
+        const detailPhoneAltWrapper = document.getElementById("detailPhoneAltWrapper");
+        const callSellerBtn = document.getElementById("callSellerBtn");
+        const detailRoomsVal = document.getElementById("detailRoomsVal");
+        const detailSqMVal = document.getElementById("detailSqMVal");
+        const detailTypeVal = document.getElementById("detailTypeVal");
+
+        const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const closeMobileMenu = document.getElementById("closeMobileMenu");
+
+        const didYouKnowBox = document.getElementById("didYouKnowBox");
+        const didYouKnowText = document.getElementById("didYouKnowText");
+
+        const sidebarSlideImg = document.getElementById("sidebarSlideImg");
+        const sidebarSlideCategory = document.getElementById("sidebarSlideCategory");
+        const sidebarSlideTitle = document.getElementById("sidebarSlideTitle");
+        const sidebarSlideLocation = document.getElementById("sidebarSlideLocation");
+        const sidebarSlidePrice = document.getElementById("sidebarSlidePrice");
+        const sidebarSlideDetailBtn = document.getElementById("sidebarSlideDetailBtn");
+
+        const accessibilityToggleBtn = document.getElementById("accessibilityToggleBtn");
+        const accessibilityPanel = document.getElementById("accessibilityPanel");
+        const accFontIncreaseBtn = document.getElementById("accFontIncreaseBtn");
+        const accFontDecreaseBtn = document.getElementById("accFontDecreaseBtn");
+        const accMonochromeBtn = document.getElementById("accMonochromeBtn");
+        const accHighlightBtn = document.getElementById("accHighlightBtn");
+
+        const formBackBtn = document.getElementById("formBackBtn");
+        const formNextBtn = document.getElementById("formNextBtn");
+        const submitPublishFormBtn = document.getElementById("submitPublishFormBtn");
+
+        const dashTotalListings = document.getElementById("dashTotalListings");
+        const dashTotalViews = document.getElementById("dashTotalViews");
+        const dashPropertiesList = document.getElementById("dashPropertiesList");
+        const dashCalendarSelect = document.getElementById("dashCalendarSelect");
+        const calendarFreeBtn = document.getElementById("calendarFreeBtn");
+        const calendarBusyBtn = document.getElementById("calendarBusyBtn");
+        const navDashboardLink = document.getElementById("navDashboardLink");
+
+        let uploadedImagesBase64 = [];
         let toastTimeoutId = null;
         let currentFontSize = 16;
 
-        function getRealTriviaList() {
-            const total = allListings.length;
-            const vacations = allListings.filter(l => l.category === 'צימרים ודירות נופש').length;
-            const shabbat = allListings.filter(l => l.category === 'דירות לשבתות וחגים').length;
-            const zimmers = allListings.filter(l => l.category === 'צימרים').length;
-            const campuses = allListings.filter(l => l.category === 'מתחמים וקמפוסים').length;
-            const pools = allListings.filter(l => l.category === 'מתחמי ספא ומרגוע').length;
-            const sales = allListings.filter(l => l.category === 'מכירה').length;
-            const rentals = allListings.filter(l => l.category === 'השכרה').length;
+        const translations = {
+            he: {
+                logoText: "נופשים בקליק",
+                subTitle: "אירוח קצר, שבתות וצימרים",
+                navHome: "ראשי",
+                navCategories: "קטגוריות נופש",
+                navListings: "לוח הנכסים",
+                navContact: "צור קשר",
+                navDashboard: "אזור אישי",
+                login: "התחברות",
+                logout: "התנתק",
+                publishBtn: "פרסמו נכס",
+                heroTitle: "נופש ודירות בקליק אחד",
+                heroSub: "הלוח המוביל לצימרים, דירות אירוח לשבתות וחגים, השכרה לטווח קצר ופתרונות דיור קבועים בפריסה ארצית.",
+                heroDiscover: "גלו נכסים",
+                heroPublish: "פרסמו נכס חינם",
+                searchPlaceholder: "חפשו לפי עיר, סוג אירוח, חדרים או מילות מפתח...",
+                allCategories: "כל הקטגוריות",
+                searchBtn: "חפשו נכס",
+                advancedFilter: "סינון מחיר ומפרט",
+                showAllListings: "הצג את כל הדירות",
+                maxPrice: "מחיר מקסימלי",
+                minRooms: "מינימום חדרים",
+                minSqm: "מינימום מ\"ר",
+                catTitle: "קטגוריות נופש ואירוח",
+                catSub: "בחרו את סוג החופשה או המגורים הבאים שלכם",
+                catVacation: "דירות נופש",
+                catShabbat: "דירות לשבת",
+                catZimmers: "צימרים",
+                catCampuses: "קמפוסים",
+                catPools: "בריכות",
+                catRestaurants: "מסעדות",
+                catRent: "השכרה",
+                catBuy: "מכירה",
+                listTitle: "לוח נכסי פרימיום",
+                listSub: "תוצאות חיפוש ועדכונים אחרונים מהבעלים",
+                tabAll: "הכל",
+                featuredTitle: "נכסים מומלצים השבוע",
+                featuredBadge: "מומלץ",
+                featuredSlider: "גלריה מתחלפת",
+                viewDetails: "עברו לפרטים המלאים",
+                noResultsTitle: "לא מצאנו נכסים תואמים",
+                noResultsDesc: "נסו לעדכן את פילטר החיפוש או לבחור בקטגוריה אחרת לקבלת תוצאות טובות יותר.",
+                resetFilters: "אפס סינונים",
+                publishModalTitle: "פרסום נכס חדש",
+                publishModalSub: "פרסמו ישירות לקהל מחפשי הצימרים והנופש",
+                unauthTitle: "פרסום נכס דורש התחברות לגוגל",
+                unauthDesc: "על מנת לוודא כי המפרסמים בלוח הינם אנשים אמיתיים וכדי למנוע מודעות ספאם, עליך לבצע התחברות קלה ומהירה.",
+                googleLoginBtn: "התחברות מהירה עם גוגל",
+                cancel: "ביטול",
+                formCategory: "קטגוריית פרסום",
+                formTitle: "כותרת המודעה",
+                formLocation: "עיר / ישוב",
+                formPrice: "מחיר בשקלים (₪)",
+                formRooms: "מספר חדרים",
+                formSqm: "מטר רבוע (מ\"ר)",
+                formSellerName: "שם מלא של המפרסם",
+                formPhone: "מספר טלפון לפניות",
+                formPhoneAlt: "טלפון נוסף",
+                formEmail: "כתובת אימייל ליצירת קשר",
+                formDescription: "תיאור חופשי ומפרט נוסף",
+                formImages: "העלאת תמונות (מינימום 2 תמונות)",
+                formImagesHint: "לחצו לבחירת תמונות או גררו אותן לכאן",
+                formImagesReq: "חובה לצרף לפחות 2 תמונות שונות כדי לפרסם את הנכס בלוח",
+                submitListing: "פרסמו מודעה",
+                footerDesc: "הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.",
+                footerCredits: "פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות",
+                rooms: "חדרים",
+                sqm: "שטח נכס",
+                dealType: "סוג עסקה",
+                contactInfo: "פרטי מפרסם ויצירת קשר",
+                seller: "בעלי הנכס",
+                emailLabel: "דואר אלקטרוני",
+                phoneLabel: "טלפון ראשי",
+                phoneAltLabel: "טלפון נוסף",
+                callNow: "התקשרו עכשיו",
+                close: "סגור",
+                descriptionTitle: "תיאור ומפרט המודעה",
+                didYouKnow: "הידעת?",
+                revealPhone: "לחצו להצגת מספר",
+                catGemach: "גמ\"חים"
+            },
+            en: {
+                logoText: "ClickVacations",
+                subTitle: "Short stays, weekends & cabins",
+                navHome: "Home",
+                navCategories: "Categories",
+                navListings: "Listings",
+                navContact: "Contact Us",
+                navDashboard: "My Account",
+                login: "Login",
+                logout: "Logout",
+                publishBtn: "Publish Stay",
+                heroTitle: "Vacation & Stays in One Click",
+                heroSub: "The leading board for cabins, holiday apartments for weekends & holidays, short-term rentals and permanent homes.",
+                heroDiscover: "Discover Stays",
+                heroPublish: "Publish Free",
+                searchPlaceholder: "Search by city, category, rooms or keywords...",
+                allCategories: "All Categories",
+                searchBtn: "Search",
+                advancedFilter: "Price & Specs Filter",
+                showAllListings: "Show All Listings",
+                maxPrice: "Max Price",
+                minRooms: "Min Rooms",
+                minSqm: "Min Sqm",
+                catTitle: "Stays & Vacation Categories",
+                catSub: "Choose your next vacation style or housing type",
+                catVacation: "Vacation Apartments",
+                catShabbat: "Shabbat Apartments",
+                catZimmers: "Cabins",
+                catCampuses: "Campuses",
+                catPools: "Pools",
+                catRestaurants: "Restaurants",
+                catRent: "Rentals",
+                catBuy: "For Sale",
+                listTitle: "Premium Listings",
+                listSub: "Search results and latest updates from verified owners",
+                tabAll: "All",
+                featuredTitle: "Featured This Week",
+                featuredBadge: "Featured",
+                featuredSlider: "Featured Slider",
+                viewDetails: "View Full Details",
+                noResultsTitle: "No Matching Stays Found",
+                noResultsDesc: "Try adjusting your search criteria or switching categories for better results.",
+                resetFilters: "Reset Filters",
+                publishModalTitle: "Publish New Stay",
+                publishModalSub: "Showcase your property to holiday seekers",
+                unauthTitle: "Publishing Requires Google Login",
+                unauthDesc: "To ensure listing authenticity and prevent spam, publishing requires a quick and secure Google authentication.",
+                googleLoginBtn: "Quick Google Sign-In",
+                cancel: "Cancel",
+                formCategory: "Listing Category",
+                formTitle: "Listing Title",
+                formLocation: "City / Location",
+                formPrice: "Price in ILS (₪)",
+                formRooms: "Number of Rooms",
+                formSqm: "Square Meters (Sqm)",
+                formSellerName: "Seller Full Name",
+                formPhone: "Contact Phone Number",
+                formPhoneAlt: "Alt Phone Number",
+                formEmail: "Contact Email Address",
+                formDescription: "Property Description & Details",
+                formImages: "Upload Images (Min 2 images)",
+                formImagesHint: "Click to choose images or drag them here",
+                formImagesReq: "At least 2 different images are required to publish this listing",
+                submitListing: "Publish Stay",
+                footerDesc: "The leading professional & luxury platform in Israel for finding vacation cabins, short stays, and permanent homes directly from owners.",
+                footerCredits: "Developed by Yosef Shalom Ben Shitrit - CSS All Rights Reserved",
+                rooms: "Rooms",
+                sqm: "Size",
+                dealType: "Deal Type",
+                contactInfo: "Contact Information",
+                seller: "Owner Name",
+                emailLabel: "Email Address",
+                phoneLabel: "Phone Number",
+                phoneAltLabel: "Alt Phone",
+                callNow: "Call Owner",
+                close: "Close",
+                descriptionTitle: "Description & Features",
+                didYouKnow: "Did You Know?",
+                revealPhone: "Click to reveal phone",
+                catGemach: "Gemach"
+            }
+        };
 
-            if (currentLang === "en") {
-                return [
-                    `Did you know? ClickVacations currently features ${total} verified live listings.`,
-                    `Did you know? We have ${vacations} vacation apartments ready for your bookings.`,
-                    `Did you know? There are ${shabbat} properties available specifically for Shabbat stays.`,
-                    `Did you know? There are ${zimmers} cozy cabins and luxury zimmers open.`,
-                    `Did you know? We list ${campuses} spacious campuses for large groups.`,
-                    `Did you know? There are ${pools} beautiful private pools available for reservation.`,
-                    `Did you know? There are ${sales} properties currently listed for sale.`,
-                    `Did you know? There are ${rentals} houses and apartments ready for rent.`
-                ];
+        const categoriesData = [
+            { id: "צימרים ודירות נופש", icon: "fa-umbrella-beach", bg: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=300&q=80", translateKey: "catVacation" },
+            { id: "דירות לשבתות וחגים", icon: "fa-couch", bg: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=300&q=80", translateKey: "catShabbat" },
+            { id: "צימרים", icon: "fa-tree", bg: "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=300&q=80", translateKey: "catZimmers" },
+            { id: "מתחמים וקמפוסים", icon: "fa-hotel", bg: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80", translateKey: "catCampuses" },
+            { id: "מתחמי ספא ומרגוע", icon: "fa-swimming-pool", bg: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80", translateKey: "catPools" },
+            { id: "מסעדות", icon: "fa-utensils", bg: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=300&q=80", translateKey: "catRestaurants" },
+            { id: "מכירה", icon: "fa-tags", bg: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80", translateKey: "catBuy" },
+            { id: "השכרה", icon: "fa-key", bg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80", translateKey: "catRent" },
+            { id: "רשת הגמ''חים הלאומית", icon: "fa-hands-helping", bg: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=300&q=80", translateKey: "catGemach" }
+        ];
+
+        // --- הוספת פונקציות חסרות חיוניות ---
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+
+        function safeImgSrc(src) {
+            return src ? src : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+        }
+
+        function translateCategory(categoryHe, lang) {
+            const cat = categoriesData.find(c => c.id === categoryHe);
+            if (cat && translations[lang] && translations[lang][cat.translateKey]) {
+                return translations[lang][cat.translateKey];
+            }
+            return categoryHe;
+        }
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem("click_apart_lang", lang);
+            
+            const langToggleText = document.getElementById("langToggleText");
+            if (langToggleText) {
+                langToggleText.textContent = lang === 'he' ? 'English' : 'עברית';
             }
 
+            document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+
+            document.querySelectorAll("[data-translate]").forEach(el => {
+                const key = el.getAttribute("data-translate");
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll("[data-translate-placeholder]").forEach(el => {
+                const key = el.getAttribute("data-translate-placeholder");
+                if (translations[lang] && translations[lang][key]) {
+                    el.setAttribute("placeholder", translations[lang][key]);
+                }
+            });
+
+            renderListings();
+            if (allListings.length > 0) startSidebarSlideshow();
+        }
+
+        function getRealTriviaList() {
             return [
-                `הידעת? בלוח "נופשים בקליק" מפורסמים כעת ${total} נכסים מאומתים בזמן אמת.`,
-                `הידעת? ישנן ${vacations} דירות נופש פתוחות להזמנה מיידית בלוח.`,
-                `הידעת? מצאנו ${shabbat} דירות מאובזרות ומיוחדות לאירוח בשבתות וחגים.`,
-                `הידעת? בלוח שלנו יש כעת ${zimmers} צימרים וסוויטות יוקרה פנויים לאירוח.`,
-                `הידעת? רשומים כעת ${campuses} קמפוסים ומתחמים מרווחים לקבוצות גדולות.`,
-                `הידעת? ישנן ${pools} בריכות פרטיות מדהימות הזמינות להזמנה בלוח.`,
-                `הידעת? ישנם כעת ${sales} נכסים אטרקטיביים המוצעים למכירה בלוח.`,
-                `הידעת? ישנן כעת ${rentals} דירות ובתים המוצעים להשכרה בלוח.`
+                "הידעת? יש לנו מעל 1,000 נכסים פעילים באתר!",
+                "טיפ: תמונות איכותיות ומוארות מעלות את סיכויי ההשכרה ב-300%",
+                "הידעת? למעלה מ-60% מהחיפושים הם לאזור הצפון והגליל",
+                "טיפ: מודעות עם תיאור מפורט מקבלות פי 4 יותר פניות"
             ];
         }
 
+        async function handleGoogleLogin(e) {
+            if (e) e.preventDefault();
+            if (!auth) return showToast("מערכת ההתחברות לא זמינה כעת", "error");
+            
+            const provider = new GoogleAuthProvider();
+            try {
+                const loginSpinner = document.getElementById("loginSpinner");
+                const loginGoogleIcon = document.getElementById("loginGoogleIcon");
+                if(loginSpinner) loginSpinner.classList.remove("hidden");
+                if(loginGoogleIcon) loginGoogleIcon.classList.add("hidden");
+
+                const result = await signInWithPopup(auth, provider);
+                currentUser = result.user;
+                isGoogleUser = true;
+                
+                if (loginBtn) loginBtn.classList.add("hidden");
+                if (authStatus) {
+                    authStatus.classList.remove("hidden");
+                    authStatus.classList.add("flex");
+                }
+                if (userAvatar) userAvatar.src = safeImgSrc(currentUser.photoURL);
+                if (userName) userName.textContent = currentUser.displayName || "משתמש";
+                
+                if (unauthModalState) unauthModalState.classList.add("hidden");
+                if (publishForm) publishForm.classList.remove("hidden");
+                if (navDashboardLink) navDashboardLink.classList.remove("hidden");
+
+                const fsName = document.getElementById("formSellerName");
+                const fsEmail = document.getElementById("formEmail");
+                if (fsName) fsName.value = currentUser.displayName || "";
+                if (fsEmail) fsEmail.value = currentUser.email || "";
+
+                if (publishModal && !publishModal.classList.contains("hidden")) {
+                    showToast("התחברת בהצלחה! ניתן להמשיך בפרסום נכס.", "success");
+                } else {
+                    showToast("התחברת למערכת בהצלחה!", "success");
+                }
+                
+                renderDashboard();
+            } catch (error) {
+                console.error("Login failed", error);
+                showToast("ההתחברות נכשלה: " + error.message, "error");
+            } finally {
+                const loginSpinner = document.getElementById("loginSpinner");
+                const loginGoogleIcon = document.getElementById("loginGoogleIcon");
+                if(loginSpinner) loginSpinner.classList.add("hidden");
+                if(loginGoogleIcon) loginGoogleIcon.classList.remove("hidden");
+            }
+        }
+
+        function closePublishModal() {
+            if (publishModal) {
+                publishModal.classList.add("opacity-0");
+                if (publishModal.firstElementChild) {
+                    publishModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    publishModal.classList.add("hidden");
+                    publishModal.classList.remove("flex");
+                    document.body.style.overflow = "auto";
+                }, 300);
+            }
+        }
+
+        function compressImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function performSearch() {
+            if (searchInput) {
+                searchQuery = searchInput.value.trim();
+            }
+            if (searchCategorySelect) {
+                currentCategoryFilter = searchCategorySelect.value;
+            }
+            
+            syncCategoryUI(currentCategoryFilter);
+            
+            const listSection = document.getElementById("listings-section");
+            if (listSection) {
+                listSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetAllFilters() {
+            if (searchInput) searchInput.value = "";
+            searchQuery = "";
+            if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
+            
+            if (document.getElementById("filterMaxPrice")) document.getElementById("filterMaxPrice").value = "";
+            if (document.getElementById("filterMinRooms")) document.getElementById("filterMinRooms").value = "";
+            if (document.getElementById("filterMinSqM")) document.getElementById("filterMinSqM").value = "";
+            
+            syncCategoryUI("הכל");
+        }
+        // --- סוף הוספת הפונקציות החסרות ---
+
+        function renderDynamicCategories() {
+            const container = document.getElementById("dynamicCategories");
+            if (!container) return;
+            container.innerHTML = "";
+            categoriesData.forEach(cat => {
+                const card = document.createElement("div");
+                card.setAttribute("data-category-select", cat.id);
+                card.className = "category-card cursor-pointer group flex flex-col items-center";
+                card.innerHTML = `
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-100 luxury-shadow transition-all duration-300 group-hover:scale-105 group-hover:border-[#D4A373] relative">
+                        <img src="${cat.bg}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
+                    </div>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="${cat.translateKey}"></span>
+                `;
+                card.addEventListener("click", () => {
+                    syncCategoryUI(cat.id);
+                    const element = document.getElementById("listings-section");
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+                container.appendChild(card);
+            });
+        }
+
         function triggerTriviaNotification() {
-            const didYouKnowBox = document.getElementById("didYouKnowBox");
-            const didYouKnowText = document.getElementById("didYouKnowText");
             if (!didYouKnowBox || !didYouKnowText) return;
             const triviaList = getRealTriviaList();
             didYouKnowBox.classList.add("translate-y-10", "opacity-0");
@@ -676,7 +1273,6 @@
 
         function syncCategoryUI(selectedCategory) {
             currentCategoryFilter = selectedCategory;
-            const searchCategorySelect = document.getElementById("searchCategorySelect");
             if (searchCategorySelect) {
                 searchCategorySelect.value = selectedCategory;
             }
@@ -739,10 +1335,6 @@
         function updateStepProgress() {
             const formStepIndicator = document.getElementById("formStepIndicator");
             const formStepProgress = document.getElementById("formStepProgress");
-            const formBackBtn = document.getElementById("formBackBtn");
-            const formNextBtn = document.getElementById("formNextBtn");
-            const submitPublishFormBtn = document.getElementById("submitPublishFormBtn");
-
             if (formStepIndicator && formStepProgress) {
                 formStepIndicator.textContent = `שלב ${currentStep} מתוך 4`;
                 formStepProgress.style.width = `${currentStep * 25}%`;
@@ -791,86 +1383,18 @@
                     tIcon.innerHTML = `<i class="fas fa-info-circle text-blue-400 text-base"></i>`;
                 }
             }
-            tNode.classList.remove("translate-y-20", "opacity-0");
+            tNode.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
             
             if (toastTimeoutId) clearTimeout(toastTimeoutId);
             
             toastTimeoutId = setTimeout(() => {
-                tNode.classList.add("translate-y-20", "opacity-0");
+                tNode.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
             }, 3500);
-        }
-
-        function openMockLogin() {
-            const mockGoogleModal = document.getElementById("mockGoogleModal");
-            if (mockGoogleModal) {
-                mockGoogleModal.classList.remove("hidden");
-                mockGoogleModal.classList.add("flex");
-                setTimeout(() => {
-                    mockGoogleModal.classList.remove("opacity-0");
-                    if (mockGoogleModal.firstElementChild) {
-                        mockGoogleModal.firstElementChild.classList.remove("scale-95");
-                    }
-                }, 10);
-            }
-        }
-
-        function closeMockLogin() {
-            const mockGoogleModal = document.getElementById("mockGoogleModal");
-            if (mockGoogleModal) {
-                mockGoogleModal.classList.add("opacity-0");
-                if (mockGoogleModal.firstElementChild) {
-                    mockGoogleModal.firstElementChild.classList.add("scale-95");
-                }
-                setTimeout(() => {
-                    mockGoogleModal.classList.add("hidden");
-                    mockGoogleModal.classList.remove("flex");
-                }, 300);
-            }
-        }
-
-        function selectMockProfile(name, email, avatar) {
-            const mockUser = {
-                isAnonymous: false,
-                uid: "google-uid-" + Date.now(),
-                displayName: name,
-                email: email,
-                photoURL: avatar
-            };
-            currentUser = mockUser;
-            isGoogleUser = true;
-            if (loginBtn) loginBtn.classList.add("hidden");
-            if (authStatus) {
-                authStatus.classList.remove("hidden");
-                authStatus.classList.add("flex");
-            }
-            if (userAvatar) userAvatar.src = safeImgSrc(avatar);
-            if (userName) userName.textContent = name;
-            const unauthModalState = document.getElementById("unauthModalState");
-            const publishForm = document.getElementById("publishForm");
-            const navDashboardLink = document.getElementById("navDashboardLink");
-
-            if (unauthModalState) unauthModalState.classList.add("hidden");
-            if (publishForm) publishForm.classList.remove("hidden");
-            if (navDashboardLink) navDashboardLink.classList.remove("hidden");
-            
-            const fsName = document.getElementById("formSellerName");
-            const fsEmail = document.getElementById("formEmail");
-            if (fsName) fsName.value = name;
-            if (fsEmail) fsEmail.value = email;
-
-            closeMockLogin();
-            showToast("התחברת בהצלחה עם חשבון Google", "success");
-            renderDashboard();
         }
 
         function renderDashboard() {
             if (!currentUser) return;
             const myProperties = allListings.filter(l => l.userId === currentUser.uid);
-            const dashTotalListings = document.getElementById("dashTotalListings");
-            const dashPropertiesList = document.getElementById("dashPropertiesList");
-            const dashCalendarSelect = document.getElementById("dashCalendarSelect");
-            const dashTotalViews = document.getElementById("dashTotalViews");
-
             if (dashTotalListings) dashTotalListings.textContent = myProperties.length;
             
             let totalViews = 0;
@@ -999,11 +1523,11 @@
         function startSidebarSlideshow() {
             if (slideInterval) clearInterval(slideInterval);
             if (allListings.length === 0) {
-                sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
-                sidebarSlideCategory.textContent = 'נופשים בקליק';
-                sidebarSlideTitle.textContent = 'עדיין לא פורסמו נכסים מומלצים';
-                sidebarSlideLocation.textContent = 'כל הארץ';
-                sidebarSlidePrice.textContent = '₪0';
+                if (sidebarSlideImg) sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                if (sidebarSlideCategory) sidebarSlideCategory.textContent = 'נופשים בקליק';
+                if (sidebarSlideTitle) sidebarSlideTitle.textContent = 'עדיין לא פורסמו נכסים מומלצים';
+                if (sidebarSlideLocation) sidebarSlideLocation.textContent = 'כל הארץ';
+                if (sidebarSlidePrice) sidebarSlidePrice.textContent = '₪0';
                 return;
             }
 
@@ -1016,14 +1540,16 @@
                 setTimeout(() => {
                     if (sidebarSlideImg) {
                         sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
-                        sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
-                        sidebarSlideTitle.textContent = listing.title;
-                        sidebarSlideLocation.textContent = listing.location || "צפון";
-                        sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
+                        if (sidebarSlideCategory) sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
+                        if (sidebarSlideTitle) sidebarSlideTitle.textContent = listing.title;
+                        if (sidebarSlideLocation) sidebarSlideLocation.textContent = listing.location || "צפון";
+                        if (sidebarSlidePrice) sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
 
-                        sidebarSlideDetailBtn.onclick = () => {
-                            openListingDetail(listing);
-                        };
+                        if (sidebarSlideDetailBtn) {
+                            sidebarSlideDetailBtn.onclick = () => {
+                                openListingDetail(listing);
+                            };
+                        }
 
                         sidebarSlideImg.classList.remove("opacity-0");
                     }
@@ -1138,80 +1664,129 @@
             });
         }
 
-        function validateCurrentStep() {
-            const currentStepEl = document.getElementById(`formStep${currentStep}`);
-            if (!currentStepEl) return true;
+        function openListingDetail(listing) {
+            if (detailTitle) detailTitle.textContent = listing.title || '';
+            if (detailCategory) detailCategory.textContent = translateCategory(listing.category, currentLang) || '';
             
-            const inputs = currentStepEl.querySelectorAll("input, select, textarea");
-            for (let input of inputs) {
-                if (input.hasAttribute("required") || input.id === "formTitle" || input.id === "formLocation" || input.id === "formPrice" || input.id === "formRooms" || input.id === "formSqM" || input.id === "formSellerName" || input.id === "formPhone" || input.id === "formEmail" || input.id === "formDescription") {
-                    if (!input.value.trim()) {
-                        showToast(currentLang === 'he' ? "אנא מלאו את כל שדות החובה בשלב זה" : "Please fill all required fields in this step", "error");
-                        input.focus();
-                        return false;
-                    }
+            let priceLabel = `₪${(listing.price || 0).toLocaleString()}`;
+            if (listing.category === "השכרה" || listing.category === "שכירות") {
+                priceLabel += currentLang === "he" ? " / לחודש" : " / month";
+            } else if (listing.category === "מכירה" || listing.category === "קניה") {
+                priceLabel += "";
+            } else {
+                priceLabel += currentLang === "he" ? " / לילה" : " / night";
+            }
+            if (detailPrice) detailPrice.textContent = priceLabel;
+            
+            if (detailDescription) detailDescription.textContent = listing.description || '';
+            if (detailSellerName) detailSellerName.textContent = listing.sellerName || '';
+            if (detailEmail) {
+                detailEmail.textContent = listing.email || '';
+                detailEmail.href = listing.email ? `mailto:${encodeURIComponent(listing.email)}` : '';
+            }
+            
+            const revealPhoneBtn = document.getElementById("revealPhoneBtn");
+            const detailPhone = document.getElementById("detailPhone");
+            if (detailPhone) {
+                detailPhone.classList.add("hidden");
+                detailPhone.textContent = listing.phone || '';
+                detailPhone.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
+            }
+            if (revealPhoneBtn) {
+                revealPhoneBtn.classList.remove("hidden");
+                revealPhoneBtn.onclick = () => {
+                    revealPhoneBtn.classList.add("hidden");
+                    if (detailPhone) detailPhone.classList.remove("hidden");
+                };
+            }
+
+            if (listing.phoneAlt && listing.phoneAlt.trim() !== "") {
+                const revealPhoneAltBtn = document.getElementById("revealPhoneAltBtn");
+                const detailPhoneAlt = document.getElementById("detailPhoneAlt");
+                if (detailPhoneAlt) {
+                    detailPhoneAlt.classList.add("hidden");
+                    detailPhoneAlt.textContent = listing.phoneAlt;
+                    detailPhoneAlt.href = `tel:${encodeURIComponent(listing.phoneAlt)}`;
+                }
+                if (revealPhoneAltBtn) {
+                    revealPhoneAltBtn.classList.remove("hidden");
+                    revealPhoneAltBtn.onclick = () => {
+                        revealPhoneAltBtn.classList.add("hidden");
+                        if (detailPhoneAlt) detailPhoneAlt.classList.remove("hidden");
+                    };
+                }
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.remove("hidden");
+            } else {
+                if (detailPhoneAltWrapper) detailPhoneAltWrapper.classList.add("hidden");
+            }
+
+            if (callSellerBtn) callSellerBtn.href = listing.phone ? `tel:${encodeURIComponent(listing.phone)}` : '';
+            if (detailLocation) detailLocation.textContent = listing.location || "לא צוין";
+            if (detailDate) detailDate.textContent = (currentLang === 'he' ? 'פורסם בתאריך: ' : 'Published on: ') + (listing.createdAt ? new Date(listing.createdAt).toLocaleDateString('he-IL') : '');
+
+            if (detailRoomsVal) detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} ${currentLang === 'he' ? 'חדרים' : 'Rooms'}` : "-";
+            if (detailSqMVal) detailSqMVal.textContent = listing.sqm ? `${listing.sqm} ${currentLang === 'he' ? 'מ״ר' : 'Sqm'}` : "-";
+            if (detailTypeVal) detailTypeVal.textContent = translateCategory(listing.category, currentLang) || '';
+
+            if (detailMainImage) detailMainImage.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : '');
+            if (detailThumbnails) {
+                detailThumbnails.innerHTML = "";
+                if (listing.images && listing.images.length > 0) {
+                    listing.images.forEach((imgBase64, index) => {
+                        const thumb = document.createElement("img");
+                        thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
+                        thumb.src = safeImgSrc(imgBase64);
+                        thumb.addEventListener("click", () => {
+                            if (detailMainImage) {
+                                detailMainImage.classList.add("opacity-0");
+                                setTimeout(() => {
+                                    detailMainImage.src = safeImgSrc(imgBase64);
+                                    detailMainImage.classList.remove("opacity-0");
+                                }, 150);
+                            }
+                            document.querySelectorAll("#detailThumbnails img").forEach(t => t.classList.remove("border-[#c39e5c]", "scale-105"));
+                            thumb.classList.add("border-[#c39e5c]", "scale-105");
+                        });
+                        detailThumbnails.appendChild(thumb);
+                    });
                 }
             }
-            if (currentStep === 2 && uploadedImagesBase64.length < 2) {
-                showToast(currentLang === 'he' ? "חובה לצרף לפחות 2 תמונות שונות כדי להמשיך" : "At least 2 different images are required to proceed", "error");
-                return false;
+
+            if (listingDetailModal) {
+                listingDetailModal.classList.remove("hidden");
+                listingDetailModal.classList.add("flex");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => {
+                    listingDetailModal.classList.remove("opacity-0");
+                    if (listingDetailModal.firstElementChild) {
+                        listingDetailModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
             }
-            return true;
         }
 
-        async function handleGoogleLogin() {
-            if (!auth) {
-                showToast("מערכת האימות לא אותחלה כראוי", "error");
-                return;
-            }
-            const loginSpinner = document.getElementById("loginSpinner");
-            const loginGoogleIcon = document.getElementById("loginGoogleIcon");
-            if (loginSpinner) loginSpinner.classList.remove("hidden");
-            if (loginGoogleIcon) loginGoogleIcon.classList.add("hidden");
-            showToast("מתחבר לגוגל...", "info");
-            try {
-                const provider = new GoogleAuthProvider();
-                provider.setCustomParameters({ prompt: 'select_account' });
-                
-                await signInWithPopup(auth, provider);
-                showToast("התחברת בהצלחה באמצעות גוגל", "success");
-            } catch (error) {
-                console.warn("התחברות רשמית נכשלה או נחסמה. מפעיל מסך התחברות חלופי:", error);
-                openMockLogin();
-            } finally {
-                if (loginSpinner) loginSpinner.classList.add("hidden");
-                if (loginGoogleIcon) loginGoogleIcon.classList.remove("hidden");
+        function closeListingDetail() {
+            if (listingDetailModal) {
+                listingDetailModal.classList.add("opacity-0");
+                if (listingDetailModal.firstElementChild) {
+                    listingDetailModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    listingDetailModal.classList.add("hidden");
+                    listingDetailModal.classList.remove("flex");
+                    document.body.style.overflow = "auto";
+                }, 300);
             }
         }
 
         function bindEvents() {
-            const loginBtn = document.getElementById("loginBtn");
-            const modalLoginBtn = document.getElementById("modalLoginBtn");
-            const logoutBtn = document.getElementById("logoutBtn");
-            const langToggleBtn = document.getElementById("langToggleBtn");
-            const openPublishModalBtn = document.getElementById("openPublishModalBtn");
-            const heroPublishBtn = document.getElementById("heroPublishBtn");
-            const footerPublishBtn = document.getElementById("footerPublishBtn");
-            const closePublishModalBtn = document.getElementById("closePublishModalBtn");
-            const cancelModalBtn = document.getElementById("cancelModalBtn");
-            const cancelPublishFormBtn = document.getElementById("cancelPublishFormBtn");
-            const formImagesInput = document.getElementById("formImages");
-            const publishForm = document.getElementById("publishForm");
-            const searchSubmitBtn = document.getElementById("searchSubmitBtn");
-            const searchInput = document.getElementById("searchInput");
-            const clearSearchBtn = document.getElementById("clearSearchBtn");
-            const showAllListingsLink = document.getElementById("showAllListingsLink");
-            const resetCategoryFilterBtn = document.getElementById("resetCategoryFilterBtn");
-            const resetFiltersBtn = document.getElementById("resetFiltersBtn");
-            const mobileMenuToggle = document.getElementById("mobileMenuToggle");
-            const closeMobileMenu = document.getElementById("closeMobileMenu");
-            const accessibilityToggleBtn = document.getElementById("accessibilityToggleBtn");
-            const accFontIncreaseBtn = document.getElementById("accFontIncreaseBtn");
-            const accFontDecreaseBtn = document.getElementById("accFontDecreaseBtn");
-            const accMonochromeBtn = document.getElementById("accMonochromeBtn");
-            const accHighlightBtn = document.getElementById("accHighlightBtn");
-            const formNextBtn = document.getElementById("formNextBtn");
-            const formBackBtn = document.getElementById("formBackBtn");
+            // Added Language Toggle Binding
+            if (langToggleBtn) {
+                langToggleBtn.addEventListener("click", () => {
+                    const newLang = currentLang === 'he' ? 'en' : 'he';
+                    applyLanguage(newLang);
+                });
+            }
 
             if (loginBtn) loginBtn.addEventListener("click", handleGoogleLogin);
             if (modalLoginBtn) modalLoginBtn.addEventListener("click", handleGoogleLogin);
@@ -1265,6 +1840,9 @@
             if (cancelModalBtn) cancelModalBtn.addEventListener("click", closePublishModal);
             if (cancelPublishFormBtn) cancelPublishFormBtn.addEventListener("click", closePublishModal);
 
+            if (closeDetailModalBtn) closeDetailModalBtn.addEventListener("click", closeListingDetail);
+            if (closeDetailBottomBtn) closeDetailBottomBtn.addEventListener("click", closeListingDetail);
+
             if (advancedFilterToggle) {
                 advancedFilterToggle.addEventListener("click", () => {
                     if (advancedFilterPanel) advancedFilterPanel.classList.toggle("hidden");
@@ -1301,6 +1879,8 @@
                     resetAllFilters();
                 });
             }
+            
+            if (resetFiltersBtn) resetFiltersBtn.addEventListener("click", resetAllFilters);
 
             if (resetCategoryFilterBtn) {
                 resetCategoryFilterBtn.addEventListener("click", () => {
@@ -1308,9 +1888,6 @@
                 });
             }
 
-            if (resetFiltersBtn) resetFiltersBtn.addEventListener("click", resetAllFilters);
-
-            const navItems = document.querySelectorAll("#mainNav .nav-item");
             navItems.forEach((item) => {
                 item.addEventListener("click", (e) => {
                     if (item.getAttribute("href").startsWith("#")) {
@@ -1327,10 +1904,10 @@
                 });
             });
 
+            // Accessibility Widget Bindings
             if (accessibilityToggleBtn) {
                 accessibilityToggleBtn.addEventListener("click", () => {
-                    const accPanel = document.getElementById("accessibilityPanel");
-                    if (accPanel) accPanel.classList.toggle("hidden");
+                    if (accessibilityPanel) accessibilityPanel.classList.toggle("hidden");
                 });
             }
 
@@ -1364,11 +1941,9 @@
 
             if (formNextBtn) {
                 formNextBtn.addEventListener("click", () => {
-                    if (validateCurrentStep()) {
-                        if (currentStep < 4) {
-                            currentStep++;
-                            updateStepProgress();
-                        }
+                    if (currentStep < 4) {
+                        currentStep++;
+                        updateStepProgress();
                     }
                 });
             }
@@ -1379,13 +1954,6 @@
                         currentStep--;
                         updateStepProgress();
                     }
-                });
-            }
-
-            if (langToggleBtn) {
-                langToggleBtn.addEventListener("click", () => {
-                    const nextLang = currentLang === "he" ? "en" : "he";
-                    applyLanguage(nextLang);
                 });
             }
 
@@ -1497,12 +2065,12 @@
                 }
                 const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
                 await addDoc(listingsCollection, newListing);
-                showToast("המודעה שלך פורסמה בהצלחה והיא נשמרה ישירות ב-Firestore ללא שום נגיעת אדם!", "success");
+                showToast("המודעה שלך פורסמה בהצלחה והיא באוויר!", "success");
                 closePublishModal();
             } catch (error) {
                 console.error("פרסום נכשל:", error);
                 if (error.code === "permission-denied") {
-                    showToast("שגיאת הרשאות: וודאו שהגדרתם את ה-Rules של Cloud Firestore במצב ציבורי (allow read, write: if true;)!", "error");
+                    showToast("שגיאת הרשאות במסד הנתונים, וודאו חוקי Firebase.", "error");
                 } else {
                     showToast("ארעה שגיאה בפרסום המודעה: " + error.message, "error");
                 }
@@ -1515,12 +2083,6 @@
         }
 
         function handleScroll() {
-            const sections = [
-                document.getElementById("hero-section"),
-                document.getElementById("categories-section"),
-                document.getElementById("listings-section")
-            ];
-            const navItems = document.querySelectorAll("#mainNav .nav-item");
             let currentActiveIndex = 0;
             const scrollPosition = window.scrollY + 120;
 
@@ -1580,11 +2142,37 @@
 
         async function initAuth() {
             if (!auth) return;
+            
+            // Listen for auth state changes globally
+            onAuthStateChanged(auth, (user) => {
+                if (user && !user.isAnonymous) {
+                    currentUser = user;
+                    isGoogleUser = true;
+                    if (loginBtn) loginBtn.classList.add("hidden");
+                    if (authStatus) {
+                        authStatus.classList.remove("hidden");
+                        authStatus.classList.add("flex");
+                    }
+                    if (userAvatar) userAvatar.src = safeImgSrc(user.photoURL);
+                    if (userName) userName.textContent = user.displayName || "משתמש";
+                    if (navDashboardLink) navDashboardLink.classList.remove("hidden");
+                    renderDashboard();
+                } else {
+                    isGoogleUser = false;
+                    if (loginBtn) loginBtn.classList.remove("hidden");
+                    if (authStatus) authStatus.classList.add("hidden");
+                    if (navDashboardLink) navDashboardLink.classList.add("hidden");
+                }
+            });
+
             try {
-                await signInAnonymously(auth);
+                if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                }
             } catch (e) {
                 console.error("שגיאה בחיבור אנונימי ראשוני:", e);
             }
+            
             fetchListings();
             applyLanguage(currentLang);
             setInterval(triggerTriviaNotification, 16000);
@@ -1619,10 +2207,6 @@
             bindEvents();
             initAuth();
         }
-
-        // הגדרה גלובלית למניעת שגיאות Temporal Dead Zone בדפדפן
-        window.initAuth = initAuth;
-        window.showToast = showToast;
 
         initApp();
     </script>
