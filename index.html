@@ -769,6 +769,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
         import { initializeFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCVKPEduNKbGrIehlcL07_cM7sipfkx6Uc",
@@ -782,11 +783,13 @@
 
         let auth = null;
         let db = null;
+        let storage = null;
 
         try {
             const app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = initializeFirestore(app, { experimentalForceLongPolling: true });
+            storage = getStorage(app);
         } catch (e) {
             console.error("Firebase App initialization failed:", e);
         }
@@ -894,7 +897,8 @@
         const calendarBusyBtn = document.getElementById("calendarBusyBtn");
         const navDashboardLink = document.getElementById("navDashboardLink");
 
-        let uploadedImagesBase64 = [];
+        let uploadedImageBlobs = [];
+        let previewUrls = [];
         let toastTimeoutId = null;
         let currentFontSize = 16;
 
@@ -1018,7 +1022,10 @@
                 selectPropToManage: "בחרו נכס לעדכון",
                 mapLoading: "מפת גמ\"חים אינטראקטיבית טעונה בהצלחה",
                 mapSub: "מציג סיכות מבוססות מיקום עבור גמ\"חים באזור הנבחר",
-                gemachMapTitle: "גמ\"חים בסביבה שלך"
+                gemachMapTitle: "גמ\"חים בסביבה שלך",
+                uploadingImages: "מעלה תמונות לשרת...",
+                savingData: "שומר נתונים...",
+                processingImages: "מעבד תמונות..."
             },
             en: {
                 logoText: "ClickVacations",
@@ -1139,7 +1146,10 @@
                 selectPropToManage: "Select property to update",
                 mapLoading: "Interactive Gemach map loaded successfully",
                 mapSub: "Showing location-based pins for Gemachs in the selected area",
-                gemachMapTitle: "Gemachs in your area"
+                gemachMapTitle: "Gemachs in your area",
+                uploadingImages: "Uploading images...",
+                savingData: "Saving data...",
+                processingImages: "Processing images..."
             }
         };
 
@@ -1311,11 +1321,45 @@
             }
         }
 
+        // --- שדרוג לפונקציה סופר-מהירה (Client Side Compression) באמצעות Canvas שמחזירה קובץ קטן (Blob) במקום טקסט ארוך ---
         function compressImage(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 1200; // הגבלת רוחב כדי לשמור על מהירות ושטח
+                        const MAX_HEIGHT = 1200; // הגבלת גובה
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // המרה בחזרה לקובץ בינארי (Blob) מוכן להעלאה סופר-מהירה ל-Storage
+                        canvas.toBlob((blob) => {
+                            resolve(blob);
+                        }, 'image/jpeg', 0.75); // 75% איכות חוסך המון משקל ונראה מעולה במסכים
+                    };
+                    img.onerror = () => reject(new Error('Failed to load image'));
+                };
                 reader.onerror = error => reject(error);
             });
         }
@@ -1858,15 +1902,15 @@
             if (detailThumbnails) {
                 detailThumbnails.innerHTML = "";
                 if (listing.images && listing.images.length > 0) {
-                    listing.images.forEach((imgBase64, index) => {
+                    listing.images.forEach((imgUrl, index) => {
                         const thumb = document.createElement("img");
                         thumb.className = `w-14 h-11 object-cover rounded-lg cursor-pointer transition border-2 ${index === 0 ? 'border-[#c39e5c] scale-105' : 'border-transparent hover:border-white/50'}`;
-                        thumb.src = safeImgSrc(imgBase64);
+                        thumb.src = safeImgSrc(imgUrl);
                         thumb.addEventListener("click", () => {
                             if (detailMainImage) {
                                 detailMainImage.classList.add("opacity-0");
                                 setTimeout(() => {
-                                    detailMainImage.src = safeImgSrc(imgBase64);
+                                    detailMainImage.src = safeImgSrc(imgUrl);
                                     detailMainImage.classList.remove("opacity-0");
                                 }, 150);
                             }
@@ -2102,23 +2146,32 @@
         async function handleImageUpload(e) {
             const files = Array.from(e.target.files);
             if (files.length === 0) return;
+            
+            // ננקה כתובות זמניות ישנות כדי לחסוך בזיכרון הראם
+            previewUrls.forEach(url => URL.revokeObjectURL(url));
+            previewUrls = [];
+            uploadedImageBlobs = [];
 
             if (imagePreviewsContainer) {
-                imagePreviewsContainer.innerHTML = `<div class="col-span-full py-4 text-center"><i class="fas fa-spinner fa-spin text-[#2D423B] text-xl ml-2"></i>${currentLang === 'he' ? 'מעבד תמונות...' : 'Processing images...'}</div>`;
+                imagePreviewsContainer.innerHTML = `<div class="col-span-full py-4 text-center"><i class="fas fa-spinner fa-spin text-[#2D423B] text-xl ml-2"></i><span data-translate="processingImages">${translations[currentLang].processingImages}</span></div>`;
                 imagePreviewsContainer.classList.remove("hidden");
             }
 
             try {
-                uploadedImagesBase64 = await Promise.all(files.map(file => compressImage(file)));
+                // הדחיסה דרך ה-Canvas מייצרת קבצי Blob מיניאטורים סופר-מהירים
+                uploadedImageBlobs = await Promise.all(files.map(file => compressImage(file)));
                 
                 if (imagePreviewsContainer) {
                     imagePreviewsContainer.innerHTML = "";
-                    uploadedImagesBase64.forEach((base64) => {
+                    uploadedImageBlobs.forEach((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        previewUrls.push(url);
+                        
                         const previewDiv = document.createElement("div");
                         previewDiv.className = "relative aspect-video rounded-xl overflow-hidden bg-stone-100 border border-stone-200";
                         const imgEl = document.createElement("img");
                         imgEl.className = "w-full h-full object-cover";
-                        imgEl.src = safeImgSrc(base64);
+                        imgEl.src = url;
                         const overlay = document.createElement("div");
                         overlay.className = "absolute inset-0 bg-stone-950/20";
                         previewDiv.appendChild(imgEl);
@@ -2132,6 +2185,7 @@
             }
         }
 
+        // --- שדרוג תהליך ההעלאה לאחסון (Storage) בזמן אמת ושמירת הקישורים ב-Firestore ---
         async function handleFormSubmit(e) {
             e.preventDefault();
             if (!currentUser || currentUser.isAnonymous) {
@@ -2139,7 +2193,7 @@
                 return;
             }
 
-            if (uploadedImagesBase64.length < 2) {
+            if (uploadedImageBlobs.length < 2) {
                 showToast(currentLang === 'he' ? "חובה להעלות לפחות 2 תמונות שונות של הנכס" : "Please upload at least 2 images", "error");
                 return;
             }
@@ -2156,45 +2210,69 @@
             const email = document.getElementById("formEmail").value.trim();
             const description = document.getElementById("formDescription").value.trim();
 
-            const stamp = Date.now();
-            const imageFileNames = uploadedImagesBase64.map((img, i) => `image_apartment_${stamp}_${i}.jpg`);
-
-            const newListing = {
-                category,
-                title,
-                location: locationVal,
-                price,
-                rooms,
-                sqm,
-                sellerName,
-                phone,
-                phoneAlt,
-                email,
-                description,
-                images: uploadedImagesBase64,
-                imageFileNames,
-                createdAt: stamp,
-                userId: currentUser.uid,
-                viewsCount: Math.floor(Math.random() * 50) + 10 // מתחיל עם קצת חשיפה אוטומטית
-            };
-
             const submitBtn = document.getElementById("submitPublishFormBtn");
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i>${currentLang === 'he' ? 'מפרסם מודעה...' : 'Publishing...'}`;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i><span data-translate="uploadingImages">${translations[currentLang].uploadingImages}</span>`;
             }
 
             try {
-                if (!db) {
-                    throw new Error("No database connection");
+                if (!db || !storage) {
+                    throw new Error("No database or storage connection");
                 }
+                
+                const stamp = Date.now();
+                const imageUrls = [];
+                
+                // שלב 1: העלאת כל התמונות (Blobs) ל-Firebase Storage בצורה סופר-מהירה וקבלת כתובת תמונה אמיתית (URL)
+                for (let i = 0; i < uploadedImageBlobs.length; i++) {
+                    const blob = uploadedImageBlobs[i];
+                    // יצירת נתיב שמירה מאובטח ומסודר באחסון של פיירבייס
+                    const storagePath = `artifacts/${appId}/public/data/listing_images/${currentUser.uid}_${stamp}_${i}.jpg`;
+                    const storageReference = ref(storage, storagePath);
+                    
+                    const snapshot = await uploadBytesResumable(storageReference, blob);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    imageUrls.push(downloadURL);
+                }
+
+                if (submitBtn) {
+                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i><span data-translate="savingData">${translations[currentLang].savingData}</span>`;
+                }
+
+                // שלב 2: יצירת מסמך הדירה ושמירתו ב-Firestore (מכיל רק את הקישורים, ולכן נשמר באלפית השניה)
+                const newListing = {
+                    category,
+                    title,
+                    location: locationVal,
+                    price,
+                    rooms,
+                    sqm,
+                    sellerName,
+                    phone,
+                    phoneAlt,
+                    email,
+                    description,
+                    images: imageUrls, // שומרים כתובות אמיתיות מהאחסון ולא מחרוזות ארוכות!
+                    imageFileNames: imageUrls.map((u, i) => `image_${stamp}_${i}.jpg`),
+                    createdAt: stamp,
+                    userId: currentUser.uid,
+                    viewsCount: Math.floor(Math.random() * 50) + 10 // חשיפה ראשונית
+                };
+
                 const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
                 await addDoc(listingsCollection, newListing);
+                
                 showToast(currentLang === 'he' ? "המודעה שלך פורסמה בהצלחה והיא באוויר!" : "Your listing was successfully published!", "success");
                 closePublishModal();
+                
+                // ניקוי טופס לאחר סיום
+                document.getElementById("publishForm").reset();
+                if (imagePreviewsContainer) imagePreviewsContainer.innerHTML = '';
+                
             } catch (error) {
                 console.error("Publish failed:", error);
-                if (error.code === "permission-denied") {
+                if (error.code && error.code.includes("permission")) {
                     showToast(currentLang === 'he' ? "שגיאת הרשאות במסד הנתונים" : "Database permissions error", "error");
                 } else {
                     showToast((currentLang === 'he' ? "ארעה שגיאה בפרסום המודעה: " : "Error publishing: ") + error.message, "error");
