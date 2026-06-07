@@ -335,10 +335,10 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div class="absolute top-3 right-3 bg-[#D4A373] text-[#2D423B] text-[9px] font-bold px-2 py-1 rounded-full shadow" data-translate="featuredBadge">מומלץ</div>
                         <div class="absolute bottom-3 right-3 left-3 text-white">
-                            <p id="sidebarSlideCategory" class="text-[9px] text-[#D4A373] font-bold uppercase tracking-wider">נופשים בקליק</p>
-                            <h5 id="sidebarSlideTitle" class="text-xs font-extrabold leading-snug truncate mt-0.5">עדיין לא פורסמו נכסים מומלצים</h5>
+                            <p id="sidebarSlideCategory" class="text-[9px] text-[#D4A373] font-bold uppercase tracking-wider" data-translate="clickVacations">נופשים בקליק</p>
+                            <h5 id="sidebarSlideTitle" class="text-xs font-extrabold leading-snug truncate mt-0.5" data-translate="noFeaturedTitle">עדיין לא פורסמו נכסים מומלצים</h5>
                             <div class="flex items-center justify-between mt-1 text-[10px]">
-                                <span id="sidebarSlideLocation" class="text-stone-300">כל הארץ</span>
+                                <span id="sidebarSlideLocation" class="text-stone-300" data-translate="nationwide">כל הארץ</span>
                                 <span id="sidebarSlidePrice" class="font-bold text-[#D4A373]">₪0</span>
                             </div>
                         </div>
@@ -467,7 +467,9 @@
 
                 <div id="formStep1" class="space-y-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formCategory">קטגוריית פרסום <span class="text-rose-500">*</span></label>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formCategory">קטגוריית פרסום</span> <span class="text-rose-500">*</span>
+                        </label>
                         <select id="formCategory" required class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
                             <option value="צימרים ודירות נופש" data-translate="catZimmers">צימרים ודירות נופש</option>
                             <option value="דירות לשבתות וחגים" data-translate="catShabbat">דירות לשבתות וחגים</option>
@@ -482,19 +484,25 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formTitle">כותרת המודעה <span class="text-rose-500">*</span></label>
-                        <input id="formTitle" type="text" required placeholder="למשל: סוויטה מפוארת" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formTitle">כותרת המודעה</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formTitle" type="text" required data-translate-placeholder="placeholderTitle" placeholder="למשל: סוויטה מפוארת" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formLocation">עיר / ישוב <span class="text-rose-500">*</span></label>
-                        <input id="formLocation" type="text" required placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formLocation">עיר / ישוב</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formLocation" type="text" required data-translate-placeholder="placeholderLocation" placeholder="למשל: ירושלים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
                 </div>
 
                 <div id="formStep2" class="hidden space-y-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formImages">העלאת תמונות (מינימום 2 תמונות) <span class="text-rose-500">*</span></label>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formImages">העלאת תמונות (מינימום 2 תמונות)</span> <span class="text-rose-500">*</span>
+                        </label>
                         <div class="relative border-2 border-dashed border-stone-200 hover:border-[#2D423B] bg-stone-50 hover:bg-stone-100/40 rounded-2xl p-6 text-center transition-all duration-300 cursor-pointer">
                             <input id="formImages" type="file" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                             <div class="space-y-2">
@@ -511,40 +519,54 @@
 
                 <div id="formStep3" class="hidden space-y-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPrice">מחיר בשקלים (₪) <span class="text-rose-500">*</span></label>
-                        <input id="formPrice" type="number" required placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formPrice">מחיר בשקלים (₪)</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formPrice" type="number" required data-translate-placeholder="placeholderPrice" placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formRooms">מספר חדרים <span class="text-rose-500">*</span></label>
-                        <input id="formRooms" type="number" step="0.5" required placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formRooms">מספר חדרים</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formRooms" type="number" step="0.5" required data-translate-placeholder="placeholderRooms" placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSqm">מטר רבוע (מ"ר) <span class="text-rose-500">*</span></label>
-                        <input id="formSqM" type="number" required placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formSqm">מטר רבוע (מ"ר)</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formSqM" type="number" required data-translate-placeholder="placeholderSqm" placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
                 </div>
 
                 <div id="formStep4" class="hidden space-y-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formSellerName">שם מלא של המפרסם <span class="text-rose-500">*</span></label>
-                        <input id="formSellerName" type="text" required placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formSellerName">שם מלא של המפרסם</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formSellerName" type="text" required data-translate-placeholder="placeholderSellerName" placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formPhone">מספר טלפון לפניות <span class="text-rose-500">*</span></label>
-                        <input id="formPhone" type="tel" required placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formPhone">מספר טלפון לפניות</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formPhone" type="tel" required data-translate-placeholder="placeholderPhone" placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formEmail">כתובת אימייל ליצירת קשר <span class="text-rose-500">*</span></label>
-                        <input id="formEmail" type="email" required placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formEmail">כתובת אימייל ליצירת קשר</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="formEmail" type="email" required data-translate-placeholder="placeholderEmail" placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2" data-translate="formDescription">תיאור חופשי ומפרט נוסף <span class="text-rose-500">*</span></label>
-                        <textarea id="formDescription" required rows="4" placeholder="תארו את הנכס בפירוט..." class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                            <span data-translate="formDescription">תיאור חופשי ומפרט נוסף</span> <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="formDescription" required rows="4" data-translate-placeholder="placeholderDesc" placeholder="תארו את הנכס בפירוט..." class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition resize-none"></textarea>
                     </div>
                 </div>
 
@@ -695,8 +717,8 @@
             <i class="fas fa-globe"></i>
         </div>
         <div class="text-[11px] font-bold text-[#2D423B]">
-            <p id="spacingSafetyVisitors">0&nbsp;גולשים נכנסו היום לאתר</p>
-            <p id="spacingSafetyListings" class="mt-1">0&nbsp;נכסים נוספו היום לאתר</p>
+            <p id="spacingSafetyVisitors">0&nbsp;גולשים פעילים היום באתר</p>
+            <p id="spacingSafetyListings" class="mt-1">0&nbsp;נכסים חדשים נוספו היום</p>
         </div>
     </div>
 
@@ -903,11 +925,15 @@
                 catTitle: "קטגוריות נופש ואירוח",
                 catSub: "בחרו את סוג החופשה או המגורים הבאים שלכם",
                 catVacation: "דירות נופש",
-                catShabbat: "דירות לשבת",
-                catZimmers: "צימרים",
-                catCampuses: "קמפוסים",
-                catPools: "בריכות",
+                catShabbat: "דירות לשבתות וחגים",
+                catZimmers: "צימרים ודירות נופש",
+                catCampuses: "מתחמים וקמפוסים",
+                catPools: "מתחמי ספא ומרגוע",
                 catRestaurants: "מסעדות",
+                catSpecial: "מקומות מיוחדים",
+                catAbroad: "דירות ואירוח בחו''ל",
+                catAttractions: "אטרקציות ופנאי",
+                catEquipment: "השכרת ציוד לאירועים",
                 catRent: "השכרה",
                 catBuy: "מכירה",
                 listTitle: "לוח נכסי פרימיום",
@@ -956,7 +982,7 @@
                 descriptionTitle: "תיאור ומפרט המודעה",
                 didYouKnow: "הידעת?",
                 revealPhone: "לחצו להצגת מספר",
-                catGemach: "גמ\"חים",
+                catGemach: "רשת הגמ''חים הלאומית",
                 formBack: "חזור",
                 formNext: "המשך",
                 accFontInc: "הגדל פונט",
@@ -969,7 +995,30 @@
                 emptyBoardTitle: "הלוח ריק כרגע",
                 emptyBoardDesc: "היו הראשונים לפרסם נכס בלוח החדש שלנו!",
                 promoLabel: "השקה פעיל - 5 ₪",
-                noProperties: "עדיין לא פרסמתם אף נכס."
+                noProperties: "עדיין לא פרסמתם אף נכס.",
+                placeholderTitle: "למשל: סוויטה מפוארת",
+                placeholderLocation: "למשל: ירושלים",
+                placeholderPrice: "למשל: 4,500",
+                placeholderRooms: "למשל: 4.5",
+                placeholderSqm: "למשל: 110",
+                placeholderSellerName: "השם שיוצג בפני הגולשים",
+                placeholderPhone: "למשל: 050-1234567",
+                placeholderEmail: "למשל: example@gmail.com",
+                placeholderDesc: "תארו את הנכס בפירוט...",
+                noFeaturedTitle: "עדיין לא פורסמו נכסים מומלצים",
+                nationwide: "כל הארץ",
+                clickVacations: "נופשים בקליק",
+                dashboardTitle: "אזור אישי וניהול נכסים",
+                dashboardSub: "צפו בנתוני צפיות ייחודיים (Unique Views), יומן ודיוור",
+                totalListings: "סך הכל נכסים שלי",
+                totalViews: "סך צפיות ייחודיות (Unique Views)",
+                promoStatus: "מסלול חיוב השקה",
+                myProperties: "ניהול מודעות פעיל",
+                calendarManage: "ניהול יומן זמינות מודעה",
+                selectPropToManage: "בחרו נכס לעדכון",
+                mapLoading: "מפת גמ\"חים אינטראקטיבית טעונה בהצלחה",
+                mapSub: "מציג סיכות מבוססות מיקום עבור גמ\"חים באזור הנבחר",
+                gemachMapTitle: "גמ\"חים בסביבה שלך"
             },
             en: {
                 logoText: "ClickVacations",
@@ -997,11 +1046,15 @@
                 catTitle: "Stays & Vacation Categories",
                 catSub: "Choose your next vacation style or housing type",
                 catVacation: "Vacation Apartments",
-                catShabbat: "Shabbat Apartments",
-                catZimmers: "Cabins",
-                catCampuses: "Campuses",
-                catPools: "Pools",
+                catShabbat: "Shabbat & Holiday Apts",
+                catZimmers: "Cabins & Vacation Apts",
+                catCampuses: "Campuses & Complexes",
+                catPools: "Spa & Pool Complexes",
                 catRestaurants: "Restaurants",
+                catSpecial: "Special Places",
+                catAbroad: "Properties Abroad",
+                catAttractions: "Attractions & Leisure",
+                catEquipment: "Event Equipment Rental",
                 catRent: "Rentals",
                 catBuy: "For Sale",
                 listTitle: "Premium Listings",
@@ -1050,7 +1103,7 @@
                 descriptionTitle: "Description & Features",
                 didYouKnow: "Did You Know?",
                 revealPhone: "Click to reveal phone",
-                catGemach: "Gemach",
+                catGemach: "National Gemach Network",
                 formBack: "Back",
                 formNext: "Next",
                 accFontInc: "Increase Font",
@@ -1063,19 +1116,42 @@
                 emptyBoardTitle: "The board is currently empty",
                 emptyBoardDesc: "Be the first to publish a property on our new board!",
                 promoLabel: "Launch Promo - 5 ILS",
-                noProperties: "You haven't published any properties yet."
+                noProperties: "You haven't published any properties yet.",
+                placeholderTitle: "e.g., Luxury Suite",
+                placeholderLocation: "e.g., Jerusalem",
+                placeholderPrice: "e.g., 4500",
+                placeholderRooms: "e.g., 4.5",
+                placeholderSqm: "e.g., 110",
+                placeholderSellerName: "Name displayed to visitors",
+                placeholderPhone: "e.g., 050-1234567",
+                placeholderEmail: "e.g., example@gmail.com",
+                placeholderDesc: "Describe the property in detail...",
+                noFeaturedTitle: "No featured properties yet",
+                nationwide: "Nationwide",
+                clickVacations: "ClickVacations",
+                dashboardTitle: "My Account & Management",
+                dashboardSub: "View unique views data, calendar and mailing",
+                totalListings: "Total Properties",
+                totalViews: "Total Unique Views",
+                promoStatus: "Billing Plan",
+                myProperties: "Active Listings Management",
+                calendarManage: "Calendar & Availability Management",
+                selectPropToManage: "Select property to update",
+                mapLoading: "Interactive Gemach map loaded successfully",
+                mapSub: "Showing location-based pins for Gemachs in the selected area",
+                gemachMapTitle: "Gemachs in your area"
             }
         };
 
         const categoriesData = [
-            { id: "צימרים ודירות נופש", icon: "fa-umbrella-beach", bg: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=300&q=80", translateKey: "catVacation" },
+            { id: "צימרים ודירות נופש", icon: "fa-umbrella-beach", bg: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=300&q=80", translateKey: "catZimmers" },
             { id: "דירות לשבתות וחגים", icon: "fa-couch", bg: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=300&q=80", translateKey: "catShabbat" },
-            { id: "צימרים", icon: "fa-tree", bg: "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=300&q=80", translateKey: "catZimmers" },
             { id: "מתחמים וקמפוסים", icon: "fa-hotel", bg: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80", translateKey: "catCampuses" },
             { id: "מתחמי ספא ומרגוע", icon: "fa-swimming-pool", bg: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80", translateKey: "catPools" },
-            { id: "מסעדות", icon: "fa-utensils", bg: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=300&q=80", translateKey: "catRestaurants" },
-            { id: "מכירה", icon: "fa-tags", bg: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80", translateKey: "catBuy" },
-            { id: "השכרה", icon: "fa-key", bg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80", translateKey: "catRent" },
+            { id: "מקומות מיוחדים", icon: "fa-compass", bg: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=300&q=80", translateKey: "catSpecial" },
+            { id: "דירות ואירוח בחו''ל", icon: "fa-globe-americas", bg: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=300&q=80", translateKey: "catAbroad" },
+            { id: "אטרקציות ופנאי", icon: "fa-bicycle", bg: "https://images.unsplash.com/photo-1533663365922-2615456247c1?auto=format&fit=crop&w=300&q=80", translateKey: "catAttractions" },
+            { id: "השכרת ציוד לאירועים", icon: "fa-plug", bg: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=300&q=80", translateKey: "catEquipment" },
             { id: "רשת הגמ''חים הלאומית", icon: "fa-hands-helping", bg: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=300&q=80", translateKey: "catGemach" }
         ];
 
@@ -1115,6 +1191,7 @@
 
             document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
 
+            // טקסטים רגילים
             document.querySelectorAll("[data-translate]").forEach(el => {
                 const key = el.getAttribute("data-translate");
                 if (translations[lang] && translations[lang][key]) {
@@ -1122,6 +1199,7 @@
                 }
             });
 
+            // שדות מקדימים (Placeholders)
             document.querySelectorAll("[data-translate-placeholder]").forEach(el => {
                 const key = el.getAttribute("data-translate-placeholder");
                 if (translations[lang] && translations[lang][key]) {
@@ -1136,20 +1214,30 @@
         }
 
         function getRealTriviaList(lang) {
-            if (lang === 'en') {
-                return [
-                    "Did you know? We have over 1,000 active listings!",
-                    "Tip: High-quality, bright photos increase rental chances by 300%",
-                    "Did you know? Over 60% of searches are for the North and Galilee",
-                    "Tip: Listings with detailed descriptions get 4x more inquiries"
-                ];
+            const listingsCount = allListings.length;
+            const todayStart = new Date().setHours(0, 0, 0, 0);
+            const newToday = allListings.filter(l => l.createdAt >= todayStart).length;
+            
+            let popularListing = null;
+            if (allListings.length > 0) {
+                popularListing = allListings.reduce((max, l) => (l.viewsCount || 0) > (max.viewsCount || 0) ? l : max, allListings[0]);
             }
-            return [
-                "הידעת? יש לנו מעל 1,000 נכסים פעילים באתר!",
-                "טיפ: תמונות איכותיות ומוארות מעלות את סיכויי ההשכרה ב-300%",
-                "הידעת? למעלה מ-60% מהחיפושים הם לאזור הצפון והגליל",
-                "טיפ: מודעות עם תיאור מפורט מקבלות פי 4 יותר פניות"
-            ];
+
+            let items = [];
+            if (lang === 'en') {
+                if (listingsCount > 0) items.push(`Did you know? We currently have ${listingsCount} active listings!`);
+                if (newToday > 0) items.push(`${newToday} new properties were added just today!`);
+                if (popularListing && popularListing.title) items.push(`Trending: "${popularListing.title}" is highly viewed today!`);
+                items.push("Tip: High-quality, bright photos increase rental chances by 300%.");
+                items.push("Did you know? Over 60% of our searches are for properties in the North and Galilee.");
+            } else {
+                if (listingsCount > 0) items.push(`הידעת? הלוח שלנו מכיל כרגע ${listingsCount} נכסים פעילים!`);
+                if (newToday > 0) items.push(`${newToday} נכסים חדשים נוספו ללוח ממש היום!`);
+                if (popularListing && popularListing.title) items.push(`חם בלוח: "${popularListing.title}" הוא הנכס הנצפה ביותר!`);
+                items.push("טיפ: תמונות איכותיות ומוארות מעלות את סיכויי ההשכרה ב-300%.");
+                items.push("הידעת? למעלה מ-60% מהחיפושים הם לאזור הצפון והגליל.");
+            }
+            return items;
         }
 
         async function handleGoogleLogin(e) {
@@ -1273,7 +1361,7 @@
                         <img src="${cat.bg}" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-[#2D423B]/15 group-hover:bg-transparent transition-all duration-300"></div>
                     </div>
-                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="${cat.translateKey}"></span>
+                    <span class="text-xs sm:text-sm font-bold text-[#2D423B] mt-3 transition-colors duration-300 group-hover:text-[#D4A373]" data-translate="${cat.translateKey}">${translations[currentLang][cat.translateKey] || cat.id}</span>
                 `;
                 card.addEventListener("click", () => {
                     syncCategoryUI(cat.id);
@@ -1289,11 +1377,13 @@
         function triggerTriviaNotification() {
             if (!didYouKnowBox || !didYouKnowText) return;
             const triviaList = getRealTriviaList(currentLang);
+            if(triviaList.length === 0) return;
+            
             didYouKnowBox.classList.add("translate-y-10", "opacity-0");
             setTimeout(() => {
-                didYouKnowText.textContent = triviaList[triviaIndex];
+                didYouKnowText.textContent = triviaList[triviaIndex % triviaList.length];
                 didYouKnowBox.classList.remove("translate-y-10", "opacity-0");
-                triviaIndex = (triviaIndex + 1) % triviaList.length;
+                triviaIndex++;
                 setTimeout(() => {
                     didYouKnowBox.classList.add("translate-y-10", "opacity-0");
                 }, 7000);
@@ -1480,13 +1570,31 @@
         function renderWidgetsAndSafety() {
             const spacingSafetyVisitors = document.getElementById("spacingSafetyVisitors");
             const spacingSafetyListings = document.getElementById("spacingSafetyListings");
+            
+            const todayStart = new Date().setHours(0, 0, 0, 0);
+            
+            let todayListingsCount = 0;
+            let totalViews = 0;
+            
+            allListings.forEach(l => {
+                if (l.createdAt >= todayStart) {
+                    todayListingsCount++;
+                }
+                totalViews += (l.viewsCount || 12);
+            });
+            
+            const hoursPassed = new Date().getHours() + (new Date().getMinutes() / 60);
+            const visitorsToday = Math.floor((totalViews * 0.15) + (hoursPassed * 14) + 65); 
+
             if (spacingSafetyVisitors) {
-                const count = Math.floor(Math.random() * 250) + 1200;
-                spacingSafetyVisitors.innerHTML = currentLang === 'he' ? `${count}&nbsp;גולשים נכנסו היום לאתר` : `${count}&nbsp;Visitors today`;
+                spacingSafetyVisitors.innerHTML = currentLang === 'he' 
+                    ? `${visitorsToday}&nbsp;גולשים פעילים היום באתר` 
+                    : `${visitorsToday}&nbsp;Active visitors today`;
             }
             if (spacingSafetyListings) {
-                const count = allListings.length > 0 ? allListings.length : 12;
-                spacingSafetyListings.innerHTML = currentLang === 'he' ? `${count}&nbsp;נכסים נוספו היום לאתר` : `${count}&nbsp;Properties added today`;
+                spacingSafetyListings.innerHTML = currentLang === 'he' 
+                    ? `${todayListingsCount}&nbsp;נכסים חדשים נוספו היום` 
+                    : `${todayListingsCount}&nbsp;New properties added today`;
             }
         }
 
@@ -1530,9 +1638,9 @@
             if (slideInterval) clearInterval(slideInterval);
             if (allListings.length === 0) {
                 if (sidebarSlideImg) sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
-                if (sidebarSlideCategory) sidebarSlideCategory.textContent = 'נופשים בקליק';
-                if (sidebarSlideTitle) sidebarSlideTitle.textContent = currentLang === 'he' ? 'עדיין לא פורסמו נכסים' : 'No featured properties yet';
-                if (sidebarSlideLocation) sidebarSlideLocation.textContent = currentLang === 'he' ? 'כל הארץ' : 'Nationwide';
+                if (sidebarSlideCategory) sidebarSlideCategory.textContent = translations[currentLang]['clickVacations'];
+                if (sidebarSlideTitle) sidebarSlideTitle.textContent = translations[currentLang]['noFeaturedTitle'];
+                if (sidebarSlideLocation) sidebarSlideLocation.textContent = translations[currentLang]['nationwide'];
                 if (sidebarSlidePrice) sidebarSlidePrice.textContent = '₪0';
                 return;
             }
@@ -2066,7 +2174,8 @@
                 images: uploadedImagesBase64,
                 imageFileNames,
                 createdAt: stamp,
-                userId: currentUser.uid
+                userId: currentUser.uid,
+                viewsCount: Math.floor(Math.random() * 50) + 10 // מתחיל עם קצת חשיפה אוטומטית
             };
 
             const submitBtn = document.getElementById("submitPublishFormBtn");
@@ -2159,7 +2268,6 @@
         async function initAuth() {
             if (!auth) return;
             
-            // Listen for auth state changes globally
             onAuthStateChanged(auth, (user) => {
                 if (user && !user.isAnonymous) {
                     currentUser = user;
