@@ -110,7 +110,7 @@
                     <span class="whitespace-nowrap" data-translate="login">התחברות</span>
                 </button>
 
-                <button id="openPublishModalBtn" class="bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-2 px-3 sm:px-4.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-md shadow-[#2D423B]/10 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0">
+                <button id="openPackagesModalBtn" class="bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-2 px-3 sm:px-4.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-md shadow-[#2D423B]/10 text-[11px] sm:text-xs flex items-center gap-1.5 shrink-0">
                     <i class="fas fa-plus text-[9px]"></i>
                     <span class="whitespace-nowrap" data-translate="publishBtn">פרסמו נכס</span>
                 </button>
@@ -229,7 +229,6 @@
             </div>
         </section>
 
-        <!-- Added scroll-mt-32 to fix the navigation scrolling offset -->
         <section id="categories-section" class="scroll-mt-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="text-center max-w-xl mx-auto mb-10">
                 <h3 class="text-2xl sm:text-3xl font-extrabold text-[#2D423B] mb-2" data-translate="catTitle">קטגוריות נופש ואירוח</h3>
@@ -354,9 +353,7 @@
             </div>
         </section>
 
-        <!-- Dashboard upgraded with new UI features -->
         <section id="dashboard-section" class="scroll-mt-32 hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <!-- New Rich Profile Banner -->
             <div class="bg-gradient-to-r from-[#1e3e30] to-[#2D423B] rounded-3xl p-6 sm:p-8 luxury-shadow mb-8 text-white relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
                 <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6">
@@ -406,7 +403,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Properties & Calendar List -->
                 <div class="lg:col-span-7 space-y-8">
                     <div class="bg-white rounded-3xl p-6 border border-stone-200 luxury-shadow-sm">
                         <h4 class="font-extrabold text-sm text-[#2D423B] mb-5 flex items-center gap-2 border-b border-stone-100 pb-3">
@@ -436,7 +432,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Messages & Leads Module -->
                 <div class="lg:col-span-5">
                     <div class="bg-white rounded-3xl p-6 border border-stone-200 luxury-shadow-sm h-full">
                         <h4 class="font-extrabold text-sm text-[#2D423B] mb-5 flex items-center gap-2 border-b border-stone-100 pb-3">
@@ -444,7 +439,6 @@
                             <span data-translate="recentLeads">פניות והודעות אחרונות</span>
                         </h4>
                         <div class="flex flex-col gap-3">
-                            <!-- Mock Message 1 -->
                             <div class="p-4 border border-stone-100 rounded-2xl bg-stone-50 hover:bg-white hover:border-[#D4A373]/50 transition-all cursor-pointer group">
                                 <div class="flex items-start gap-3">
                                     <div class="w-10 h-10 rounded-full bg-[#2D423B]/10 text-[#2D423B] flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -459,7 +453,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Mock Message 2 -->
                             <div class="p-4 border border-stone-100 rounded-2xl bg-stone-50 hover:bg-white hover:border-[#D4A373]/50 transition-all cursor-pointer group">
                                 <div class="flex items-start gap-3">
                                     <div class="w-10 h-10 rounded-full bg-[#D4A373]/10 text-[#D4A373] flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -474,7 +467,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Mock Alert -->
                             <div class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-xl flex items-center gap-3">
                                 <i class="fas fa-info-circle text-blue-500"></i>
                                 <p class="text-[10px] text-blue-700 font-semibold" data-translate="mockAlert">בקרוב ניתן יהיה להשיב להודעות ישירות מתוך המערכת.</p>
@@ -487,6 +479,68 @@
 
     </main>
 
+    <!-- Packages Modal -->
+    <div id="packagesModal" class="fixed inset-0 bg-[#2D423B]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-4xl luxury-shadow overflow-hidden flex flex-col transform scale-95 transition-transform duration-300 relative border border-stone-100">
+            
+            <div class="bg-gradient-to-r from-emerald-500 to-emerald-400 text-white text-center py-2.5 font-black text-sm uppercase tracking-widest animate-pulse shadow-md" data-translate="promoFreeBanner">
+                🎉 לרגל הפתיחה - כל חבילות הפרסום בחינם לחלוטין! 🎉
+            </div>
+            
+            <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-extrabold text-[#2D423B]" data-translate="packagesTitle">בחירת חבילת פרסום</h3>
+                    <p class="text-xs text-stone-500 mt-1" data-translate="packagesSub">בחרו את המסלול המתאים ביותר לחשיפת הנכס שלכם</p>
+                </div>
+                <button id="closePackagesModalBtn" class="text-stone-400 hover:text-stone-600 p-2 rounded-lg hover:bg-stone-100 transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 bg-[#faf9f6]">
+                <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col text-center">
+                    <h4 class="text-lg font-black text-[#2D423B] mb-2" data-translate="pkgBasicTitle">חבילה בסיסית</h4>
+                    <div class="text-2xl font-bold text-stone-400 line-through mb-1">₪99</div>
+                    <div class="text-xl font-black text-emerald-500 mb-6" data-translate="pkgFree">חינם!</div>
+                    <ul class="text-xs text-stone-600 space-y-3 mb-8 text-right flex-grow">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500"></i> פרסום בלוח הראשי</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500"></i> עד 5 תמונות</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500"></i> חשיפה רגילה</li>
+                    </ul>
+                    <button class="select-package-btn w-full bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 rounded-xl transition text-sm" data-package="בסיסית" data-translate="pkgBtnSelect">בחר מסלול זה</button>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border-2 border-[#D4A373] shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all flex flex-col text-center relative transform sm:-translate-y-3">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#D4A373] text-[#2D423B] text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-wider" data-translate="pkgRecommended">מומלץ</div>
+                    <h4 class="text-lg font-black text-[#2D423B] mb-2 mt-2" data-translate="pkgPremiumTitle">חבילת פרימיום</h4>
+                    <div class="text-2xl font-bold text-stone-400 line-through mb-1">₪199</div>
+                    <div class="text-xl font-black text-emerald-500 mb-6" data-translate="pkgFree">חינם!</div>
+                    <ul class="text-xs text-stone-600 space-y-3 mb-8 text-right flex-grow">
+                        <li class="flex items-center gap-2 font-bold"><i class="fas fa-check text-emerald-500"></i> פרסום בלוח הראשי</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500"></i> עד 15 תמונות מוגדלות</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500"></i> תג "נכס מומלץ" לשבוע</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500"></i> הקפצה אוטומטית פעם ביום</li>
+                    </ul>
+                    <button class="select-package-btn w-full bg-[#D4A373] hover:bg-[#c39e5c] text-[#2D423B] font-bold py-3 rounded-xl transition text-sm shadow-md" data-package="פרימיום" data-translate="pkgBtnSelect">בחר מסלול זה</button>
+                </div>
+
+                <div class="bg-stone-900 rounded-2xl p-6 border border-stone-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col text-center text-white">
+                    <h4 class="text-lg font-black text-white mb-2" data-translate="pkgVIPTitle">חבילת V.I.P</h4>
+                    <div class="text-2xl font-bold text-stone-500 line-through mb-1">₪349</div>
+                    <div class="text-xl font-black text-emerald-400 mb-6" data-translate="pkgFree">חינם!</div>
+                    <ul class="text-xs text-stone-300 space-y-3 mb-8 text-right flex-grow">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i> מופיע תמיד בראש הדף</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i> ללא הגבלת תמונות</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i> חשיפה בסליידר הראשי</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i> קידום ברשתות החברתיות</li>
+                    </ul>
+                    <button class="select-package-btn w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold py-3 rounded-xl transition text-sm" data-package="VIP" data-translate="pkgBtnSelect">בחר מסלול זה</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publish Form Modal -->
     <div id="publishModal" class="fixed inset-0 bg-[#2D423B]/40 backdrop-blur-sm hidden z-50 items-center justify-center p-4 overflow-y-auto opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-3xl w-full max-w-2xl luxury-shadow overflow-hidden flex flex-col max-h-[90vh] my-8 border border-stone-100 transform scale-95 transition-transform duration-300">
             <div class="bg-stone-50 border-b border-stone-100 px-6 py-5 flex items-center justify-between">
@@ -496,7 +550,7 @@
                     </span>
                     <div>
                         <h3 class="text-base font-extrabold text-[#2D423B]" data-translate="publishModalTitle">פרסום נכס חדש</h3>
-                        <p class="text-[10px] text-stone-400" data-translate="publishModalSub">פרסמו ישירות לקהל מחפשי הצימרים והנופש</p>
+                        <p class="text-[10px] text-stone-400" id="selectedPackageDisplay">חבילה נבחרת: </p>
                     </div>
                 </div>
                 <button id="closePublishModalBtn" class="text-stone-400 hover:text-stone-600 p-2 rounded-lg hover:bg-stone-100 transition">
@@ -564,9 +618,13 @@
                 </div>
 
                 <div id="formStep2" class="hidden space-y-4">
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4">
+                        <h4 class="text-blue-800 font-bold text-xs flex items-center gap-2 mb-1"><i class="fas fa-info-circle"></i> <span data-translate="attachNoticeTitle">שימו לב: שילוב תמונות</span></h4>
+                        <p class="text-[10px] text-blue-600 leading-relaxed" data-translate="attachNoticeDesc">בסיום מילוי הטופס ייפתח חלון אימייל חדש עם כל הפרטים. תמונות שייבחרו כאן ישמשו רק לתצוגה מקדימה כעת - יהיה עליכם לצרף אותן ידנית כקובץ למייל שיישלח למערכת.</p>
+                    </div>
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formImages">העלאת תמונות (מינימום 2 תמונות)</span> <span class="text-rose-500">*</span>
+                            <span data-translate="formImages">בחירת תמונות להמחשה</span>
                         </label>
                         <div class="relative border-2 border-dashed border-stone-200 hover:border-[#2D423B] bg-stone-50 hover:bg-stone-100/40 rounded-2xl p-6 text-center transition-all duration-300 cursor-pointer">
                             <input id="formImages" type="file" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
@@ -575,7 +633,6 @@
                                     <i class="fas fa-images text-base text-[#D4A373]"></i>
                                 </div>
                                 <div class="text-[#2D423B] font-bold text-xs" data-translate="formImagesHint">לחצו לבחירת תמונות או גררו אותן לכאן</div>
-                                <div class="text-[10px] text-stone-400" data-translate="formImagesReq">חובה לצרף לפחות 2 תמונות שונות כדי לפרסם את הנכס בלוח</div>
                             </div>
                         </div>
                         <div id="imagePreviewsContainer" class="hidden mt-4 grid grid-cols-4 gap-3 bg-stone-50 p-3 rounded-2xl border border-stone-100"></div>
@@ -641,7 +698,7 @@
                         <button id="cancelPublishFormBtn" type="button" class="bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-xs transition text-center whitespace-nowrap" data-translate="cancel">ביטול</button>
                         <button id="formNextBtn" type="button" class="bg-[#2D423B] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#2D423B]/10" data-translate="formNext">המשך</button>
                         <button id="submitPublishFormBtn" type="submit" class="hidden bg-[#2D423B] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#2D423B]/10 flex items-center justify-center gap-2">
-                            <span class="whitespace-nowrap" data-translate="submitListing">פרסמו מודעה</span>
+                            <span class="whitespace-nowrap" data-translate="submitListingEmail">שליחה למערכת</span>
                             <i class="fas fa-paper-plane text-[10px]"></i>
                         </button>
                     </div>
@@ -833,8 +890,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithPopup, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-        import { initializeFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCVKPEduNKbGrIehlcL07_cM7sipfkx6Uc",
@@ -842,24 +897,18 @@
             projectId: "project-7083885880444551317",
             storageBucket: "project-7083885880444551317.firebasestorage.app",
             messagingSenderId: "1013242414288",
-            appId: "1:1013242414288:web:45a67171df82441e8a4ad5",
-            measurementId: "G-NRNE5Q744H"
+            appId: "1:1013242414288:web:45a67171df82441e8a4ad5"
         };
 
         let auth = null;
-        let db = null;
-        let storage = null;
 
         try {
             const app = initializeApp(firebaseConfig);
             auth = getAuth(app);
-            db = initializeFirestore(app, { experimentalForceLongPolling: true });
-            storage = getStorage(app);
         } catch (e) {
             console.error("Firebase App initialization failed:", e);
         }
 
-        const appId = "project-7083885880444551317";
         let currentUser = null;
         let isGoogleUser = false;
         let allListings = [];
@@ -867,6 +916,7 @@
         let searchQuery = "";
         let currentLang = localStorage.getItem("click_apart_lang") || "he";
         let currentStep = 1;
+        let selectedPublishPackage = "";
         
         let slideIndex = 0;
         let slideInterval = null;
@@ -882,10 +932,15 @@
         const logoutBtn = document.getElementById("logoutBtn");
         const langToggleBtn = document.getElementById("langToggleBtn");
         
-        const openPublishModalBtn = document.getElementById("openPublishModalBtn");
+        const openPackagesModalBtn = document.getElementById("openPackagesModalBtn");
         const dashAddNewBtn = document.getElementById("dashAddNewBtn");
         const heroPublishBtn = document.getElementById("heroPublishBtn");
         const footerPublishBtn = document.getElementById("footerPublishBtn");
+        
+        const packagesModal = document.getElementById("packagesModal");
+        const closePackagesModalBtn = document.getElementById("closePackagesModalBtn");
+        const selectedPackageDisplay = document.getElementById("selectedPackageDisplay");
+
         const closePublishModalBtn = document.getElementById("closePublishModalBtn");
         const publishModal = document.getElementById("publishModal");
         const unauthModalState = document.getElementById("unauthModalState");
@@ -1037,10 +1092,10 @@
                 formPhoneAlt: "טלפון נוסף",
                 formEmail: "כתובת אימייל ליצירת קשר",
                 formDescription: "תיאור חופשי ומפרט נוסף",
-                formImages: "העלאת תמונות (מינימום 2 תמונות)",
+                formImages: "בחירת תמונות להמחשה",
                 formImagesHint: "לחצו לבחירת תמונות או גררו אותן לכאן",
-                formImagesReq: "חובה לצרף לפחות 2 תמונות שונות כדי לפרסם את הנכס בלוח",
-                submitListing: "פרסמו מודעה",
+                formImagesReq: "התמונות נועדו לתצוגה מקדימה כעת",
+                submitListingEmail: "שליחה למערכת",
                 footerDesc: "הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.",
                 footerCredits: "פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות",
                 rooms: "חדרים",
@@ -1063,13 +1118,13 @@
                 accFontDec: "הקטן פונט",
                 accMono: "מונוכרום",
                 accHigh: "הדגשת קישורים",
-                loadingListings: "טוען נכסים מהלוח...",
+                loadingListings: "קורא נכסים מקובץ הנתונים...",
                 calendarFree: "סמן כפנוי",
                 calendarBusy: "סמן כתפוס / חסום",
                 emptyBoardTitle: "הלוח ריק כרגע",
-                emptyBoardDesc: "היו הראשונים לפרסם נכס בלוח החדש שלנו!",
+                emptyBoardDesc: "עדיין לא נוספו נכסים לקובץ הנתונים של האתר.",
                 promoLabel: "השקה פעיל - 5 ₪",
-                noProperties: "עדיין לא פרסמתם אף נכס.",
+                noProperties: "עדיין לא פרסמתם אף נכס (המערכת דורשת אישור מנהל).",
                 placeholderTitle: "למשל: סוויטה מפוארת",
                 placeholderLocation: "למשל: ירושלים",
                 placeholderPrice: "למשל: 4,500",
@@ -1093,9 +1148,6 @@
                 mapLoading: "מפת גמ\"חים אינטראקטיבית טעונה בהצלחה",
                 mapSub: "מציג סיכות מבוססות מיקום עבור גמ\"חים באזור הנבחר",
                 gemachMapTitle: "גמ\"חים בסביבה שלך",
-                uploadingImages: "מעלה תמונות לשרת...",
-                savingData: "שומר נתונים...",
-                processingImages: "מעבד תמונות...",
                 premiumMember: "משתמש פרימיום",
                 welcomeBack: "ברוך שובך,",
                 dashWelcomeSub: "נהל את הנכסים שלך, צפה בסטטיסטיקות ועקוב אחר פניות אחרונות בקלות.",
@@ -1107,7 +1159,19 @@
                 mockUser2: "רחל כהן",
                 mockTime2: "אתמול, 16:20",
                 mockMessage2: "\"אשמח לתאם סיור בנכס ביום שלישי בבוקר, האם רלוונטי?\"",
-                mockAlert: "בקרוב ניתן יהיה להשיב להודעות ישירות מתוך המערכת."
+                mockAlert: "בקרוב ניתן יהיה להשיב להודעות ישירות מתוך המערכת.",
+                packagesTitle: "בחירת חבילת פרסום",
+                packagesSub: "בחרו את המסלול המתאים ביותר לחשיפת הנכס שלכם",
+                promoFreeBanner: "🎉 לרגל הפתיחה - כל חבילות הפרסום בחינם לחלוטין! 🎉",
+                pkgBasicTitle: "חבילה בסיסית",
+                pkgPremiumTitle: "חבילת פרימיום",
+                pkgVIPTitle: "חבילת V.I.P",
+                pkgFree: "חינם!",
+                pkgRecommended: "מומלץ",
+                pkgBtnSelect: "בחר מסלול זה",
+                attachNoticeTitle: "שימו לב: שילוב תמונות",
+                attachNoticeDesc: "בסיום מילוי הטופס ייפתח חלון אימייל חדש עם כל הפרטים. תמונות שייבחרו כאן ישמשו רק לתצוגה מקדימה כעת - יהיה עליכם לצרף אותן ידנית כקובץ למייל שיישלח למערכת.",
+                selectedPackageText: "חבילה נבחרת: "
             },
             en: {
                 logoText: "ClickVacations",
@@ -1173,10 +1237,10 @@
                 formPhoneAlt: "Alt Phone Number",
                 formEmail: "Contact Email Address",
                 formDescription: "Property Description & Details",
-                formImages: "Upload Images (Min 2 images)",
+                formImages: "Select Images for Preview",
                 formImagesHint: "Click to choose images or drag them here",
-                formImagesReq: "At least 2 different images are required to publish this listing",
-                submitListing: "Publish Stay",
+                formImagesReq: "Images are used for preview only right now",
+                submitListingEmail: "Send to System",
                 footerDesc: "The leading professional & luxury platform in Israel for finding vacation cabins, short stays, and permanent homes directly from owners.",
                 footerCredits: "Developed by Yosef Shalom Ben Shitrit - CSS All Rights Reserved",
                 rooms: "Rooms",
@@ -1199,13 +1263,13 @@
                 accFontDec: "Decrease Font",
                 accMono: "Monochrome",
                 accHigh: "Highlight Links",
-                loadingListings: "Loading listings...",
+                loadingListings: "Reading listings from data file...",
                 calendarFree: "Mark as Free",
                 calendarBusy: "Mark as Busy",
                 emptyBoardTitle: "The board is currently empty",
-                emptyBoardDesc: "Be the first to publish a property on our new board!",
+                emptyBoardDesc: "No properties added to the data file yet.",
                 promoLabel: "Launch Promo - 5 ILS",
-                noProperties: "You haven't published any properties yet.",
+                noProperties: "No published properties found under this account.",
                 placeholderTitle: "e.g., Luxury Suite",
                 placeholderLocation: "e.g., Jerusalem",
                 placeholderPrice: "e.g., 4500",
@@ -1229,9 +1293,6 @@
                 mapLoading: "Interactive Gemach map loaded successfully",
                 mapSub: "Showing location-based pins for Gemachs in the selected area",
                 gemachMapTitle: "Gemachs in your area",
-                uploadingImages: "Uploading images...",
-                savingData: "Saving data...",
-                processingImages: "Processing images...",
                 premiumMember: "Premium Member",
                 welcomeBack: "Welcome back,",
                 dashWelcomeSub: "Manage your properties, view stats, and easily track recent leads.",
@@ -1243,7 +1304,19 @@
                 mockUser2: "Rachel Cohen",
                 mockTime2: "Yesterday, 16:20",
                 mockMessage2: "\"I would love to schedule a tour of the property on Tuesday morning. Is it relevant?\"",
-                mockAlert: "Soon you will be able to reply directly from the system."
+                mockAlert: "Soon you will be able to reply directly from the system.",
+                packagesTitle: "Choose a Publishing Package",
+                packagesSub: "Select the best route to expose your property",
+                promoFreeBanner: "🎉 Launch Special - All publishing packages are totally FREE! 🎉",
+                pkgBasicTitle: "Basic Package",
+                pkgPremiumTitle: "Premium Package",
+                pkgVIPTitle: "V.I.P Package",
+                pkgFree: "Free!",
+                pkgRecommended: "Recommended",
+                pkgBtnSelect: "Select Package",
+                attachNoticeTitle: "Note: Attaching Images",
+                attachNoticeDesc: "Upon completion, a new email window will open. Images selected here are for preview only - you will need to manually attach them as files to the email.",
+                selectedPackageText: "Selected Package: "
             }
         };
 
@@ -1308,6 +1381,11 @@
                     el.setAttribute("placeholder", translations[lang][key]);
                 }
             });
+
+            if (selectedPackageDisplay) {
+                const pkgTxt = translations[lang].selectedPackageText || "חבילה נבחרת: ";
+                selectedPackageDisplay.textContent = pkgTxt + selectedPublishPackage;
+            }
 
             updateStepProgress();
             renderListings();
@@ -1412,6 +1490,20 @@
                 setTimeout(() => {
                     publishModal.classList.add("hidden");
                     publishModal.classList.remove("flex");
+                    document.body.style.overflow = "auto";
+                }, 300);
+            }
+        }
+        
+        function closePackagesModal() {
+            if (packagesModal) {
+                packagesModal.classList.add("opacity-0");
+                if (packagesModal.firstElementChild) {
+                    packagesModal.firstElementChild.classList.add("scale-95");
+                }
+                setTimeout(() => {
+                    packagesModal.classList.add("hidden");
+                    packagesModal.classList.remove("flex");
                     document.body.style.overflow = "auto";
                 }, 300);
             }
@@ -1736,40 +1828,71 @@
             }
         }
 
-        function loadDefaultListings() {
-            allListings = [];
+        // --- פונקציה חדשה: קריאת נתונים מקובץ 1.json ללא מסד נתונים שרת ---
+        async function fetchListings() {
+            try {
+                const response = await fetch('1.json', { cache: "no-store" });
+                if (!response.ok) {
+                    throw new Error("File 1.json not found or empty");
+                }
+                const text = await response.text();
+                
+                // הפיצול לפי '-' בשורה נפרדת
+                const blocks = text.split(/\r?\n-\r?\n/);
+                allListings = blocks.map((block, index) => {
+                    const lines = block.trim().split(/\r?\n/);
+                    if (lines.length < 7) return null; // דילוג על בלוקים שבורים
+                    
+                    const title = lines[0].trim();
+                    const location = lines[1].trim();
+                    const rooms = parseFloat(lines[2].trim()) || 0;
+                    const price = parseFloat(lines[3].trim()) || 0;
+                    
+                    const catAndSqm = lines[4].split('|');
+                    const category = catAndSqm[0] ? catAndSqm[0].trim() : "הכל";
+                    const sqm = catAndSqm[1] ? parseFloat(catAndSqm[1].trim()) : 0;
+                    
+                    const contactData = lines[5].split('|');
+                    const email = contactData[0] ? contactData[0].trim() : "";
+                    const phone = contactData[1] ? contactData[1].trim() : "";
+                    const sellerName = contactData[2] ? contactData[2].trim() : "משתמש אנונימי";
+                    
+                    const description = lines[6].trim();
+                    
+                    const images = lines.slice(7).filter(l => l.trim() !== "");
+
+                    return {
+                        id: 'item_' + index,
+                        title,
+                        location,
+                        rooms,
+                        price,
+                        category,
+                        sqm,
+                        email,
+                        phone,
+                        phoneAlt: "",
+                        sellerName,
+                        description,
+                        images,
+                        createdAt: Date.now() - (index * 86400000), // תאריכים מפוברקים לפי סדר
+                        userId: currentUser ? currentUser.uid : "unknown",
+                        viewsCount: Math.floor(Math.random() * 50) + 10 
+                    };
+                }).filter(l => l !== null);
+                
+                allListings.sort((a, b) => b.createdAt - a.createdAt);
+
+            } catch (error) {
+                console.warn("Could not load 1.json or parse error. Showing empty board.", error);
+                allListings = [];
+            }
+            
             renderListings();
             startSidebarSlideshow();
-        }
-
-        function fetchListings() {
-            if (!db) {
-                console.warn("Firestore not initialized. Loading empty listings.");
-                loadDefaultListings();
-                return;
-            }
-            const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
-            
-            onSnapshot(listingsCollection, (snapshot) => {
-                allListings = [];
-                snapshot.forEach((doc) => {
-                    allListings.push({ id: doc.id, ...doc.data() });
-                });
-                
-                if (allListings.length === 0) {
-                    loadDefaultListings();
-                } else {
-                    allListings.sort((a, b) => b.createdAt - a.createdAt);
-                    renderListings();
-                    startSidebarSlideshow();
-                }
-                renderDashboard();
-                renderWidgetsAndSafety();
-                setTimeout(updateNavIndicator, 100);
-            }, (error) => {
-                console.error("שגיאה בטעינת הנתונים:", error);
-                loadDefaultListings();
-            });
+            renderDashboard();
+            renderWidgetsAndSafety();
+            setTimeout(updateNavIndicator, 100);
         }
 
         function startSidebarSlideshow() {
@@ -2095,10 +2218,24 @@
                 item.addEventListener("click", closeMobileMenuFn);
             });
 
-            if (openPublishModalBtn) openPublishModalBtn.addEventListener("click", openPublish);
-            if (dashAddNewBtn) dashAddNewBtn.addEventListener("click", openPublish);
-            if (heroPublishBtn) heroPublishBtn.addEventListener("click", openPublish);
-            if (footerPublishBtn) footerPublishBtn.addEventListener("click", openPublish);
+            // הפנייה לחלון החבילות במקום לטופס ישירות
+            if (openPackagesModalBtn) openPackagesModalBtn.addEventListener("click", openPackages);
+            if (dashAddNewBtn) dashAddNewBtn.addEventListener("click", openPackages);
+            if (heroPublishBtn) heroPublishBtn.addEventListener("click", openPackages);
+            if (footerPublishBtn) footerPublishBtn.addEventListener("click", openPackages);
+
+            if (closePackagesModalBtn) closePackagesModalBtn.addEventListener("click", closePackagesModal);
+            
+            // כפתורי בחירת חבילה
+            document.querySelectorAll(".select-package-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    selectedPublishPackage = e.target.getAttribute("data-package");
+                    const pkgTxt = translations[currentLang].selectedPackageText || "חבילה נבחרת: ";
+                    if (selectedPackageDisplay) selectedPackageDisplay.textContent = pkgTxt + selectedPublishPackage;
+                    closePackagesModal();
+                    setTimeout(openPublishForm, 300);
+                });
+            });
 
             if (closePublishModalBtn) closePublishModalBtn.addEventListener("click", closePublishModal);
             if (cancelModalBtn) cancelModalBtn.addEventListener("click", closePublishModal);
@@ -2248,19 +2385,17 @@
             
             previewUrls.forEach(url => URL.revokeObjectURL(url));
             previewUrls = [];
-            uploadedImageBlobs = [];
 
             if (imagePreviewsContainer) {
-                imagePreviewsContainer.innerHTML = `<div class="col-span-full py-4 text-center"><i class="fas fa-spinner fa-spin text-[#2D423B] text-xl ml-2"></i><span data-translate="processingImages">${translations[currentLang].processingImages}</span></div>`;
+                imagePreviewsContainer.innerHTML = "";
                 imagePreviewsContainer.classList.remove("hidden");
             }
 
             try {
-                uploadedImageBlobs = await Promise.all(files.map(file => compressImage(file)));
+                const blobs = await Promise.all(files.map(file => compressImage(file)));
                 
                 if (imagePreviewsContainer) {
-                    imagePreviewsContainer.innerHTML = "";
-                    uploadedImageBlobs.forEach((blob) => {
+                    blobs.forEach((blob) => {
                         const url = URL.createObjectURL(blob);
                         previewUrls.push(url);
                         
@@ -2277,11 +2412,11 @@
                     });
                 }
             } catch (err) {
-                console.error("Image loading failed:", err);
-                showToast(currentLang === 'he' ? "שגיאה בטעינת התמונות, אנא נסו קבצים אחרים" : "Error loading images, please try again", "error");
+                console.error("Image preview failed:", err);
             }
         }
 
+        // --- שינוי הפעולה לשליחת הנתונים דרך המייל לפי התבנית הנדרשת (1.json) ---
         async function handleFormSubmit(e) {
             e.preventDefault();
             if (!currentUser || currentUser.isAnonymous) {
@@ -2289,92 +2424,37 @@
                 return;
             }
 
-            if (uploadedImageBlobs.length < 2) {
-                showToast(currentLang === 'he' ? "חובה להעלות לפחות 2 תמונות שונות של הנכס" : "Please upload at least 2 images", "error");
-                return;
-            }
-
             const category = document.getElementById("formCategory").value;
             const title = document.getElementById("formTitle").value.trim();
             const locationVal = document.getElementById("formLocation").value.trim();
-            const price = parseFloat(document.getElementById("formPrice").value);
-            const rooms = parseFloat(document.getElementById("formRooms").value);
-            const sqm = parseFloat(document.getElementById("formSqM").value);
+            const price = parseFloat(document.getElementById("formPrice").value) || 0;
+            const rooms = parseFloat(document.getElementById("formRooms").value) || 0;
+            const sqm = parseFloat(document.getElementById("formSqM").value) || 0;
             const sellerName = document.getElementById("formSellerName").value.trim();
             const phone = document.getElementById("formPhone").value.trim();
-            const phoneAlt = document.getElementById("formPhoneAlt").value.trim();
             const email = document.getElementById("formEmail").value.trim();
             const description = document.getElementById("formDescription").value.trim();
 
-            const submitBtn = document.getElementById("submitPublishFormBtn");
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i><span data-translate="uploadingImages">${translations[currentLang].uploadingImages}</span>`;
-            }
+            const subject = `בקשה לפרסום נכס - חבילה: ${selectedPublishPackage}`;
+            
+            // תבנית שורות מדויקת כפי שביקשת לקובץ ה- json
+            const body = `${title}
+${locationVal}
+${rooms}
+${price}
+${category} | ${sqm}
+${email} | ${phone} | ${sellerName}
+${description}
+[נא לצרף את התמונות כקבצים מצורפים למייל זה]`;
 
-            try {
-                if (!db || !storage) {
-                    throw new Error("No database or storage connection");
-                }
-                
-                const stamp = Date.now();
-                const imageUrls = [];
-                
-                for (let i = 0; i < uploadedImageBlobs.length; i++) {
-                    const blob = uploadedImageBlobs[i];
-                    const storagePath = `artifacts/${appId}/public/data/listing_images/${currentUser.uid}_${stamp}_${i}.jpg`;
-                    const storageReference = ref(storage, storagePath);
-                    
-                    const snapshot = await uploadBytesResumable(storageReference, blob);
-                    const downloadURL = await getDownloadURL(snapshot.ref);
-                    imageUrls.push(downloadURL);
-                }
-
-                if (submitBtn) {
-                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin ml-2 text-[10px]"></i><span data-translate="savingData">${translations[currentLang].savingData}</span>`;
-                }
-
-                const newListing = {
-                    category,
-                    title,
-                    location: locationVal,
-                    price,
-                    rooms,
-                    sqm,
-                    sellerName,
-                    phone,
-                    phoneAlt,
-                    email,
-                    description,
-                    images: imageUrls, 
-                    imageFileNames: imageUrls.map((u, i) => `image_${stamp}_${i}.jpg`),
-                    createdAt: stamp,
-                    userId: currentUser.uid,
-                    viewsCount: Math.floor(Math.random() * 50) + 10 
-                };
-
-                const listingsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'listings');
-                await addDoc(listingsCollection, newListing);
-                
-                showToast(currentLang === 'he' ? "המודעה שלך פורסמה בהצלחה והיא באוויר!" : "Your listing was successfully published!", "success");
-                closePublishModal();
-                
-                document.getElementById("publishForm").reset();
-                if (imagePreviewsContainer) imagePreviewsContainer.innerHTML = '';
-                
-            } catch (error) {
-                console.error("Publish failed:", error);
-                if (error.code && error.code.includes("permission")) {
-                    showToast(currentLang === 'he' ? "שגיאת הרשאות במסד הנתונים" : "Database permissions error", "error");
-                } else {
-                    showToast((currentLang === 'he' ? "ארעה שגיאה בפרסום המודעה: " : "Error publishing: ") + error.message, "error");
-                }
-            } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = `<span class="whitespace-nowrap" data-translate="submitListing">${translations[currentLang].submitListing}</span><i class="fas fa-paper-plane text-[10px]"></i>`;
-                }
-            }
+            // פתיחת חלון המייל 
+            const mailtoLink = `mailto:css-0@mitmachim.top?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+            
+            showToast(currentLang === 'he' ? "חלון האימייל נפתח לשליחת הפרטים. אל תשכח לצרף תמונות!" : "Email window opened. Don't forget to attach images!", "success");
+            closePublishModal();
+            document.getElementById("publishForm").reset();
+            if (imagePreviewsContainer) imagePreviewsContainer.innerHTML = '';
         }
 
         function handleScroll() {
@@ -2415,7 +2495,21 @@
             }
         }
 
-        function openPublish() {
+        function openPackages() {
+            if (packagesModal) {
+                packagesModal.classList.remove("hidden");
+                packagesModal.classList.add("flex");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => {
+                    packagesModal.classList.remove("opacity-0");
+                    if (packagesModal.firstElementChild) {
+                        packagesModal.firstElementChild.classList.remove("scale-95");
+                    }
+                }, 10);
+            }
+        }
+
+        function openPublishForm() {
             if (publishModal) {
                 publishModal.classList.remove("hidden");
                 publishModal.classList.add("flex");
