@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>נופשים בקליק - לוח דירות ונכסים</title>
+    <title>נופשים בקליק - פורטל הנופש החרדי</title>
     <link rel="icon" type="image/png" href="1.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,6 +51,11 @@
             outline: 2px solid #D4A373 !important;
             background-color: rgba(212, 163, 115, 0.1) !important;
         }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 4px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col text-slate-800 antialiased overflow-x-hidden">
@@ -77,7 +82,7 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-1.5">
-                        <h1 class="text-lg sm:text-xl font-extrabold text-[#2D423B] tracking-tight leading-tight" data-translate="logoText">נופשים בקליק</h1>
+                        <h1 class="text-lg sm:text-xl font-extrabold text-[#2D423B] tracking-tight leading-tight" data-translate="logoText">נופשים בקליק - פורטל הנופש החרדי</h1>
                     </div>
                     <p class="text-[9px] sm:text-[10px] text-[#D4A373] font-bold tracking-widest" data-translate="subTitle">אירוח קצר, שבתות וצימרים</p>
                 </div>
@@ -125,7 +130,7 @@
     <div id="mobileMenu" class="fixed inset-0 bg-[#2D423B]/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
         <div class="bg-white w-72 h-full p-6 flex flex-col gap-6 shadow-2xl transition-transform duration-300 -translate-x-full mr-auto">
             <div class="flex items-center justify-between border-b border-stone-100 pb-4">
-                <span class="font-extrabold text-[#2D423B]" data-translate="logoText">תפריט ניווט</span>
+                <span class="font-extrabold text-[#2D423B]" data-translate="logoText">נופשים בקליק</span>
                 <button id="closeMobileMenu" class="text-stone-400 hover:text-stone-600 p-2"><i class="fas fa-times text-lg"></i></button>
             </div>
             <nav class="flex flex-col gap-4 text-sm font-semibold text-stone-600">
@@ -144,25 +149,26 @@
     <main class="flex-grow">
         
         <section id="hero-section" class="relative h-[500px] sm:h-[540px] flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1600&q=80');"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-[#2D423B]/75 via-[#2D423B]/65 to-[#faf9f6]"></div>
+            <!-- Modified Hero Image to Rustic Cabin Vibe -->
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out scale-105" style="background-image: url('https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#2D423B]/80 via-[#2D423B]/60 to-[#faf9f6]"></div>
             
             <div class="relative z-10 max-w-4xl mx-auto px-4 text-center text-white mb-8 w-full">
                 <h2 class="text-3xl sm:text-5xl md:text-6xl font-black mb-4 tracking-tight leading-tight px-2 animate-in fade-in slide-in-from-bottom-6 duration-700" data-translate="heroTitle">
-                    נופש ודירות <span class="text-[#D4A373]">בקליק אחד</span>
+                    פורטל הנופש <span class="text-[#D4A373]">בקליק אחד</span>
                 </h2>
                 <p class="text-sm sm:text-base md:text-lg text-stone-200 max-w-2xl mx-auto mb-8 font-light px-4 animate-in fade-in slide-in-from-bottom-8 duration-900" data-translate="heroSub">
-                    הלוח המוביל לצימרים, דירות אירוח לשבתות וחגים, השכרה לטווח קצר ופתרונות דיור קבועים בפריסה ארצית.
+                    הלוח המוביל והיוקרתי לצימרים, דירות אירוח לשבתות וחגים, השכרת ציוד לנופש ווילות בפריסה ארצית.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mx-auto px-4 sm:px-0 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                     <a href="#listings-section" class="w-full sm:w-auto bg-[#D4A373] hover:bg-[#c29262] text-[#2D423B] font-extrabold px-8 py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-[#D4A373]/20 text-xs sm:text-sm flex items-center justify-center gap-2">
                         <i class="fas fa-search text-[10px]"></i>
-                        <span class="whitespace-nowrap" data-translate="heroDiscover">גלו נכסים</span>
+                        <span class="whitespace-nowrap" data-translate="heroDiscover">גלו נכסים וצימרים</span>
                     </a>
                     <button id="heroPublishBtn" class="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white border-2 border-white/85 hover:border-white font-extrabold px-8 py-3 rounded-xl transition-all duration-300 hover:scale-[1.03] text-xs sm:text-sm flex items-center justify-center gap-2">
                         <i class="fas fa-plus text-[10px]"></i>
-                        <span class="whitespace-nowrap" data-translate="heroPublish">פרסמו נכס חינם</span>
+                        <span class="whitespace-nowrap" data-translate="heroPublish">פרסמו נכס</span>
                     </button>
                 </div>
             </div>
@@ -186,8 +192,8 @@
                             <option value="מקומות מיוחדים" data-translate="catSpecial">מקומות מיוחדים</option>
                             <option value="דירות ואירוח בחו''ל" data-translate="catAbroad">דירות ואירוח בחו''ל</option>
                             <option value="אטרקציות ופנאי" data-translate="catAttractions">אטרקציות ופנאי</option>
-                            <option value="השכרת ציוד לאירועים" data-translate="catEquipment">השכרת ציוד לאירועים</option>
-                            <option value="רשת הגמ''חים הלאומית" data-translate="catGemach">רשת הגמ''חים הלאומית</option>
+                            <option value="השכרת ציוד לנופש" data-translate="catEquipment">השכרת ציוד לנופש</option>
+                            <option value="גמ''חים" data-translate="catGemach">גמ''חים</option>
                         </select>
                     </div>
 
@@ -279,31 +285,12 @@
                 <button data-category-tab="אטרקציות ופנאי" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
                     <i class="fas fa-bicycle"></i> <span data-translate="catAttractions">אטרקציות</span>
                 </button>
-                <button data-category-tab="השכרת ציוד לאירועים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                <button data-category-tab="השכרת ציוד לנופש" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
                     <i class="fas fa-plug"></i> <span data-translate="catEquipment">השכרת ציוד</span>
                 </button>
-                <button data-category-tab="רשת הגמ''חים הלאומית" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
+                <button data-category-tab="גמ''חים" class="category-tab bg-white text-stone-600 hover:bg-stone-50 border border-stone-200/60 font-bold py-2.5 px-6 rounded-2xl transition duration-300 text-xs sm:text-sm whitespace-nowrap flex items-center gap-2">
                     <i class="fas fa-hands-helping"></i> <span data-translate="catGemach">גמ"חים</span>
                 </button>
-            </div>
-
-            <div id="gemachMapContainer" class="hidden w-full mb-8 bg-white border border-stone-200 rounded-3xl p-5 luxury-shadow">
-                <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
-                    <h4 class="font-extrabold text-[#2D423B] text-sm flex items-center gap-2">
-                        <i class="fas fa-map-marked-alt text-[#D4A373]"></i>
-                        <span data-translate="gemachMapTitle">גמ"חים בסביבה שלך</span>
-                    </h4>
-                </div>
-                <div class="w-full h-80 bg-stone-100 rounded-2xl relative overflow-hidden flex items-center justify-center border border-stone-200">
-                    <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1000&q=80');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-b from-[#2D423B]/10 to-[#2D423B]/30"></div>
-                    <div class="relative z-10 text-center p-6">
-                        <i class="fas fa-map-pin text-4xl text-rose-500 animate-bounce mb-2"></i>
-                        <p class="font-bold text-[#2D423B] text-sm" data-translate="mapLoading">מפת גמ"חים אינטראקטיבית טעונה בהצלחה</p>
-                        <p class="text-xs text-[#2D423B]/80 mt-1" data-translate="mapSub">מציג סיכות מבוססות מיקום עבור גמ"חים באזור הנבחר</p>
-                    </div>
-                    <div id="mockPinsContainer" class="absolute inset-0 z-10 pointer-events-none"></div>
-                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -411,23 +398,6 @@
                         </h4>
                         <div id="dashPropertiesList" class="space-y-3">
                             <p class="text-xs text-stone-400 font-medium italic" data-translate="noProperties">עדיין לא פרסמתם אף נכס.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-3xl p-6 border border-stone-200 luxury-shadow-sm">
-                        <h4 class="font-extrabold text-sm text-[#2D423B] mb-5 flex items-center gap-2 border-b border-stone-100 pb-3">
-                            <i class="fas fa-calendar-alt text-[#D4A373]"></i>
-                            <span data-translate="calendarManage">ניהול יומן זמינות מודעה</span>
-                        </h4>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-[10px] font-bold text-stone-400 uppercase mb-2" data-translate="selectPropToManage">בחרו נכס לעדכון</label>
-                                <select id="dashCalendarSelect" class="w-full bg-stone-50 border border-stone-200 rounded-xl py-3 px-4 text-xs font-semibold outline-none focus:border-[#2D423B] transition"></select>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <button id="calendarFreeBtn" class="bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow-md" data-translate="calendarFree">סמן כפנוי</button>
-                                <button id="calendarBusyBtn" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold py-3 px-4 rounded-xl text-xs transition" data-translate="calendarBusy">סמן כתפוס / חסום</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -597,8 +567,8 @@
                             <option value="מקומות מיוחדים" data-translate="catSpecial">מקומות מיוחדים</option>
                             <option value="דירות ואירוח בחו''ל" data-translate="catAbroad">דירות ואירוח בחו''ל</option>
                             <option value="אטרקציות ופנאי" data-translate="catAttractions">אטרקציות ופנאי</option>
-                            <option value="השכרת ציוד לאירועים" data-translate="catEquipment">השכרת ציוד לאירועים</option>
-                            <option value="רשת הגמ''חים הלאומית" data-translate="catGemach">רשת הגמ''חים הלאומית</option>
+                            <option value="השכרת ציוד לנופש" data-translate="catEquipment">השכרת ציוד לנופש</option>
+                            <option value="גמ''חים" data-translate="catGemach">גמ''חים</option>
                         </select>
                     </div>
 
@@ -640,51 +610,104 @@
                 </div>
 
                 <div id="formStep3" class="hidden space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formPrice">מחיר בשקלים (₪)</span> <span class="text-rose-500">*</span>
-                        </label>
-                        <input id="formPrice" type="number" required data-translate-placeholder="placeholderPrice" placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formCurrency">מטבע לתשלום</span>
+                            </label>
+                            <select id="formCurrency" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 text-xs font-semibold transition">
+                                <option value="₪">שקל (₪)</option>
+                                <option value="$">דולר ($)</option>
+                                <option value="€">אירו (€)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formPriceRegular">מחיר ללילה (רגיל)</span>
+                            </label>
+                            <input id="formPriceRegular" type="number" data-translate-placeholder="placeholderPrice" placeholder="למשל: 4,500" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formPriceShabbat">מחיר מיוחד לשבת</span>
+                            </label>
+                            <input id="formPriceShabbat" type="number" placeholder="למשל: 5,000" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formPriceBH">מחיר לבין הזמנים</span>
+                            </label>
+                            <input id="formPriceBH" type="number" placeholder="למשל: 6,000" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formRooms">מספר חדרים</span> <span class="text-rose-500">*</span>
-                        </label>
-                        <input id="formRooms" type="number" step="0.5" required data-translate-placeholder="placeholderRooms" placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formSqm">מטר רבוע (מ"ר)</span> <span class="text-rose-500">*</span>
-                        </label>
-                        <input id="formSqM" type="number" required data-translate-placeholder="placeholderSqm" placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formRooms">מספר חדרים</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input id="formRooms" type="number" step="0.5" required data-translate-placeholder="placeholderRooms" placeholder="למשל: 4.5" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formSqm">מטר רבוע (מ"ר)</span> <span class="text-stone-400 font-normal ml-1">(רשות)</span>
+                            </label>
+                            <input id="formSqM" type="number" data-translate-placeholder="placeholderSqm" placeholder="למשל: 110" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
                     </div>
                 </div>
 
                 <div id="formStep4" class="hidden space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formSellerName">שם מלא של המפרסם</span> <span class="text-rose-500">*</span>
-                        </label>
-                        <input id="formSellerName" type="text" required data-translate-placeholder="placeholderSellerName" placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formSellerName">שם המפרסם</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input id="formSellerName" type="text" required data-translate-placeholder="placeholderSellerName" placeholder="השם שיוצג בפני הגולשים" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
+                                <span data-translate="formPhone">טלפון לפניות</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input id="formPhone" type="tel" required data-translate-placeholder="placeholderPhone" placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        </div>
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formPhone">מספר טלפון לפניות</span> <span class="text-rose-500">*</span>
+                            <span data-translate="formEmail">אימייל ליצירת קשר</span> <span class="text-rose-500">*</span>
                         </label>
-                        <input id="formPhone" type="tel" required data-translate-placeholder="placeholderPhone" placeholder="למשל: 050-1234567" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <input id="formEmail" type="email" required data-translate-placeholder="placeholderEmail" placeholder="למשל: example@gmail.com" class="w-full bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
                     </div>
 
-                    <div>
+                    <div class="pt-2">
+                        <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-3">
+                            <span data-translate="formPayments">אמצעי תשלום נתמכים</span>
+                        </label>
+                        <div class="flex flex-wrap gap-4 text-xs font-semibold text-slate-700">
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-[#D4A373] transition"><input type="checkbox" class="payment-method" value="אשראי"> <span>אשראי</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-[#D4A373] transition"><input type="checkbox" class="payment-method" value="מזומן" checked> <span>מזומן</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-[#D4A373] transition"><input type="checkbox" class="payment-method" value="ביט"> <span>ביט (Bit)</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-[#D4A373] transition"><input type="checkbox" class="payment-method" value="פייבוקס"> <span>פייבוקס</span></label>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-                            <span data-translate="formEmail">כתובת אימייל ליצירת קשר</span> <span class="text-rose-500">*</span>
+                            <span data-translate="formBookedDates">לוח שנה: ציין תאריכים תפוסים מראש</span>
                         </label>
-                        <input id="formEmail" type="email" required data-translate-placeholder="placeholderEmail" placeholder="למשל: example@gmail.com" class="w-full bg-[#faf9f6] border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-3 px-4 text-slate-800 placeholder-slate-400 text-xs font-medium transition">
+                        <div class="flex items-center gap-2 mb-2">
+                            <input type="date" id="datePickerInput" class="bg-stone-50 border border-stone-200 focus:border-[#2D423B] outline-none rounded-xl py-2 px-3 text-slate-800 text-xs font-medium transition flex-grow">
+                            <button type="button" id="addDateBtn" class="bg-[#2D423B] hover:bg-[#1f2e29] text-white font-bold py-2 px-4 rounded-xl text-xs transition whitespace-nowrap">הוסף תאריך</button>
+                        </div>
+                        <div id="bookedDatesList" class="flex flex-wrap gap-2 min-h-[30px]"></div>
+                        <input type="hidden" id="formBookedDatesStore">
                     </div>
 
-                    <div class="sm:col-span-2">
+                    <div class="pt-2">
                         <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-2">
                             <span data-translate="formDescription">תיאור חופשי ומפרט נוסף</span> <span class="text-rose-500">*</span>
                         </label>
@@ -697,9 +720,9 @@
                     <div class="flex gap-3 mr-auto">
                         <button id="cancelPublishFormBtn" type="button" class="bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-xs transition text-center whitespace-nowrap" data-translate="cancel">ביטול</button>
                         <button id="formNextBtn" type="button" class="bg-[#2D423B] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#2D423B]/10" data-translate="formNext">המשך</button>
-                        <button id="submitPublishFormBtn" type="submit" class="hidden bg-[#2D423B] text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-[#2D423B]/10 flex items-center justify-center gap-2">
-                            <span class="whitespace-nowrap" data-translate="submitListingEmail">שליחה למערכת</span>
-                            <i class="fas fa-paper-plane text-[10px]"></i>
+                        <button id="submitPublishFormBtn" type="submit" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl text-xs transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+                            <span class="whitespace-nowrap" data-translate="submitListingEmail">המשך לשליחת המייל</span>
+                            <i class="fab fa-google text-[10px]"></i>
                         </button>
                     </div>
                 </div>
@@ -744,9 +767,25 @@
                         <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="sqm">שטח נכס</p>
                         <p id="detailSqMVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
                     </div>
-                    <div class="bg-stone-50 rounded-xl py-2.5">
-                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="dealType">סוג עסקה</p>
-                        <p id="detailTypeVal" class="text-sm font-extrabold text-[#1e3e30]"></p>
+                    <div class="bg-stone-50 rounded-xl py-2.5 flex flex-col items-center justify-center">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5" data-translate="paymentMethods">תשלום</p>
+                        <p id="detailPaymentVal" class="text-[11px] font-extrabold text-[#1e3e30] line-clamp-1 truncate px-1"></p>
+                    </div>
+                </div>
+                
+                <!-- Expanded Pricing Details -->
+                <div id="detailExtraPricing" class="hidden bg-stone-50 rounded-2xl p-4 border border-stone-100 flex items-center justify-around gap-2 text-center divide-x divide-x-reverse divide-stone-200">
+                    <div class="px-2">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5">מחיר לילה רגיל</p>
+                        <p id="detailRegPrice" class="text-xs font-black text-[#1e3e30]"></p>
+                    </div>
+                    <div class="px-2">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5">מחיר לשבת</p>
+                        <p id="detailShabPrice" class="text-xs font-black text-[#1e3e30]"></p>
+                    </div>
+                    <div class="px-2">
+                        <p class="text-[10px] text-stone-400 font-bold uppercase mb-0.5">מחיר לבין הזמנים</p>
+                        <p id="detailBHPrice" class="text-xs font-black text-[#1e3e30]"></p>
                     </div>
                 </div>
 
@@ -756,6 +795,23 @@
                         <span data-translate="descriptionTitle">תיאור ומפרט המודעה</span>
                     </h3>
                     <p id="detailDescription" class="text-[#1e3e30]/90 text-xs leading-relaxed whitespace-pre-line"></p>
+                </div>
+
+                <!-- Calendar Visual Widget -->
+                <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-slate-800 text-xs flex items-center gap-2">
+                            <i class="fas fa-calendar-alt text-[#c39e5c]"></i>
+                            <span>לוח זמינות החודש</span>
+                        </h3>
+                        <div class="flex items-center gap-2 text-[9px] font-bold">
+                            <span class="flex items-center gap-1 text-emerald-600"><span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span> פנוי</span>
+                            <span class="flex items-center gap-1 text-rose-600"><span class="w-2 h-2 rounded-full bg-rose-400 inline-block"></span> תפוס</span>
+                        </div>
+                    </div>
+                    <div id="detailCalendarGrid" class="bg-white rounded-xl p-3 border border-stone-200">
+                        <!-- JS renders calendar here -->
+                    </div>
                 </div>
 
                 <div class="bg-stone-50 rounded-2xl p-5 border border-stone-100">
@@ -917,6 +973,7 @@
         let currentLang = localStorage.getItem("click_apart_lang") || "he";
         let currentStep = 1;
         let selectedPublishPackage = "";
+        let formBookedDatesArr = [];
         
         let slideIndex = 0;
         let slideInterval = null;
@@ -984,6 +1041,12 @@
         const detailRoomsVal = document.getElementById("detailRoomsVal");
         const detailSqMVal = document.getElementById("detailSqMVal");
         const detailTypeVal = document.getElementById("detailTypeVal");
+        const detailPaymentVal = document.getElementById("detailPaymentVal");
+        const detailRegPrice = document.getElementById("detailRegPrice");
+        const detailShabPrice = document.getElementById("detailShabPrice");
+        const detailBHPrice = document.getElementById("detailBHPrice");
+        const detailExtraPricing = document.getElementById("detailExtraPricing");
+        const detailCalendarGrid = document.getElementById("detailCalendarGrid");
 
         const mobileMenuToggle = document.getElementById("mobileMenuToggle");
         const mobileMenu = document.getElementById("mobileMenu");
@@ -1029,7 +1092,7 @@
 
         const translations = {
             he: {
-                logoText: "נופשים בקליק",
+                logoText: "נופשים בקליק - פורטל הנופש החרדי",
                 subTitle: "אירוח קצר, שבתות וצימרים",
                 navHome: "ראשי",
                 navCategories: "קטגוריות נופש",
@@ -1039,10 +1102,10 @@
                 login: "התחברות",
                 logout: "התנתק",
                 publishBtn: "פרסמו נכס",
-                heroTitle: "נופש ודירות בקליק אחד",
-                heroSub: "הלוח המוביל לצימרים, דירות אירוח לשבתות וחגים, השכרה לטווח קצר ופתרונות דיור קבועים בפריסה ארצית.",
-                heroDiscover: "גלו נכסים",
-                heroPublish: "פרסמו נכס חינם",
+                heroTitle: "פורטל הנופש בקליק אחד",
+                heroSub: "הלוח המוביל והיוקרתי לצימרים, דירות אירוח לשבתות וחגים, השכרת ציוד לנופש ווילות בפריסה ארצית.",
+                heroDiscover: "גלו נכסים וצימרים",
+                heroPublish: "פרסמו נכס",
                 searchPlaceholder: "חפשו לפי עיר, סוג אירוח, חדרים או מילות מפתח...",
                 allCategories: "כל הקטגוריות",
                 searchBtn: "חפשו נכס",
@@ -1062,7 +1125,7 @@
                 catSpecial: "מקומות מיוחדים",
                 catAbroad: "דירות ואירוח בחו''ל",
                 catAttractions: "אטרקציות ופנאי",
-                catEquipment: "השכרת ציוד לאירועים",
+                catEquipment: "השכרת ציוד לנופש",
                 catRent: "השכרה",
                 catBuy: "מכירה",
                 listTitle: "לוח נכסי פרימיום",
@@ -1095,7 +1158,7 @@
                 formImages: "בחירת תמונות להמחשה",
                 formImagesHint: "לחצו לבחירת תמונות או גררו אותן לכאן",
                 formImagesReq: "התמונות נועדו לתצוגה מקדימה כעת",
-                submitListingEmail: "שליחה למערכת",
+                submitListingEmail: "המשך לשליחת המייל",
                 footerDesc: "הפלטפורמה המקצועית והיוקרתית המובילה בישראל למציאת דירות מגורים, נכסי יוקרה, צימרים ואירוח קצר מועד בחיבור מהיר וללא מתווכים.",
                 footerCredits: "פותח על ידי יוסף שלום בן שטרית - CSS כל הזכויות שמורות",
                 rooms: "חדרים",
@@ -1111,7 +1174,7 @@
                 descriptionTitle: "תיאור ומפרט המודעה",
                 didYouKnow: "הידעת?",
                 revealPhone: "לחצו להצגת מספר",
-                catGemach: "רשת הגמ''חים הלאומית",
+                catGemach: "גמ''חים",
                 formBack: "חזור",
                 formNext: "המשך",
                 accFontInc: "הגדל פונט",
@@ -1171,10 +1234,17 @@
                 pkgBtnSelect: "בחר מסלול זה",
                 attachNoticeTitle: "שימו לב: שילוב תמונות",
                 attachNoticeDesc: "בסיום מילוי הטופס ייפתח חלון אימייל חדש עם כל הפרטים. תמונות שייבחרו כאן ישמשו רק לתצוגה מקדימה כעת - יהיה עליכם לצרף אותן ידנית כקובץ למייל שיישלח למערכת.",
-                selectedPackageText: "חבילה נבחרת: "
+                selectedPackageText: "חבילה נבחרת: ",
+                formCurrency: "מטבע לתשלום",
+                formPriceRegular: "מחיר ללילה (רגיל)",
+                formPriceShabbat: "מחיר מיוחד לשבת",
+                formPriceBH: "מחיר לבין הזמנים",
+                formPayments: "אמצעי תשלום נתמכים",
+                formBookedDates: "לוח שנה: ציין תאריכים תפוסים מראש",
+                paymentMethods: "תשלום"
             },
             en: {
-                logoText: "ClickVacations",
+                logoText: "ClickVacations - Haredi Portal",
                 subTitle: "Short stays, weekends & cabins",
                 navHome: "Home",
                 navCategories: "Categories",
@@ -1184,10 +1254,10 @@
                 login: "Login",
                 logout: "Logout",
                 publishBtn: "Publish Stay",
-                heroTitle: "Vacation & Stays in One Click",
+                heroTitle: "Vacation Portal in One Click",
                 heroSub: "The leading board for cabins, holiday apartments for weekends & holidays, short-term rentals and permanent homes.",
                 heroDiscover: "Discover Stays",
-                heroPublish: "Publish Free",
+                heroPublish: "Publish Stay",
                 searchPlaceholder: "Search by city, category, rooms or keywords...",
                 allCategories: "All Categories",
                 searchBtn: "Search",
@@ -1207,7 +1277,7 @@
                 catSpecial: "Special Places",
                 catAbroad: "Properties Abroad",
                 catAttractions: "Attractions & Leisure",
-                catEquipment: "Event Equipment Rental",
+                catEquipment: "Equipment Rental",
                 catRent: "Rentals",
                 catBuy: "For Sale",
                 listTitle: "Premium Listings",
@@ -1229,7 +1299,7 @@
                 formCategory: "Listing Category",
                 formTitle: "Listing Title",
                 formLocation: "City / Location",
-                formPrice: "Price in ILS (₪)",
+                formPrice: "Price",
                 formRooms: "Number of Rooms",
                 formSqm: "Square Meters (Sqm)",
                 formSellerName: "Seller Full Name",
@@ -1240,7 +1310,7 @@
                 formImages: "Select Images for Preview",
                 formImagesHint: "Click to choose images or drag them here",
                 formImagesReq: "Images are used for preview only right now",
-                submitListingEmail: "Send to System",
+                submitListingEmail: "Continue to Email",
                 footerDesc: "The leading professional & luxury platform in Israel for finding vacation cabins, short stays, and permanent homes directly from owners.",
                 footerCredits: "Developed by Yosef Shalom Ben Shitrit - CSS All Rights Reserved",
                 rooms: "Rooms",
@@ -1256,7 +1326,7 @@
                 descriptionTitle: "Description & Features",
                 didYouKnow: "Did You Know?",
                 revealPhone: "Click to reveal phone",
-                catGemach: "National Gemach Network",
+                catGemach: "Gemachs",
                 formBack: "Back",
                 formNext: "Next",
                 accFontInc: "Increase Font",
@@ -1316,7 +1386,14 @@
                 pkgBtnSelect: "Select Package",
                 attachNoticeTitle: "Note: Attaching Images",
                 attachNoticeDesc: "Upon completion, a new email window will open. Images selected here are for preview only - you will need to manually attach them as files to the email.",
-                selectedPackageText: "Selected Package: "
+                selectedPackageText: "Selected Package: ",
+                formCurrency: "Currency",
+                formPriceRegular: "Regular Night Price",
+                formPriceShabbat: "Shabbat Price",
+                formPriceBH: "High Season Price",
+                formPayments: "Accepted Payment Methods",
+                formBookedDates: "Calendar: Add Booked Dates",
+                paymentMethods: "Payment"
             }
         };
 
@@ -1328,8 +1405,8 @@
             { id: "מקומות מיוחדים", icon: "fa-compass", bg: "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=300&q=80", translateKey: "catSpecial" },
             { id: "דירות ואירוח בחו''ל", icon: "fa-globe-americas", bg: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=300&q=80", translateKey: "catAbroad" },
             { id: "אטרקציות ופנאי", icon: "fa-bicycle", bg: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=300&q=80", translateKey: "catAttractions" },
-            { id: "השכרת ציוד לאירועים", icon: "fa-plug", bg: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=300&q=80", translateKey: "catEquipment" },
-            { id: "רשת הגמ''חים הלאומית", icon: "fa-hands-helping", bg: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=300&q=80", translateKey: "catGemach" }
+            { id: "השכרת ציוד לנופש", icon: "fa-plug", bg: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=300&q=80", translateKey: "catEquipment" },
+            { id: "גמ''חים", icon: "fa-hands-helping", bg: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=300&q=80", translateKey: "catGemach" }
         ];
 
         function escapeHTML(str) {
@@ -1450,8 +1527,6 @@
                 if (dashUserNameBanner) dashUserNameBanner.textContent = currentUser.displayName || "משתמש";
                 if (dashUserAvatarBanner) dashUserAvatarBanner.src = safeImgSrc(currentUser.photoURL);
 
-                if (unauthModalState) unauthModalState.classList.add("hidden");
-                if (publishForm) publishForm.classList.remove("hidden");
                 if (navDashboardLink) navDashboardLink.classList.remove("hidden");
                 if (navDashboardLinkMobile) navDashboardLinkMobile.classList.remove("hidden");
 
@@ -1460,10 +1535,20 @@
                 if (fsName) fsName.value = currentUser.displayName || "";
                 if (fsEmail) fsEmail.value = currentUser.email || "";
 
-                if (publishModal && !publishModal.classList.contains("hidden")) {
-                    showToast(currentLang === 'he' ? "התחברת בהצלחה! ניתן להמשיך בפרסום נכס." : "Logged in! You can now publish.", "success");
+                if (window._postLoginAction === "openPackages") {
+                    window._postLoginAction = null;
+                    closePublishModal();
+                    setTimeout(openPackages, 300);
+                    showToast(currentLang === 'he' ? "התחברת בהצלחה! בחר חבילת פרסום להמשך." : "Logged in! Choose a package to continue.", "success");
                 } else {
-                    showToast(currentLang === 'he' ? "התחברת למערכת בהצלחה!" : "Logged in successfully!", "success");
+                    if (unauthModalState) unauthModalState.classList.add("hidden");
+                    if (publishForm) publishForm.classList.remove("hidden");
+
+                    if (publishModal && !publishModal.classList.contains("hidden")) {
+                        showToast(currentLang === 'he' ? "התחברת בהצלחה! ניתן להמשיך בפרסום נכס." : "Logged in! You can now publish.", "success");
+                    } else {
+                        showToast(currentLang === 'he' ? "התחברת למערכת בהצלחה!" : "Logged in successfully!", "success");
+                    }
                 }
                 
                 renderDashboard();
@@ -1656,7 +1741,7 @@
             });
 
             const gemachMapContainer = document.getElementById("gemachMapContainer");
-            if (selectedCategory === "רשת הגמ''חים הלאומית") {
+            if (selectedCategory === "גמ''חים") {
                 if (gemachMapContainer) gemachMapContainer.classList.remove("hidden");
                 renderMockPins();
             } else {
@@ -1828,7 +1913,6 @@
             }
         }
 
-        // --- פונקציה חדשה: קריאת נתונים מקובץ 1.json ללא מסד נתונים שרת ---
         async function fetchListings() {
             try {
                 const response = await fetch('1.json', { cache: "no-store" });
@@ -1837,16 +1921,21 @@
                 }
                 const text = await response.text();
                 
-                // הפיצול לפי '-' בשורה נפרדת
                 const blocks = text.split(/\r?\n-\r?\n/);
                 allListings = blocks.map((block, index) => {
                     const lines = block.trim().split(/\r?\n/);
-                    if (lines.length < 7) return null; // דילוג על בלוקים שבורים
+                    if (lines.length < 7) return null; 
                     
                     const title = lines[0].trim();
                     const location = lines[1].trim();
                     const rooms = parseFloat(lines[2].trim()) || 0;
-                    const price = parseFloat(lines[3].trim()) || 0;
+                    
+                    // תמיכה בפורמט המחירים החדש: PriceReg|PriceShab|PriceBH|Currency
+                    const priceData = (lines[3] || "0|0|0|₪").split('|');
+                    const price = parseFloat(priceData[0]) || 0;
+                    const priceShabbat = parseFloat(priceData[1]) || 0;
+                    const priceBH = parseFloat(priceData[2]) || 0;
+                    const currency = priceData[3] ? priceData[3].trim() : "₪";
                     
                     const catAndSqm = lines[4].split('|');
                     const category = catAndSqm[0] ? catAndSqm[0].trim() : "הכל";
@@ -1857,9 +1946,11 @@
                     const phone = contactData[1] ? contactData[1].trim() : "";
                     const sellerName = contactData[2] ? contactData[2].trim() : "משתמש אנונימי";
                     
-                    const description = lines[6].trim();
+                    const payments = lines[6] ? lines[6].trim() : "";
+                    const bookedDatesStr = lines[7] ? lines[7].trim() : "";
+                    const description = lines[8] ? lines[8].trim() : "";
                     
-                    const images = lines.slice(7).filter(l => l.trim() !== "");
+                    const images = lines.slice(9).filter(l => l.trim() !== "" && l.trim() !== "-");
 
                     return {
                         id: 'item_' + index,
@@ -1867,15 +1958,20 @@
                         location,
                         rooms,
                         price,
+                        priceShabbat,
+                        priceBH,
+                        currency,
                         category,
                         sqm,
                         email,
                         phone,
                         phoneAlt: "",
                         sellerName,
+                        payments,
+                        bookedDatesStr,
                         description,
                         images,
-                        createdAt: Date.now() - (index * 86400000), // תאריכים מפוברקים לפי סדר
+                        createdAt: Date.now() - (index * 86400000), 
                         userId: currentUser ? currentUser.uid : "unknown",
                         viewsCount: Math.floor(Math.random() * 50) + 10 
                     };
@@ -1898,7 +1994,7 @@
         function startSidebarSlideshow() {
             if (slideInterval) clearInterval(slideInterval);
             if (allListings.length === 0) {
-                if (sidebarSlideImg) sidebarSlideImg.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                if (sidebarSlideImg) sidebarSlideImg.src = 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80';
                 if (sidebarSlideCategory) sidebarSlideCategory.textContent = translations[currentLang]['clickVacations'];
                 if (sidebarSlideTitle) sidebarSlideTitle.textContent = translations[currentLang]['noFeaturedTitle'];
                 if (sidebarSlideLocation) sidebarSlideLocation.textContent = translations[currentLang]['nationwide'];
@@ -1914,11 +2010,11 @@
                 
                 setTimeout(() => {
                     if (sidebarSlideImg) {
-                        sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80');
+                        sidebarSlideImg.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80');
                         if (sidebarSlideCategory) sidebarSlideCategory.textContent = translateCategory(listing.category, currentLang);
                         if (sidebarSlideTitle) sidebarSlideTitle.textContent = listing.title;
                         if (sidebarSlideLocation) sidebarSlideLocation.textContent = listing.location || (currentLang === 'he' ? "לא צוין" : "Not specified");
-                        if (sidebarSlidePrice) sidebarSlidePrice.textContent = `₪${listing.price.toLocaleString()}`;
+                        if (sidebarSlidePrice) sidebarSlidePrice.textContent = `${listing.currency || '₪'}${listing.price.toLocaleString()}`;
 
                         if (sidebarSlideDetailBtn) {
                             sidebarSlideDetailBtn.onclick = () => {
@@ -2000,9 +2096,9 @@
                 card.className = "bg-white rounded-3xl border border-stone-100 overflow-hidden luxury-shadow hover:translate-y-[-5px] hover:shadow-2xl transition-all duration-300 flex flex-col cursor-pointer group opacity-0 translate-y-4 animate-fade-in-up";
                 card.style.animationDelay = `${index * 50}ms`;
                 
-                const mainImg = listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+                const mainImg = listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80';
                 
-                let priceLabel = `₪${listing.price.toLocaleString()}`;
+                let priceLabel = `${listing.currency || '₪'}${listing.price.toLocaleString()}`;
                 if (listing.category === "השכרה" || listing.category === "שכירות") {
                     priceLabel += currentLang === "he" ? " / לחודש" : " / month";
                 } else if (listing.category === "מכירה" || listing.category === "קניה") {
@@ -2017,7 +2113,7 @@
 
                 card.innerHTML = `
                     <div class="relative aspect-square bg-stone-900 overflow-hidden">
-                        <img class="w-full h-full object-cover transition duration-700 group-hover:scale-105" src="${safeImgSrc(mainImg)}" alt="${escapeHTML(listing.title)}" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80'">
+                        <img class="w-full h-full object-cover transition duration-700 group-hover:scale-105" src="${safeImgSrc(mainImg)}" alt="${escapeHTML(listing.title)}" onerror="this.src='https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80'">
                         <div class="absolute top-4 right-4 bg-[#1e3e30] text-[#c39e5c] font-bold text-[9px] px-3 py-1.5 rounded-full tracking-wider uppercase">
                             ${escapeHTML(translateCategory(listing.category, currentLang))}
                         </div>
@@ -2051,11 +2147,45 @@
             });
         }
 
+        function renderMiniCalendar(containerId, bookedDatesStr) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const booked = (bookedDatesStr || "").split(',').map(d => d.trim());
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let html = '<div class="calendar-grid text-center text-[10px] mb-2">';
+            const days = ['א','ב','ג','ד','ה','ו','ש'];
+            days.forEach(d => html += `<div class="font-bold text-stone-400 py-1">${d}</div>`);
+
+            for(let i=0; i<firstDay; i++) html += `<div></div>`;
+            for(let i=1; i<=daysInMonth; i++) {
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const isBooked = booked.includes(dateStr);
+                const isPast = new Date(year, month, i) < new Date(new Date().setHours(0,0,0,0));
+                
+                let bgClass = 'bg-emerald-50 text-emerald-700 font-bold border-emerald-100 shadow-sm';
+                if (isBooked) bgClass = 'bg-rose-100 text-rose-700 font-bold border-rose-200 shadow-sm line-through opacity-75';
+                else if (isPast) bgClass = 'bg-stone-50 text-stone-400 border-stone-100 opacity-50';
+                
+                html += `<div class="border rounded-md py-1.5 ${bgClass} flex items-center justify-center">${i}</div>`;
+            }
+            html += '</div>';
+            
+            const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+            container.innerHTML = `<div class="text-xs font-bold text-center text-slate-600 mb-2 border-b border-stone-100 pb-2">${monthNames[month]} ${year}</div>` + html;
+        }
+
         function openListingDetail(listing) {
             if (detailTitle) detailTitle.textContent = listing.title || '';
             if (detailCategory) detailCategory.textContent = translateCategory(listing.category, currentLang) || '';
             
-            let priceLabel = `₪${(listing.price || 0).toLocaleString()}`;
+            const cur = listing.currency || '₪';
+            let priceLabel = `${cur}${parseInt(listing.price || 0).toLocaleString()}`;
             if (listing.category === "השכרה" || listing.category === "שכירות") {
                 priceLabel += currentLang === "he" ? " / לחודש" : " / month";
             } else if (listing.category === "מכירה" || listing.category === "קניה") {
@@ -2064,6 +2194,17 @@
                 priceLabel += currentLang === "he" ? " / לילה" : " / night";
             }
             if (detailPrice) detailPrice.textContent = priceLabel;
+
+            if (listing.priceShabbat || listing.priceBH) {
+                if (detailExtraPricing) detailExtraPricing.classList.remove("hidden");
+                if (detailExtraPricing) detailExtraPricing.classList.add("flex");
+                if (detailRegPrice) detailRegPrice.textContent = `${cur}${parseInt(listing.price || 0).toLocaleString()}`;
+                if (detailShabPrice) detailShabPrice.textContent = listing.priceShabbat ? `${cur}${parseInt(listing.priceShabbat).toLocaleString()}` : "-";
+                if (detailBHPrice) detailBHPrice.textContent = listing.priceBH ? `${cur}${parseInt(listing.priceBH).toLocaleString()}` : "-";
+            } else {
+                if (detailExtraPricing) detailExtraPricing.classList.add("hidden");
+                if (detailExtraPricing) detailExtraPricing.classList.remove("flex");
+            }
             
             if (detailDescription) detailDescription.textContent = listing.description || '';
             if (detailSellerName) detailSellerName.textContent = listing.sellerName || '';
@@ -2114,6 +2255,9 @@
             if (detailRoomsVal) detailRoomsVal.textContent = listing.rooms ? `${listing.rooms} ${currentLang === 'he' ? 'חדרים' : 'Rooms'}` : "-";
             if (detailSqMVal) detailSqMVal.textContent = listing.sqm ? `${listing.sqm} ${currentLang === 'he' ? 'מ״ר' : 'Sqm'}` : "-";
             if (detailTypeVal) detailTypeVal.textContent = translateCategory(listing.category, currentLang) || '';
+            if (detailPaymentVal) detailPaymentVal.textContent = listing.payments || "מזומן";
+
+            renderMiniCalendar("detailCalendarGrid", listing.bookedDatesStr);
 
             if (detailMainImage) detailMainImage.src = safeImgSrc(listing.images && listing.images[0] ? listing.images[0] : '');
             if (detailThumbnails) {
@@ -2164,6 +2308,38 @@
                     document.body.style.overflow = "auto";
                 }, 300);
             }
+        }
+
+        function addBookedDate() {
+            const dateInput = document.getElementById("datePickerInput");
+            if (!dateInput || !dateInput.value) return;
+            const dateVal = dateInput.value;
+            
+            if (!formBookedDatesArr.includes(dateVal)) {
+                formBookedDatesArr.push(dateVal);
+                renderBookedDatesList();
+            }
+            dateInput.value = "";
+        }
+
+        function renderBookedDatesList() {
+            const list = document.getElementById("bookedDatesList");
+            const store = document.getElementById("formBookedDatesStore");
+            if (!list || !store) return;
+            
+            list.innerHTML = "";
+            formBookedDatesArr.sort().forEach((d) => {
+                const chip = document.createElement("div");
+                chip.className = "bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1.5 shadow-sm";
+                chip.innerHTML = `<span>${d}</span><i class="fas fa-times cursor-pointer hover:text-rose-900" onclick="removeBookedDate('${d}')"></i>`;
+                list.appendChild(chip);
+            });
+            store.value = formBookedDatesArr.join(", ");
+        }
+
+        window.removeBookedDate = function(dateToRemove) {
+            formBookedDatesArr = formBookedDatesArr.filter(d => d !== dateToRemove);
+            renderBookedDatesList();
         }
 
         function bindEvents() {
@@ -2218,7 +2394,6 @@
                 item.addEventListener("click", closeMobileMenuFn);
             });
 
-            // הפנייה לחלון החבילות במקום לטופס ישירות
             if (openPackagesModalBtn) openPackagesModalBtn.addEventListener("click", openPackages);
             if (dashAddNewBtn) dashAddNewBtn.addEventListener("click", openPackages);
             if (heroPublishBtn) heroPublishBtn.addEventListener("click", openPackages);
@@ -2226,7 +2401,6 @@
 
             if (closePackagesModalBtn) closePackagesModalBtn.addEventListener("click", closePackagesModal);
             
-            // כפתורי בחירת חבילה
             document.querySelectorAll(".select-package-btn").forEach(btn => {
                 btn.addEventListener("click", (e) => {
                     selectedPublishPackage = e.target.getAttribute("data-package");
@@ -2236,6 +2410,9 @@
                     setTimeout(openPublishForm, 300);
                 });
             });
+
+            const addDateBtn = document.getElementById("addDateBtn");
+            if (addDateBtn) addDateBtn.addEventListener("click", addBookedDate);
 
             if (closePublishModalBtn) closePublishModalBtn.addEventListener("click", closePublishModal);
             if (cancelModalBtn) cancelModalBtn.addEventListener("click", closePublishModal);
@@ -2416,7 +2593,6 @@
             }
         }
 
-        // --- שינוי הפעולה לשליחת הנתונים דרך המייל לפי התבנית הנדרשת (1.json) ---
         async function handleFormSubmit(e) {
             e.preventDefault();
             if (!currentUser || currentUser.isAnonymous) {
@@ -2427,34 +2603,44 @@
             const category = document.getElementById("formCategory").value;
             const title = document.getElementById("formTitle").value.trim();
             const locationVal = document.getElementById("formLocation").value.trim();
-            const price = parseFloat(document.getElementById("formPrice").value) || 0;
-            const rooms = parseFloat(document.getElementById("formRooms").value) || 0;
-            const sqm = parseFloat(document.getElementById("formSqM").value) || 0;
+            const priceReg = document.getElementById("formPriceRegular").value || 0;
+            const priceShab = document.getElementById("formPriceShabbat").value || 0;
+            const priceBH = document.getElementById("formPriceBH").value || 0;
+            const currency = document.getElementById("formCurrency").value || "₪";
+            const rooms = document.getElementById("formRooms").value || 0;
+            const sqm = document.getElementById("formSqM").value || 0;
             const sellerName = document.getElementById("formSellerName").value.trim();
             const phone = document.getElementById("formPhone").value.trim();
             const email = document.getElementById("formEmail").value.trim();
             const description = document.getElementById("formDescription").value.trim();
+            
+            const bookedDates = document.getElementById("formBookedDatesStore").value || "";
+            
+            const paymentEls = document.querySelectorAll(".payment-method:checked");
+            const payments = Array.from(paymentEls).map(el => el.value).join(", ") || "מזומן";
 
             const subject = `בקשה לפרסום נכס - חבילה: ${selectedPublishPackage}`;
             
-            // תבנית שורות מדויקת כפי שביקשת לקובץ ה- json
             const body = `${title}
 ${locationVal}
 ${rooms}
-${price}
+${priceReg} | ${priceShab} | ${priceBH} | ${currency}
 ${category} | ${sqm}
 ${email} | ${phone} | ${sellerName}
+${payments}
+${bookedDates}
 ${description}
 [כאן יופיעו שמות קבצי התמונות לאחר העלאה]
 -`;
 
-            // פתיחת חלון ג'ימייל בדפדפן (Gmail Web)
             const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=css-0@mitmachim.top&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.open(gmailLink, '_blank');
             
             showToast(currentLang === 'he' ? "חלון האימייל נפתח. אל תשכח לצרף תמונות!" : "Email window opened. Don't forget to attach images!", "success");
             closePublishModal();
             document.getElementById("publishForm").reset();
+            formBookedDatesArr = [];
+            renderBookedDatesList();
             if (imagePreviewsContainer) imagePreviewsContainer.innerHTML = '';
         }
 
@@ -2496,7 +2682,28 @@ ${description}
             }
         }
 
-        function openPackages() {
+        function openPackages(e) {
+            if (e) e.preventDefault();
+
+            if (!isGoogleUser) {
+                if (publishModal) {
+                    publishModal.classList.remove("hidden");
+                    publishModal.classList.add("flex");
+                    document.body.style.overflow = "hidden";
+                    setTimeout(() => {
+                        publishModal.classList.remove("opacity-0");
+                        if (publishModal.firstElementChild) {
+                            publishModal.firstElementChild.classList.remove("scale-95");
+                        }
+                    }, 10);
+                }
+                if (unauthModalState) unauthModalState.classList.remove("hidden");
+                if (publishForm) publishForm.classList.add("hidden");
+                
+                window._postLoginAction = "openPackages";
+                return;
+            }
+
             if (packagesModal) {
                 packagesModal.classList.remove("hidden");
                 packagesModal.classList.add("flex");
@@ -2531,6 +2738,9 @@ ${description}
             }
             currentStep = 1;
             updateStepProgress();
+            
+            formBookedDatesArr = [];
+            renderBookedDatesList();
         }
 
         async function initAuth() {
